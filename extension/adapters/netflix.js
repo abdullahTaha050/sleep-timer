@@ -4,10 +4,12 @@
     'control-speed', 'control-fullscreen-enter', 'control-fullscreen-exit',
   ].map((id) => `button[data-uia="${id}"]`).join(',');
 
-  globalThis.StreamSleepTimer.netflix = {
-    locate() {
-      const match = location.pathname.match(/^\/watch\/(\d+)/);
-      if (!match) return null;
+  globalThis.StreamSleepTimer.platforms.register({
+    id: 'netflix',
+    matches: (location) => location.hostname === 'www.netflix.com',
+    getPlaybackKey: ({ location }) => location.pathname.match(/^\/watch\/(\d+)/)?.[1] ?? null,
+
+    findPlayer({ document }) {
       const players = [...document.querySelectorAll('[data-uia="player"]')];
       const player = players.find((node) => node.querySelector('[data-uia="video-canvas"] video'));
       if (!player) return null;
@@ -22,13 +24,7 @@
         group = group.parentElement;
       }
       if (group === controls) group = null;
-      return { player, video, group, key: match[1] };
+      return { video, mount: group ? { container: group } : null };
     },
-
-    pause(video) {
-      // Idempotent pause, not a play/pause toggle that could inadvertently resume playback.
-      video.pause();
-      return video.paused;
-    },
-  };
+  });
 })();

@@ -13,9 +13,13 @@ Katkılar projenin MIT lisansı altında sunulur. Mağazadaki sürüme eklenmede
 
 ## Yeni platform ekleme
 
-Önce ortak zamanlayıcıyı değiştirmeden `extension/netflix.js` benzeri bir uyarlama hazırlayın. Uyarlama ana video elemanını, butonun ekleneceği sağ kontrol grubunu ve video kimliğini bulmalı; idempotent bir duraklatma işlemi sağlamalıdır. Aynı sayfadaki önizleme videolarını veya reklamları ana video sanmamalıdır.
+Önce [ARCHITECTURE.md](ARCHITECTURE.md) içindeki adaptör sözleşmesini okuyun. `extension/adapters/netflix.js` benzeri bir adaptör hazırlayın; `id`, `matches`, `getPlaybackKey` ve `findPlayer` sağlayıp platform kaydına ekleyin. Ortak zamanlayıcı, medya dinleyicileri ve arayüzü kopyalamayın. Ana videoyu, butonun bağlanacağı grubu ve gerekirse yerleşim çapasını bulun. Aynı sayfadaki önizlemeleri veya reklamları ana video sanmayın.
+
+Standart HTML video duraklatması ortak katmanda hazırdır. Yalnızca platform gerektiriyorsa idempotent `pause(video)` sağlayın. Boyutları uyarlamak için isteğe bağlı `appearance` alanında `rem` değerleri kullanın.
 
 Yeni domain'i manifest'e yalnızca destek gerçekten doğrulandıktan sonra ekleyin. Genel `<all_urls>` izni eklemeyin. Otomatik üretilmiş CSS sınıfları yerine anlamlı DOM işaretlerini tercih edin. Platform uyarlamaları ve çalıştırılan diğer kodlar eklenti paketinin içinde bulunmalıdır.
+
+Adaptör dosyasını manifest'in betik listesine `content.js` öncesinde ekleyin. Testler ve demo aynı listeyi okur. `tests/platforms.test.mjs` dosyasındaki ikinci platform örneği, ortak çekirdeğe site bilgisi eklemeden test yazma örneğidir.
 
 Buton yerleşimi, tek örnek kalması, oynatıcının yeniden oluşturulması, tam ekran, duraklat/devam et, yükleme beklemesi, video değişimi ve süre dolmasını doğrulayın. Bir platformda doğrulanan davranışı diğerlerine varsaymayın.
 

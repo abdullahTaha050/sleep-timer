@@ -1,6 +1,6 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
-const { PlaybackTimer } = require('../extension/timer.js');
+const { PlaybackTimer } = require('../extension/core/timer.js');
 
 function setup() {
   let time = 0;
