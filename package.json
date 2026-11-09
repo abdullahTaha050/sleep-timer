@@ -1,0 +1,15 @@
+{
+  "name": "stream-sleep-timer",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A local-first sleep timer for streaming players, starting with Netflix.",
+  "license": "MIT",
+  "scripts": {
+    "test": "node --test tests/timer.test.cjs tests/dom.test.mjs",
+    "demo": "node scripts/serve-demo.mjs",
+    "package": "python3 scripts/package.py"
+  },
+  "devDependencies": {
+    "happy-dom": "21.0.4"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "Sleep Timer — Netflix",
+  "version": "0.1.0",
+  "description": "Netflix oynatıcısına, video duraklatıldığında duran bir uyku zamanlayıcısı ekler.",
+  "minimum_chrome_version": "120",
+  "icons": { "16": "icons/icon-16.png", "48": "icons/icon-48.png", "128": "icons/icon-128.png" },
+  "content_scripts": [{
+    "matches": ["https://www.netflix.com/*"],
+    "js": ["timer.js", "netflix.js", "ui.js", "content.js"],
+    "run_at": "document_idle"
+  }]
+}

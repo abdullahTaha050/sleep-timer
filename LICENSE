@@ -1,6 +1,10 @@
 MIT License
 
+<<<<<<< HEAD
 Copyright (c) 2026 Abdullah Taha AKSAKAL
+=======
+Copyright (c) 2026 Sleep Timer contributors
+>>>>>>> 2d01c3d (initial commit, firstly netflix support added)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
