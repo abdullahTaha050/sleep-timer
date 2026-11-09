@@ -37,7 +37,7 @@ Resmî yükleme açıklaması: https://developer.chrome.com/docs/extensions/get-
 5. Kontrollerin gizlenip tekrar görünmesini sağlayın; ay butonu tek kalmalı.
 6. Başka videoya geçince zamanlayıcının kapalı olduğunu kontrol edin.
 
-Bu sürüm paylaşılan Netflix HTML yapısına göre hazırlanmıştır. Yerel testlerin geçmesi, gerçek Netflix oynatıcısının uçtan uca doğrulandığı anlamına gelmez. Özellikle gerçek Netflix üzerinde duraklatma, tam ekran, klavye etkileşimi ve kontrollerin gizlenmesi ayrıca kontrol edilmelidir.
+İlk sürümdeki saniyelik zamanlayıcılar kullanıcı tarafından gerçek Netflix üzerinde denenmiş ve çalıştığı bildirilmiştir. Refactor sonrasında otomatik testler yeniden geçmiştir; refactor ve yeni `rem` boyutlarının canlı Netflix kontrolü ayrıca yapılmalıdır. Özellikle tam ekran, klavye etkileşimi ve kontrollerin gizlenmesi yerel DOM simülasyonuyla doğrulanmaz.
 
 ## MVP sınırları
 
@@ -72,12 +72,15 @@ Paketleme `dist/` içine yüklenebilir eklenti ZIP'i ve kaynak kod ZIP'i üretir
 
 ## Yapı
 
-- `extension/timer.js`: platformdan bağımsız oynatma süresi sayacı.
-- `extension/netflix.js`: oynatıcıyı ve sağ kontrol grubunu bulma, videoyu duraklatma.
-- `extension/ui.js`: Shadow DOM içindeki menü ve buton; popover ile üst katmanda açılır.
-- `extension/content.js`: DOM yaşam döngüsü, medya olayları ve sayacı bağlama.
+- `extension/core/`: ortak zamanlayıcı, medya olayları, oynatıcı yaşam döngüsü ve platform kaydı.
+- `extension/adapters/`: siteye özgü domain, video kimliği ve kontrol yerleşimi. Şimdilik yalnızca Netflix.
+- `extension/ui/`: ortak Shadow DOM menüsü, buton ve stiller. İkon `2.125rem`, buton `2.75rem` olarak birlikte ölçeklenir.
+- `extension/shared/config.js`: süre seçenekleri ve ortak çalışma ayarları.
+- `extension/content.js`: mevcut sitenin adaptörünü seçip uygulamayı başlatır.
 - `tests/`: birim testleri, DOM testleri ve bağımsız oynatıcı örneği.
 - `.agents/skills/stream-sleep-timer/SKILL.md`: ürün kararları ve ertelenen kapsam.
+
+Adaptör sözleşmesi ve yeni platform ekleme ayrıntıları: [ARCHITECTURE.md](ARCHITECTURE.md).
 
 ## Açık kaynak ve yayın
 

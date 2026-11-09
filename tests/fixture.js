@@ -3,6 +3,10 @@ const media = document.querySelector('video');
 const playButton = document.querySelector('[data-uia^="control-play-pause"]');
 const results = document.querySelector('#results');
 window.fixture = { clock: 0, pauses: 0 };
+if (location.hostname === '127.0.0.1' || location.hostname === 'localhost') {
+  const netflix = StreamSleepTimer.platforms.resolve({ hostname: 'www.netflix.com' });
+  StreamSleepTimer.platforms.register({ ...netflix, id: 'local-demo', matches: (location) => ['127.0.0.1', 'localhost'].includes(location.hostname) });
+}
 if (testMode) {
   const OriginalTimer = StreamSleepTimer.PlaybackTimer;
   StreamSleepTimer.PlaybackTimer = class extends OriginalTimer {

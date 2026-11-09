@@ -7,7 +7,17 @@
   "icons": { "16": "icons/icon-16.png", "48": "icons/icon-48.png", "128": "icons/icon-128.png" },
   "content_scripts": [{
     "matches": ["https://www.netflix.com/*"],
-    "js": ["timer.js", "netflix.js", "ui.js", "content.js"],
+    "js": [
+      "shared/config.js",
+      "core/timer.js",
+      "core/platform-registry.js",
+      "core/media-binding.js",
+      "adapters/netflix.js",
+      "ui/styles.js",
+      "ui/timer-ui.js",
+      "core/player-controller.js",
+      "content.js"
+    ],
     "run_at": "document_idle"
   }]
 }

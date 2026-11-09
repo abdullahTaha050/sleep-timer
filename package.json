@@ -5,7 +5,7 @@
   "description": "A local-first sleep timer for streaming players, starting with Netflix.",
   "license": "MIT",
   "scripts": {
-    "test": "node --test tests/timer.test.cjs tests/dom.test.mjs",
+    "test": "node --test tests/*.test.cjs tests/*.test.mjs",
     "demo": "node scripts/serve-demo.mjs",
     "package": "python3 scripts/package.py"
   },
