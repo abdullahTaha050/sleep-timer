@@ -4,8 +4,8 @@
     * { box-sizing: border-box; }
     button, input, summary { -webkit-tap-highlight-color: transparent; }
     button { font: inherit; color: inherit; cursor: pointer; }
-    .trigger { position: relative; display: grid; place-items: center; width: var(--st-control-size, 2.75rem); height: var(--st-control-size, 2.75rem); border: 0; border-radius: .375rem; padding: var(--st-control-padding, .3125rem); background: transparent; }
-    .trigger svg { width: var(--st-icon-size, 2.125rem); height: var(--st-icon-size, 2.125rem); transition: transform .15s ease; }
+    .trigger { position: relative; display: grid; place-items: center; width: var(--st-control-size, 4.500rem); height: var(--st-control-size, 4.500rem); border: 0; border-radius: .375rem; padding: var(--st-control-padding, .46875rem); background: transparent; }
+    .trigger svg { width: var(--st-icon-size, 3.1875rem); height: var(--st-icon-size, 3.1875rem); transition: transform .15s ease; }
     .trigger:hover svg { transform: scale(1.12); }
     .trigger[data-active="true"]::after { content: ''; position: absolute; bottom: .1875rem; width: .3125rem; height: .3125rem; border-radius: 50%; background: #a8efd0; }
     :focus-visible { outline: 2px solid #a8efd0; outline-offset: 3px; }

@@ -6,13 +6,14 @@
   };
 
   class TimerUI {
-    constructor(onSelect) {
+    constructor(onSelect, { episodeEnd = false } = {}) {
       this.host = document.createElement('span');
       this.host.dataset.sleepTimer = 'control';
       this.host.style.cssText = 'display:inline-flex;align-items:center;flex-shrink:0;position:relative;pointer-events:auto;';
       const shadow = this.host.attachShadow({ mode: 'open' });
       const { durationSeconds, testSeconds } = globalThis.StreamSleepTimer.config;
       const options = [[0, 'Kapalı'], ...durationSeconds.map((seconds) => [seconds, `${seconds / 60} dakika`])];
+      if (episodeEnd) options.push(['episode', 'Bölüm sonunda']);
       const option = ([seconds, label], test = false) => `<label class="${test ? 'test-choice' : 'choice'}"><input type="radio" name="duration" value="${seconds}"><span class="check" aria-hidden="true">✓</span><span>${label}</span></label>`;
       shadow.innerHTML = `
         <style>${globalThis.StreamSleepTimer.uiStyles}</style>
@@ -45,12 +46,12 @@
       this.panel.addEventListener('toggle', () => this.button.setAttribute('aria-expanded', String(this.isOpen())));
       this.panel.addEventListener('change', (event) => {
         if (event.target.matches('input[name="duration"]')) {
-          onSelect(Number(event.target.value));
+          onSelect(event.target.value === 'episode' ? 'episode' : Number(event.target.value));
           this.close(true);
         }
       });
       shadow.querySelector('details').addEventListener('toggle', () => this.position());
-      // Prevent Netflix keyboard shortcuts/click handlers from also handling our UI.
+      // Prevent player keyboard shortcuts/click handlers from also handling our UI.
       for (const event of ['click', 'dblclick', 'pointerdown', 'pointerup', 'keyup']) {
         this.host.addEventListener(event, (e) => e.stopPropagation());
       }
@@ -75,14 +76,18 @@
     }
 
     render(state, message = '') {
-      const selected = state.active ? state.durationMs / 1000 : 0;
-      for (const input of this.inputs) input.checked = Number(input.value) === selected;
-      const status = state.active
+      const selected = state.guarding ? (state.stopped ? 'stopped' : state.selection) : 0;
+      for (const input of this.inputs) input.checked = input.value === String(selected);
+      const status = state.stopped ? message
+        : state.guarding && state.selection === 'episode' ? 'Bölüm sonu bekleniyor'
+        : state.active
         ? `Kalan ${format(state.remainingMs)} · ${state.playing ? 'Çalışıyor' : 'Bekliyor'}`
         : message || 'Zamanlayıcı kapalı';
       if (this.status.textContent !== status) this.status.textContent = status;
-      this.button.dataset.active = String(state.active);
-      const title = state.active ? `Uyku zamanlayıcısı · ${format(state.remainingMs)}` : 'Uyku zamanlayıcısı';
+      this.button.dataset.active = String(Boolean(state.guarding));
+      const title = state.stopped ? 'Uyku zamanlayıcısı · Koruma açık'
+        : state.guarding && state.selection === 'episode' ? 'Uyku zamanlayıcısı · Bölüm sonunda'
+        : state.active ? `Uyku zamanlayıcısı · ${format(state.remainingMs)}` : 'Uyku zamanlayıcısı';
       if (this.button.title !== title) {
         this.button.title = title;
         this.button.setAttribute('aria-label', title);

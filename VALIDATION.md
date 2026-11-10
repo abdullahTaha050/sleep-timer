@@ -1,24 +1,29 @@
-# Doğrulama kaydı — 0.1.0
+# Doğrulama kaydı — 0.2.0
 
-9 Kasım 2026
+10 Kasım 2026
 
 ## Geçen kontroller
 
-- Refactor sonrası `npm test`: **12 test, 0 hata**. Bunlar 8 zamanlayıcı birim testi, 23 senaryo içeren Netflix DOM entegrasyon testi ve 3 platform/mimari testidir.
-- Zamanlayıcı: duraklat/devam et, geciken tick, yeni süre seçme, iptal, bekleme, tek seferlik bitiş ve yeniden başlatma.
-- DOM: sağ grubun başına ekleme, tek buton, seçenekler, menü aç/kapat durumları, geri sayım, yükleme ve sarma beklemeleri, süre sonunda duraklatma, iptal, buton/grup yeniden oluşturma, video değişimi, video sonu, sayfadan ayrılma ve SPA/geri-ileri önbelleği ile geri dönme.
-- Kullanıcının paylaştığı gerçek HTML'in yalnızca DOM yapısında platform seçicileri kontrol edildi: ana video ve beş butonlu sağ kontrol grubu doğru bulundu. HTML içindeki betikler çalıştırılmadı ve bu dosya kaynak paketine eklenmedi.
-- İçerik betiklerinin JavaScript sözdizimi kontrol edildi.
-- 16, 48 ve 128 piksel ikonlar üretildi; 128 piksel ikon görsel olarak kontrol edildi.
-- İkinci sentetik platformda farklı domain/URL kimliği, DOM, yerleşim çapası, özel duraklatma, geçici oynatıcı kaybı ve video elemanının değişmesi ortak çekirdekle doğrulandı. Desteklenmeyen domain ve hatalı/tekrarlı adaptör kaydı da test edildi.
-- Kullanıcı refactor öncesindeki saniyelik testlerin gerçek Netflix üzerinde düzgün çalıştığını bildirdi.
+- `npm test`: **26 test, 0 hata**. 8 zamanlayıcı testi, 24 senaryo içeren Netflix DOM entegrasyon testi, 13 bölüm sonu testi ve 4 platform/mimari testi.
+- Süre, duraklatma, yükleme/sarma beklemesi, iptal, süre değiştirme ve tek seferlik bitiş kontrol edildi.
+- Görünür bölüm sonu kartı algılama; sıradan sonraki bölüm ve gizli kartları yok sayma; uzun jenerikte durma; dakika seçimini bölüm sonunda sınırlama; Kapalı iken müdahale etmeme kontrol edildi.
+- “Jeneriği İzle” tıklaması sırasında yeniden oynatma, iptal düğmesinin yokluğu, yeni video/URL/oynatıcı kimliği, geçiş sinyali kaçırıldığında koruma ve doğal video bitişi senaryoları test edildi.
+- Görünürlük attribute değişimini MutationObserver ile yakalama, tek sinyale tekrar basmama ve yeniden oluşturulan kartlar için üç girişim sınırı doğrulandı.
+- Kontroller kaybolduğunda bildirim, Devam et ile korumayı kaldırıp oynatma, Kapalı ile oynatmadan korumayı kaldırma test edildi.
+- Netflix dışındaki sentetik adaptörle aynı bölüm sonu ve iptal sözleşmesi doğrulandı.
+- Kullanıcının paylaştığı bölüm sonu HTML'inde ana video, iki geçiş kontrolü, yedek buton yerleşimi ve guard işlemi ayrıca DOM simülasyonunda kontrol edildi. Geometri taklit edildi; HTML içindeki Netflix betikleri çalıştırılmadı. Kullanıcı HTML'i depoya veya ZIP'e dahil edilmedi.
+- Manifest'teki tüm içerik betiklerinin JavaScript sözdizimi kontrol edildi.
 
-## Bu kontrollerin sınırı
+## Kanıtın sınırı
 
-DOM testleri Happy DOM üzerinde, kontrollü saat ve simüle edilmiş medya durumları ile çalışır. Popover API'sinin aç/kapat durumu testte modellenir; bu model yerleşimi, gerçek tarayıcı odağını, tam ekranı veya Netflix'in kendi oynatıcı mantığını doğrulamaz.
+Happy DOM, kontrollü saat ve simüle edilmiş medya olayları kullanıldı. Popover aç/kapat durumu ve kontrol geometrisi testte modellenir. Bu, gerçek tarayıcı yerleşimini, tam ekranı, odağı, DRM oynatmasını veya Netflix'in gerçek geri sayımını doğrulamaz.
 
-Önceki yerel tarayıcı önizlemesi bu çalışma ortamının URL erişim politikası tarafından engellendi. Agent tarafından canlı Netflix testi veya görsel ekran görüntüsü doğrulaması yapılmadı. Kullanıcının başarılı testi refactor öncesine aittir; yeni yapı ve `rem` ölçüleri için README'deki deneme adımları tekrar uygulanabilir.
+Kullanıcı önceki sürümde saniyelik zamanlayıcıları gerçek Netflix üzerinde başarıyla test ettiğini bildirmiştir. **0.2.0 bölüm sonu özelliği henüz gerçek Netflix üzerinde doğrulanmadı.** “Jeneriği İzle” düğmesi bilinen bir aday iptal kontrolüdür; tıklama girişimi yapıldığı doğrulanmıştır, Netflix'in dahili otomatik geçiş sayacını gerçekten iptal ettiği doğrulanmamıştır.
 
-## Bilinen kapsam sınırı
+Önceki tarayıcı önizlemesi ortamın URL politikası tarafından engellenmiştir. Bu sürümde canlı Netflix veya tarayıcı ekran görüntüsü testi yapıldığı iddia edilmez.
 
-Videonun kalan süresini aşan seçimi video sonuna kısaltma ve sonraki bölümün otomatik başlamasını engelleme bu sürüme dahil değildir. Bu davranış ürün kararlarında sonraki aşama olarak kayıtlıdır.
+## Canlı deneme
+
+README'deki bölüm sonu adımlarını Friends ve uzun jenerikli bir bölüm üzerinde; normal/tam ekran, otomatik oynatma açık/kapalı ve dakika/Bölüm sonunda seçenekleriyle deneyin. Geçiş ekranı çıktığında durmalı ve geri sayımdan daha uzun beklenince dizi akıp gitmemelidir. Devam et oynatmalı; Zamanlayıcıyı kapat oynatmadan korumayı bırakmalıdır.
+
+Bilinmeyen Netflix varyasyonları veya kaçırılan geçişte yeni video duraklatılmaya çalışılır. Sonraki bölümün hiçbir karesinin başlamadığı, izleme ilerlemesinin değişmediği veya tam sayfa yüklemesinde korumanın sürdüğü garantisi verilmez.

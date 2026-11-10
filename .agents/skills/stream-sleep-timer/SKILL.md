@@ -27,16 +27,20 @@ description: Plan and develop this project's open-source Chrome sleep timer exte
 
 Kalıcı ürün adı ve mağaza markası henüz seçilmedi. Aşağıdaki MVP uygulama tercihleri, kullanıcının tek tek belirttiği şartlar değil, ilk sürüm için seçilen varsayılanlardır; sonraki geri bildirimle güncellenebilir.
 
-## Sonraki aşama için kullanıcı tarafından belirtilen davranış
+## Kesinleşen bölüm sonu davranışı
 
-- Amaç, kullanıcı uyuduktan sonra film veya dizinin akıp gitmesini önlemektir.
-- Seçilen süre mevcut videonun bitmesine kalan süreden büyükse zamanlayıcı otomatik olarak videonun sonunda durdurma moduna geçmeli; sonraki bölüm otomatik başlamamalıdır.
-- Kullanıcı bu davranışın şimdilik yalnızca not edilmesini kabul etti; bu, ilk MVP'ye hemen ekleme talimatı değildir.
-- Önceki, kalan sayacı sonraki bölüme taşıma önerisi kullanıcı tarafından benimsenmedi. Bölümler arasında devam eden sayacı ürün hedefi olarak uygulama.
+- Bölüm sonu, jeneriğin tamamının bitmesi değil platformun bölüm sonu geçiş ekranının görünmesidir. Kullanıcı bu davranışı kabul etti ve Netflix Friends geçiş ekranının HTML'ini paylaştı.
+- Menüde Bölüm sonunda seçeneği vardır. Dakika/saniye seçildiğinde süre veya bölüm sonu sinyalinden hangisi önce gelirse durdurulur; başka bölüme süre taşınmaz.
+- Netflix örneğinde watch-credits-seamless-button (Jeneriği İzle) ve next-episode-seamless-button-draining bulunur. Normal control-next ile karıştırma; gizli kontrolleri tetikleyici sayma.
+- Önce durdurma koruması etkinleşir, sonra Jeneriği İzle ile otomatik geçişi iptal etme girişimi yapılır. Statik HTML, bu tıklamanın gerçek Netflix geri sayımını iptal ettiğini kanıtlamaz.
+- Koruma etkinken yeni bölüm açılırsa veya oynatma yeniden başlarsa video tekrar duraklatılır. Manuel bölüm değiştirme de korumaya takılır; açık Devam et veya Kapalı ile kullanıcı korumayı kaldırır.
+- Devam et korumayı kaldırıp oynatır. Zamanlayıcıyı kapat / Kapalı yalnızca korumayı kaldırır; oynatmayı başlatmaz.
+- İptal tıklaması sinyal başına bir, koruma oturumu başına en fazla üç kez denenir. Başarısızlıkta duraklatma koruması sürer.
+- Yeni bölümün hiçbir karesinin başlamayacağı veya izleme ilerlemesinin hiç değişmeyeceği garantisi verme. Koruma sayfa belleğindedir; tam sayfa yenilemede ve izleme sayfasından çıkışta temizlenir.
 
 ## MVP uygulama tercihleri
 
-- Kapalı ve 10/15/20/30/45/60 dakika seçenekleriyle başlamak; özel süre ve bölüm sonunda durdurmayı sonraya bırakmak.
+- Kapalı, 10/15/20/30/45/60 dakika ve Bölüm sonunda seçenekleri sunulur. Özel süre girişi sonraki aşamadadır.
 - Süre bitince ilgili sekmenin ana videosunu duraklatmak; diğer sekmeleri etkilememek.
 - Kalan süreyi menüde göstermek; Kapalı ile iptal, başka süre seçimiyle yeniden başlatma sunmak.
 - Ortak zamanlayıcı ve menü mantığını platforma özgü oynatıcı uyarlamalarından ayırmak.
@@ -44,9 +48,9 @@ Kalıcı ürün adı ve mağaza markası henüz seçilmedi. Aşağıdaki MVP uyg
 - Kaynak paketinde MIT lisansı kullanıldı; kullanıcı ayrıca bir lisans tercihi bildirmedi.
 - Çalışma adı Sleep Timer; Türkçe menü.
 - Video oynatılırken geçen gerçek süre sayılır; oynatma hızının değiştirilmesi veya ileri/geri sarma kalan süreyi doğrudan değiştirmez. Duraklatma, yükleme beklemesi ve sarma sırasında sayaç bekler.
-- Sayfa yenileme, izleme sayfasından çıkma, video bitişi ve başka videoya geçiş sayacı iptal eder. Aynı videonun kontrol çubuğunun yeniden oluşturulması sayacı iptal etmez.
+- Sayfa yenileme ve izleme sayfasından çıkma sayacı ve korumayı temizler. Video bitişi ve koruma etkinken başka videoya geçiş durdurma korumasını etkinleştirir. Kontrol çubuğunun yeniden oluşturulması sayacı iptal etmez.
 - Saniyelik 5/10/30 seçenekleri menüde ayrı bir Test süreleri bölümündedir.
-- Mevcut sürüm uzun seçimi video sonuna kısaltmaz ve otomatik sonraki bölüm geçişini engellemez. Bu eksikliği gizleme veya tamamlanmış gibi sunma.
+- 0.2.0, görünür bölüm sonu sinyalini süreye üst sınır olarak uygular; sayısal bitiş süresi tahmin etmez. Gerçek Netflix geri sayım iptali henüz canlı doğrulanmadı.
 
 ## Netflix uyarlaması ve doğrulama
 
@@ -55,16 +59,17 @@ Kalıcı ürün adı ve mağaza markası henüz seçilmedi. Aşağıdaki MVP uyg
 - Üretilmiş CSS sınıf adlarına veya Türkçe buton metinlerine bağımlı seçim yapma.
 - Kullanıcının tam HTML dökümünü kaynak depoya veya dağıtım paketine ekleme; testler için kişisel veri içermeyen sadeleştirilmiş yapı kullan.
 - Kullanıcı ilk sürümün saniyelik testlerini gerçek Netflix üzerinde denediğini ve düzgün çalıştığını bildirdi. Bu bildirim refactor öncesine aittir.
-- Refactor sonrası 12 test geçti: 8 zamanlayıcı testi, 23 senaryolu Netflix DOM testi ve 3 platform/mimari testi. Agent tarafından canlı Netflix, görsel düzen ve tam ekran doğrulaması yapılmadı.
+- 0.2.0 için 26 test geçti: 8 zamanlayıcı, 24 senaryolu bir Netflix DOM testi, 13 bölüm sonu testi ve 4 platform/mimari testi. Yeni bölüm sonu HTML yapısında seçiciler ve tıklama girişimi de simülasyonda kontrol edildi. Canlı Netflix, geri sayım iptali, görsel düzen ve tam ekran doğrulaması agent tarafından yapılmadı.
 
 ## Kod mimarisi
 
 - `extension/core/`: zamanlayıcı, medya olayları, controller ve platform kaydı. Platform domain'lerini, URL kalıplarını ve DOM seçicilerini buraya ekleme.
-- `extension/adapters/`: platforma özgü `matches`, `getPlaybackKey`, `findPlayer`; gerekirse `pause` ve `appearance`.
+- `extension/adapters/`: platforma özgü `matches`, `getPlaybackKey`, `findPlayer`; gerekirse `pause`, `appearance`, `getEpisodeEnd` ve `cancelAutoplay`.
 - `extension/ui/`: ortak menü, buton ve stiller; `extension/shared/config.js`: süreler ve ortak ayarlar.
 - `extension/content.js` yalnızca uygun adaptörü seçip controller'ı başlatır.
 - Yeni platform için mevcut repodaki `ARCHITECTURE.md` adaptör sözleşmesini oku; ortak çekirdeği kopyalama. Manifest domain erişimini yalnızca doğrulanmış platformlar için genişlet.
-- Ortak ikon `2.125rem`, buton `2.75rem`, iç boşluk `.3125rem` kullanır. Platforma özgü oran ayarı `appearance` üzerinden yapılabilir.
+- Mevcut ikon `3.1875rem`, buton `4.500rem`, iç boşluk `.46875rem` kullanır. Kullanıcının boyut değişikliklerini koru; platforma özgü oran ayarı `appearance` üzerinden yapılabilir.
+- `core/playback-guard.js` ortak durdurma durumunu, `ui/stop-notice.js` ortak Devam et / kapatma bildirimini sağlar. Platform başına kopyalama.
 
 ## Sonraki çalışmalarda uygulanacak değerlendirme
 

@@ -16,7 +16,7 @@
     await sleep();
     check(document.querySelector('.right').firstElementChild.matches('[data-sleep-timer]'), 'Buton sağ grubun en başında');
     check(document.querySelectorAll('[data-sleep-timer]').length === 1, 'Tek buton ekleniyor');
-    check(root().querySelectorAll('input').length === 10, 'Kapalı, 6 dakika seçeneği ve 3 test süresi');
+    check(root().querySelectorAll('input').length === 11, 'Kapalı, bölüm sonu, 6 dakika seçeneği ve 3 test süresi');
     root().querySelector('.trigger').click(); await sleep(50);
     check(root().querySelector('.panel').matches(':popover-open'), 'Menü açılıyor');
     root().querySelector('.close').click();
@@ -42,7 +42,9 @@
     check(media.paused && fixture.pauses === before + 1, 'Süre bitince video bir kez duraklatılıyor');
     check(status().includes('Süre doldu'), 'Bitiş durumu gösteriliyor');
     await media.play(); await sleep();
-    check(!media.paused, 'Kullanıcı süre dolduktan sonra yeniden oynatabiliyor');
+    check(media.paused, 'Koruma otomatik yeniden oynatmayı durduruyor');
+    document.querySelector('[data-sleep-timer-notice]').shadowRoot.querySelector('.continue').click();
+    check(!media.paused, 'Kullanıcı Devam et ile korumayı kaldırıp oynatabiliyor');
     choose(30); fixture.clock += 1000; await sleep();
     choose(0); fixture.clock += 60000; await sleep();
     check(!media.paused && status().includes('kapalı'), 'Kapalı seçeneği durdurma işlemini iptal ediyor');
@@ -57,13 +59,14 @@
     group.replaceWith(replacement); await sleep();
     check(document.querySelectorAll('[data-sleep-timer]').length === 1 && replacement.firstElementChild.matches('[data-sleep-timer]'), 'Kontrol grubu yeniden oluşturulunca doğru yere bağlanıyor');
     history.pushState({}, '', '/watch/200?test=1'); await sleep(1100);
-    check(status().includes('kapalı'), 'Yeni videoya geçince sayaç taşınmıyor');
+    check(status().includes('Bölüm değişimi'), 'Yeni videoya geçince koruma durduruyor');
     choose(30); media.dispatchEvent(new Event('ended')); await sleep();
-    check(status().includes('Video bitti'), 'Video sonunda zamanlayıcı temizleniyor');
+    check(status().includes('Video bitti'), 'Video sonunda durdurma koruması sürüyor');
     history.pushState({}, '', '/browse?test=1'); await sleep(1100);
     check(!document.querySelector('[data-sleep-timer]'), 'İzleme sayfasından ayrılınca kontrol kaldırılıyor');
     history.pushState({}, '', '/watch/100?test=1'); await sleep(1100);
     check(document.querySelectorAll('[data-sleep-timer]').length === 1, 'SPA ile oynatıcıya dönünce kontrol ekleniyor');
+    await media.play();
     const pagehide = new Event('pagehide');
     Object.defineProperty(pagehide, 'persisted', { value: true });
     window.dispatchEvent(pagehide);

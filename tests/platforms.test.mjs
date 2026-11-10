@@ -97,3 +97,37 @@ test('a second platform reuses the whole controller with its own identity, DOM, 
     assert.equal(host(), null);
   } finally { await window.happyDOM.close(); }
 });
+
+test('episode-end detection and cancellation also work through a non-Netflix adapter', async () => {
+  const window = environment('https://cinema.example/view');
+  try {
+    window.document.body.innerHTML = '<main><video></video><nav></nav></main>';
+    const video = window.document.querySelector('video');
+    mockMedia(window, video);
+    await loadExtension(window, `
+      StreamSleepTimer.platforms.register({
+        id: 'cinema-end',
+        matches: (location) => location.hostname === 'cinema.example',
+        getPlaybackKey: () => 'episode-a',
+        findPlayer: ({ document }) => ({ video: document.querySelector('video'),
+          root: document.querySelector('main'), mount: { container: document.querySelector('nav') } }),
+        getEpisodeEnd: ({ document }) => {
+          const signal = document.querySelector('.up-next');
+          return signal ? { signal, cancelButton: signal } : null;
+        },
+        cancelAutoplay: ({ cancelButton }) => { cancelButton.click(); return true; },
+      });
+    `);
+    const controller = window.StreamSleepTimer.instance;
+    video.play(); controller.select('episode');
+    const next = window.document.createElement('button'); next.className = 'up-next';
+    let cancelled = 0;
+    next.addEventListener('click', () => { cancelled++; next.remove(); });
+    window.document.querySelector('main').append(next);
+    controller.reconcile();
+    assert.equal(cancelled, 1);
+    assert.equal(video.paused, true);
+    assert.equal(controller.guard.reason, 'episode');
+    controller.destroy();
+  } finally { await window.happyDOM.close(); }
+});

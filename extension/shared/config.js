@@ -6,10 +6,14 @@
     tickMs: 250,
     reconcileEveryTicks: 4,
     mutationDelayMs: 80,
+    maxAutoplayCancelAttempts: 3,
     messages: Object.freeze({
       expired: 'Süre doldu · Video duraklatıldı',
       pauseFailed: 'Video duraklatılamadı',
-      ended: 'Video bitti · Zamanlayıcı kapatıldı',
+      ended: 'Video bitti · Koruma açık',
+      episode: 'Bölüm sonunda durduruldu',
+      transition: 'Bölüm değişimi yakalandı · Oynatma durduruldu',
+      resumeFailed: 'Oynatma başlatılamadı · Oynat düğmesini kullanın',
     }),
   });
 })();

@@ -1,6 +1,6 @@
-# Gizlilik — Sleep Timer 0.1.0
+# Gizlilik — Sleep Timer 0.2.0
 
-Güncelleme: 9 Kasım 2026
+Güncelleme: 10 Kasım 2026
 
 Sleep Timer, Netflix web oynatıcısına yerel bir uyku zamanlayıcısı ekler.
 
@@ -9,6 +9,8 @@ Sleep Timer, Netflix web oynatıcısına yerel bir uyku zamanlayıcısı ekler.
 Eklenti Netflix sayfasının URL yolunu ve oynatıcı DOM yapısını, ana videoyu ve kontrol grubunu bulmak için okur. Oynatma, duraklatma, yükleme, sarma ve bitiş olaylarını; videonun hazır/oynatılıyor durumunu ve kullanıcının seçtiği zamanlayıcı süresini yerel bellekte işler. Sayfa yolundaki video kimliği, video değiştiğinde sayacı temizlemek için kullanılır.
 
 Bu bilgiler harici bir sunucuya gönderilmez. Eklenti hesap, analiz, reklam, çerez erişimi veya izleme geçmişi kaydı içermez. Kaynak kodda ek ağ isteği bulunmaz.
+
+Bölüm sonu koruması açıkken eklenti, Netflix'in görünür bölüm sonu kontrollerini algılar ve varsa “Jeneriği İzle” düğmesine tıklayarak otomatik geçişi iptal etmeyi dener. Netflix profilindeki otomatik oynatma ayarını değiştirmez. Koruma ve tıklama girişimlerinin durumu yalnızca sayfa belleğinde tutulur.
 
 ## Saklama
 

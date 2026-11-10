@@ -23,6 +23,8 @@ Adaptör dosyasını manifest'in betik listesine `content.js` öncesinde ekleyin
 
 Buton yerleşimi, tek örnek kalması, oynatıcının yeniden oluşturulması, tam ekran, duraklat/devam et, yükleme beklemesi, video değişimi ve süre dolmasını doğrulayın. Bir platformda doğrulanan davranışı diğerlerine varsaymayın.
 
+Bölüm sonu için adaptörde `getEpisodeEnd` ve varsa `cancelAutoplay` sağlayın; görünür bölüm sonu işaretini, sıradan ileri/sonraki bölüm düğmesinden ayırın. Ortak guard ve durdurma bildirimini tekrar yazmayın. İptal kontrolü videoyu yeniden oynatsa veya yeni bölüm başlatsa da guard'ın sürmesini, gizli kartların tetiklememesini, tekrarların sınırlı kalmasını ve Devam et eyleminin korumayı kaldırmasını test edin.
+
 ## Ürün kararları
 
-`.agents/skills/stream-sleep-timer/SKILL.md` dosyasındaki kesinleşmiş kararları ve ertelenmiş kapsamı okuyun. Bölüm sonunda durdurma, otomatik sonraki bölümü engelleme ve özel süre girişi mevcut MVP'ye dahil değildir.
+`.agents/skills/stream-sleep-timer/SKILL.md` dosyasındaki kesinleşmiş kararları ve ertelenmiş kapsamı okuyun. 0.2.0 bölüm sonu korumasını içerir; özel süre girişi ve diğer platformların gerçek adaptörleri henüz yoktur.

@@ -37,7 +37,12 @@ export function mockMedia(window, video) {
   for (const property of ['paused', 'ended', 'seeking', 'readyState']) {
     Object.defineProperty(video, property, { get: () => state[property] });
   }
-  video.play = () => { state.paused = false; video.dispatchEvent(new window.Event('playing')); };
+  video.play = () => {
+    state.paused = false;
+    video.dispatchEvent(new window.Event('play'));
+    video.dispatchEvent(new window.Event('playing'));
+    return Promise.resolve();
+  };
   video.pause = () => { state.pauses++; state.paused = true; video.dispatchEvent(new window.Event('pause')); };
   return state;
 }
