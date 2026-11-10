@@ -1,6 +1,6 @@
 ---
 name: stream-sleep-timer
-description: Plan and develop this project's open-source Chrome sleep timer extension for film and series streaming sites. Use for product decisions, player integration, and community contribution design in this project.
+description: Plan and develop this project's open-source Chrome sleep timer extension for film and series streaming sites. Use for product decisions, interface design, player integration, and community contribution design in this project.
 ---
 
 # Film ve dizi oynatıcıları için uyku zamanlayıcısı
@@ -60,6 +60,17 @@ Kalıcı ürün adı ve mağaza markası henüz seçilmedi. Aşağıdaki MVP uyg
 - Kullanıcının tam HTML dökümünü kaynak depoya veya dağıtım paketine ekleme; testler için kişisel veri içermeyen sadeleştirilmiş yapı kullan.
 - Kullanıcı ilk sürümün saniyelik testlerini gerçek Netflix üzerinde denediğini ve düzgün çalıştığını bildirdi. Bu bildirim refactor öncesine aittir.
 - 0.2.0 için 26 test geçti: 8 zamanlayıcı, 24 senaryolu bir Netflix DOM testi, 13 bölüm sonu testi ve 4 platform/mimari testi. Yeni bölüm sonu HTML yapısında seçiciler ve tıklama girişimi de simülasyonda kontrol edildi. Canlı Netflix, geri sayım iptali, görsel düzen ve tam ekran doğrulaması agent tarafından yapılmadı.
+
+## Arayüz tasarım ilkeleri
+
+- Kullanıcı Apple'ın web sitesini tasarım referansı seçti: kısa metinler, belirgin tipografi, ferah boşluklar, sade yüzeyler ve net eylem hiyerarşisi. Referans: https://www.apple.com/ . Apple markasını veya varlıklarını kopyalama.
+- Bölüm sonu panelinde tek bir durum başlığı ve iki eylem yeterlidir. Tekrarlayan açıklama, teknik koruma mesajı, pazarlama cümlesi veya ek etiket ekleme. Hata varsa kullanıcının ne yapacağını belirten gerekli yönlendirmeyi koru.
+- Birincil eylem “Devam et”; ikincil eylem “Zamanlayıcıyı kapat”. İkinci eylemi belirsiz bir çarpı ikonuna indirgeme; kapatmak oynatmayı başlatmaz.
+- Panel kullanıcının sistem/tarayıcı renk tercihini `prefers-color-scheme` ile izler; tercih değişince açık/koyu renkler yenilenir. Netflix sayfasının koyu arka planını kullanıcının tema tercihi sayma.
+- Mevcut uygulama ölçüleri başlangıç noktasıdır: 400 px azami genişlik, 24 px iç boşluk ve köşe yarıçapı, 20 px yarı kalın başlık, 44 px asgari buton yüksekliği. Dar alanda eylemler alt alta geçer; metin ve panel taşmaz.
+- Yerel sistem yazı tipleri, nötr yüzeyler ve tek bir mavi birincil eylem rengi kullan. Dikkat dağıtan gradyan, parlama, ağır çerçeve veya gereksiz animasyon ekleme; gölgeyi yüzeyi ayıracak kadar tut.
+- İkon dekoratifse erişilebilirlik ağacından çıkar. Durum değişikliğini ekran okuyucuya bildir; görünür klavye odağı, açık/koyu temada okunabilir kontrast, azaltılmış hareket ve yüksek kontrast tercihlerini koru.
+- Stil değişikliklerini ortak `ui/stop-notice.js` üzerinden yap. Açık/koyu görünümü, dar ekranı ve klavye kullanımını yerel tarayıcı önizlemesinde kontrol et; bunu canlı Netflix doğrulaması olarak sunma.
 
 ## Kod mimarisi
 

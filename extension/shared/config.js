@@ -8,11 +8,11 @@
     mutationDelayMs: 80,
     maxAutoplayCancelAttempts: 3,
     messages: Object.freeze({
-      expired: 'Süre doldu · Video duraklatıldı',
+      expired: 'Süre doldu',
       pauseFailed: 'Video duraklatılamadı',
-      ended: 'Video bitti · Koruma açık',
+      ended: 'Video bitti',
       episode: 'Bölüm sonunda durduruldu',
-      transition: 'Bölüm değişimi yakalandı · Oynatma durduruldu',
+      transition: 'Bölüm değişiminde durduruldu',
       resumeFailed: 'Oynatma başlatılamadı · Oynat düğmesini kullanın',
     }),
   });

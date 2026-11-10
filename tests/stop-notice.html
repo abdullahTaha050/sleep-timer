@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="tr">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bölüm sonu paneli · Tasarım önizlemesi</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #f5f5f7; color: #1d1d1f; font: 16px/1.5 -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+  main { max-width: 1280px; margin: auto; padding: 48px 24px; }
+  h1 { margin: 0 0 8px; font-size: 32px; letter-spacing: -1px; }
+  .intro { margin: 0 0 36px; color: #6e6e73; }
+  .previews { display: grid; grid-template-columns: 1fr 1fr 320px; gap: 20px; }
+  h2 { margin: 0 0 12px; font-size: 14px; font-weight: 500; color: #6e6e73; }
+  iframe { display: block; width: 100%; height: 340px; border: 0; border-radius: 28px; }
+  .light { color-scheme: light; }
+  .dark { color-scheme: dark; }
+  .frame { min-height: 100vh; background: #e8e8ed; }
+  .feedback { margin: 24px; font-size: 14px; }
+  @media (prefers-color-scheme: dark) { .frame { background: #0c0c0e; color: #f5f5f7; } }
+  @media (max-width: 1000px) { .previews { grid-template-columns: 1fr; } .narrow { width: 320px; max-width: 100%; } }
+</style>
+<body>
+<template id="preview-shell"><main>
+  <h1>Bölüm sonu paneli</h1>
+  <p class="intro">Aynı panel, iki tema. Gerçek bileşenle yerel tasarım önizlemesi.</p>
+  <div class="previews">
+    <section><h2>Açık</h2><iframe class="light" src="?panel=1" title="Açık tema önizlemesi"></iframe></section>
+    <section><h2>Koyu</h2><iframe class="dark" src="?panel=1" title="Koyu tema önizlemesi"></iframe></section>
+    <section class="narrow"><h2>Dar ekran · 320 px</h2><iframe class="dark" src="?panel=1" title="Dar ekran önizlemesi"></iframe></section>
+  </div>
+</main></template>
+<script>
+  // Keep iframe content separate so it never creates nested preview frames.
+  if (new URLSearchParams(location.search).has('panel')) {
+    document.body.className = 'frame';
+  } else document.body.append(document.querySelector('#preview-shell').content.cloneNode(true));
+</script>
+<script src="/extension/shared/config.js"></script>
+<script src="/extension/ui/stop-notice.js"></script>
+<script>
+  if (new URLSearchParams(location.search).has('panel')) {
+    const feedback = document.createElement('p');
+    feedback.className = 'feedback';
+    feedback.setAttribute('role', 'status');
+    document.body.append(feedback);
+    const notice = new StreamSleepTimer.StopNotice({
+      onContinue() { notice.hide(); feedback.textContent = 'Devam et seçildi.'; },
+      onCancel() { notice.hide(); feedback.textContent = 'Zamanlayıcıyı kapat seçildi.'; },
+    });
+    notice.show(document.body, StreamSleepTimer.config.messages.episode);
+  }
+</script>
+</body>
+</html>
