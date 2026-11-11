@@ -18,9 +18,51 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1. Release Please
       - name: Run Release Please
         id: release
         uses: googleapis/release-please-action@v4
         with:
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
+
+      # 2. Checkout released source
+      - name: Checkout release
+        if: steps.release.outputs.release_created == 'true'
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.release.outputs.tag_name }}
+
+      # 3. Setup Node.js
+      - name: Setup Node.js
+        if: steps.release.outputs.release_created == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      # 4. Install dependencies
+      - name: Install dependencies
+        if: steps.release.outputs.release_created == 'true'
+        run: npm ci
+
+      # 5. Run tests
+      - name: Run tests
+        if: steps.release.outputs.release_created == 'true'
+        run: npm test
+
+      # 6. Package extension
+      - name: Package extension
+        if: steps.release.outputs.release_created == 'true'
+        run: npm run package
+
+      # 7. Upload to GitHub Release
+      - name: Upload extension ZIP
+        if: steps.release.outputs.release_created == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TAG: ${{ steps.release.outputs.tag_name }}
+          RELEASE_VERSION: ${{ steps.release.outputs.version }}
+        run: |
+          gh release upload "$RELEASE_TAG" \
+            "dist/sleep-timer-extension-${RELEASE_VERSION}.zip"
