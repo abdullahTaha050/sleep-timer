@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.4.2](https://github.com/abdullahTaha050/sleep-timer/compare/v0.4.1...v0.4.2) (2026-11-11)
+
+
+### Bug Fixes
+
+* **ci:** attach extension ZIP to GitHub releases ([df66294](https://github.com/abdullahTaha050/sleep-timer/commit/df66294deb57d07c9c17ff9e8577143339da66df))
+* **ci:** attach extension ZIP to GitHub releases ([3ea046e](https://github.com/abdullahTaha050/sleep-timer/commit/3ea046e43776f6ecb1341d60977e40edba3581ec))
+
 ## [0.4.1](https://github.com/abdullahTaha050/sleep-timer/compare/v0.4.0...v0.4.1) (2026-11-11)
 
 
