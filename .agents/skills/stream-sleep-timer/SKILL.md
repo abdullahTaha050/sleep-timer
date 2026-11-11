@@ -17,7 +17,7 @@ description: Plan and develop this project's open-source Chrome sleep timer exte
 - Video duraklatılınca sayaç da durur; oynatma yeniden başladığında kalan süre üzerinden devam eder.
 - Menüde “Video duraklatıldığında sayaç da durur” açıklaması gösterilmez; davranış korunur.
 - İkon ve buton boyutları sabit piksel yerine `rem` ile oranlı ölçeklenir.
-- Birden fazla platform aynı zamanlayıcı, medya olayları, yaşam döngüsü ve arayüzü kullanır. HBO, Prime Video ve Disney+ gelecekteki adaylardır; henüz desteklenmiş sayılmazlar.
+- Birden fazla platform aynı zamanlayıcı, medya olayları, yaşam döngüsü ve arayüzü kullanır. Kullanıcı HBO HTML'ini paylaşıp desteğin eklenmesini istedi; 0.3.0 HBO Max süre desteğini içerir ve canlı testi kullanıcı yapacaktır. Prime Video ve Disney+ gelecekteki adaylardır.
 - İlk testlerde saniye cinsinden kısa süreler de kullanılacak. Bu, son kullanıcı menüsüne kalıcı saniye seçenekleri ekleme kararı değildir.
 - Proje GitHub'da açık kaynak olarak paylaşılacak ve topluluk katkılarına açık olacak.
 - Kullanıcı konsept görüşmesinden sonra ilk Netflix MVP'sinin uygulanmasını istedi; uygulama aşamasına geçildi.
@@ -60,6 +60,20 @@ Kalıcı ürün adı ve mağaza markası henüz seçilmedi. Aşağıdaki MVP uyg
 - Kullanıcının tam HTML dökümünü kaynak depoya veya dağıtım paketine ekleme; testler için kişisel veri içermeyen sadeleştirilmiş yapı kullan.
 - Kullanıcı ilk sürümün saniyelik testlerini gerçek Netflix üzerinde denediğini ve düzgün çalıştığını bildirdi. Bu bildirim refactor öncesine aittir.
 - 0.2.0 için 26 test geçti: 8 zamanlayıcı, 24 senaryolu bir Netflix DOM testi, 13 bölüm sonu testi ve 4 platform/mimari testi. Yeni bölüm sonu HTML yapısında seçiciler ve tıklama girişimi de simülasyonda kontrol edildi. Canlı Netflix, geri sayım iptali, görsel düzen ve tam ekran doğrulaması agent tarafından yapılmadı.
+
+## HBO Max uyarlaması — 0.4.0
+
+- Kullanıcı 11 Kasım 2026'da HBO HTML'ini paylaşarak desteğin geliştirilmesini ve testlerin çalıştırılmasını istedi; canlı testi kendisi yapacak.
+- Paylaşılan HTML'de gözlenen origin/yol `www.hbomax.com/video/watch/<kimlik>`; manifest erişimi yalnızca bu HBO domain'ine genişletildi. `max.com` ve diğer alt domain'ler eklenmedi.
+- Ana video `[data-testid="playerContainer"] video[data-testid="VideoElement"]`; sağ grup yalnızca `playback_controls` içindeki `control_footer` altında bulunur. Buton ses kontrolünün önüne eklenir. Gizli `QuickCatchupOverlay` aynı kontrollere sahip olduğundan genel footer araması kullanılmaz.
+- İlk HTML'de `up_next` boş/gizliydi. Kullanıcının daha sonra paylaştığı bölüm sonu HTML'inde `up_next → player-ux-up-next-container → player-ux-up-next-button` görünürdür. 0.4.0'da `getEpisodeEnd` bu yapıyı mevcut videonun oynatıcısında, görünürlük kontrolüyle algılar; HBO menüsünde Bölüm sonunda sunulur ve dakika/saniye süreleri de kartla sınırlanır.
+- Yeni örnekte “Otomatik oynatma kapalı” yazıyor; geri sayımı iptal eden ayrı kontrol yok. Sonraki Bölüm düğmesi oynatmayı başlatır: asla iptal kontrolü olarak tıklama. `cancelButton: null` döner; `cancelAutoplay` yoktur. Ortak guard video yeniden oynarsa veya yeni video gelirse duraklatmayı sürdürür. Kart ve doğal bitiş kaçırılırken URL değişmeden içerik değişimi için ek kimlik sinyali henüz yoktur.
+- HBO adaptörünün başlangıç boyutları ikon `1.5rem`, buton `2.75rem`, iç boşluk `.625rem`; Netflix ve ortak stil değerleri korunur. Boyutlar canlı görsel doğrulama bekler.
+- Kullanıcı 0.3.0 HBO süre desteğinin canlıda çalıştığını bildirdi; ay ikonunun diğer kontrollerden aşağıda kaldığı ekran görüntüsünü paylaştı. Bölüm sonu geliştirmesinden önce hizalama düzeltmesini istedi. 0.3.1'de ortak buton kapsayıcısına `align-self:center`, `vertical-align:middle` ve `line-height:0` eklendi; ikon/buton ölçüleri korunur. Yerel tarayıcı önizlemesi URL politikası tarafından engellendi; bu hizalama düzeltmesi henüz görsel/canlı doğrulanmadı.
+- 38 otomatik test geçti; 12'si HBO için kişisel veri içermeyen fixture kullanır. Paylaşılan orijinal HTML ayrıca bellekte, sayfa betikleri ve ağ kapalı olarak kontrol edildi; depoya/pakete kopyalanmadı. Bunlar gerçek HBO/DRM, otomatik geçiş, tam ekran veya görsel doğrulama değildir.
+- 0.4.0'da 48 test geçti; 22'si HBO testidir. 10 yeni test bölüm sonu algılama ve koruma senaryolarını kapsar. Yeni döküm bellekte kontrol edildi; yalnızca sadeleştirilmiş fixture depoya eklendi. Gerçek HBO bölüm sonu ve otomatik oynatma davranışı kullanıcı canlı testini bekler.
+- Kullanıcı HBO/tarayıcı erişim denemesi yapılmamasını ve yalnızca kod tarafındaki testlerin çalıştırılmasını istedi; canlı kontrolleri kendisi yapacak. Bu talep yerel tarayıcı önizlemesine ilişkin önceki genel yönergelerden önceliklidir.
+- Menü dışına tıklamanın yalnızca menüyü kapatması ayrı bir öneridir; kullanıcı şimdilik uygulanmamasını ve yalnızca bölüm sonu özelliğinin geliştirilmesini istedi.
 
 ## Arayüz tasarım ilkeleri
 

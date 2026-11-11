@@ -7,6 +7,8 @@
   };
   const root = () => document.querySelector('[data-sleep-timer]').shadowRoot;
   const status = () => root().querySelector('.status').textContent;
+  const { t } = StreamSleepTimer.i18n;
+  const messages = StreamSleepTimer.config.messages;
   const choose = (seconds) => {
     const input = root().querySelector(`input[value="${seconds}"]`);
     input.checked = true;
@@ -23,7 +25,7 @@
     check(!root().querySelector('.panel').matches(':popover-open'), 'Menü kapanıyor');
     choose(10);
     fixture.clock += 20000; await sleep();
-    check(status().includes('00:10') && status().includes('Bekliyor'), 'Duraklatılmış videoda sayaç sabit');
+    check(status().includes('00:10') && status().includes(t('waiting')), 'Duraklatılmış videoda sayaç sabit');
     await media.play(); fixture.clock += 3000; await sleep();
     check(status().includes('00:07'), 'Oynatınca süre azalıyor');
     media.pause(); fixture.clock += 30000; await sleep();
@@ -40,14 +42,14 @@
     choose(5); const before = fixture.pauses;
     fixture.clock += 6000; await sleep();
     check(media.paused && fixture.pauses === before + 1, 'Süre bitince video bir kez duraklatılıyor');
-    check(status().includes('Süre doldu'), 'Bitiş durumu gösteriliyor');
+    check(status() === messages.expired, 'Bitiş durumu gösteriliyor');
     await media.play(); await sleep();
     check(media.paused, 'Koruma otomatik yeniden oynatmayı durduruyor');
     document.querySelector('[data-sleep-timer-notice]').shadowRoot.querySelector('.continue').click();
     check(!media.paused, 'Kullanıcı Devam et ile korumayı kaldırıp oynatabiliyor');
     choose(30); fixture.clock += 1000; await sleep();
     choose(0); fixture.clock += 60000; await sleep();
-    check(!media.paused && status().includes('kapalı'), 'Kapalı seçeneği durdurma işlemini iptal ediyor');
+    check(!media.paused && status() === t('timerOff'), 'Kapalı seçeneği durdurma işlemini iptal ediyor');
     choose(30);
     const oldHost = document.querySelector('[data-sleep-timer]');
     oldHost.remove(); await sleep();
@@ -59,9 +61,9 @@
     group.replaceWith(replacement); await sleep();
     check(document.querySelectorAll('[data-sleep-timer]').length === 1 && replacement.firstElementChild.matches('[data-sleep-timer]'), 'Kontrol grubu yeniden oluşturulunca doğru yere bağlanıyor');
     history.pushState({}, '', '/watch/200?test=1'); await sleep(1100);
-    check(status().includes('Bölüm değişimi'), 'Yeni videoya geçince koruma durduruyor');
+    check(status() === messages.transition, 'Yeni videoya geçince koruma durduruyor');
     choose(30); media.dispatchEvent(new Event('ended')); await sleep();
-    check(status().includes('Video bitti'), 'Video sonunda durdurma koruması sürüyor');
+    check(status() === messages.ended, 'Video sonunda durdurma koruması sürüyor');
     history.pushState({}, '', '/browse?test=1'); await sleep(1100);
     check(!document.querySelector('[data-sleep-timer]'), 'İzleme sayfasından ayrılınca kontrol kaldırılıyor');
     history.pushState({}, '', '/watch/100?test=1'); await sleep(1100);

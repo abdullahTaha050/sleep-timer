@@ -1,8 +1,41 @@
-# Doğrulama kaydı — 0.2.0
+# Doğrulama kaydı — 0.4.0
 
-10 Kasım 2026
+11 Kasım 2026
 
-## Geçen kontroller
+## Türkçe / İngilizce arayüz
+
+- `npm test`: **63 test, 0 hata**. 10 yeni test; Türkçe ve İngilizce bölgesel dil kodları, desteklenmeyen dillerde İngilizce, menü/durum/bildirim/erişilebilirlik metinleri ve çeviri yer tutucularını kapsar.
+- Netflix ve HBO fixture'larında İngilizce geri sayım, duraklatma, süre dolması ve Devam et akışı geçti. Önceki menü dışındaki ilk tıklamayı tüketme testleri de geçti.
+- Chrome i18n API'si testlerde yerel katalogları okuyan bir taklitle çalıştırıldı. Gerçek Chrome dil seçimi, görsel metin yerleşimi ve canlı Netflix/HBO doğrulanmadı.
+
+## HBO bölüm sonu — 0.4.0
+
+- `npm test`: **48 test, 0 hata**. 10 yeni bölüm sonu testi ve güncellenen menü testiyle toplam 22 HBO testi geçer; Netflix testleri de geçti.
+- Görünür bölüm sonu kartıyla erken durma; dakika/saniye süresine üst sınır; boş/gizli/inert/yerleşimsiz kartlar; başka oynatıcı ve sıradan kontroller; kart zaten görünürken seçim; Kapalı; kart kaldırıldıktan sonra ve URL henüz değişmeden yeni video başladığında koruma test edildi.
+- Normal kontroller yokken bildirim, Devam et ve oynatmadan kapatma; görünürlük değişiminin MutationObserver ile yakalanması test edildi. Sonraki Bölüm düğmesine sıfır tıklama yapıldığı kontrol edildi.
+- Kullanıcının yeni HTML dökümü yalnızca bellekte, sayfa kodu ve dış kaynak yüklemeleri kapalı ortamda kontrol edildi. Görünür kart algılandı, simüle edilmiş video durduruldu; aynı kart gizlenince sinyal üretmedi. Döküm depoya veya paketlere eklenmedi; sadeleştirilmiş ayrı fixture kullanıldı.
+- Örnek kartta “Otomatik oynatma kapalı” yazıyor. İptal kontrolü bulunmadığından HBO geri sayımını iptal eden bir işlem uygulanmadı. Sonraki Bölüm düğmesi oynatma eylemidir ve tıklanmaz. Otomatik oynatma açıkken farklı bir kart yapısı oluşursa ayrıca HTML örneği gerekir.
+- Kullanıcı isteği doğrultusunda yalnızca yerel kod/DOM testleri çalıştırıldı; HBO’ya erişim ve tarayıcı denemesi yapılmadı. Gerçek geri sayım, DRM, tam ekran ve yeni bölüm davranışı kullanıcı canlı testini bekler. Menü dışına tıklama davranışı bu geliştirmede değiştirilmedi.
+
+## HBO hizalama düzeltmesi — 0.3.1
+
+- `npm test`: **38 test, 0 hata**. JavaScript sözdizimi ve `git diff --check` kontrolleri de geçti. DOM testleri görsel hizalamayı ölçmez.
+- Kullanıcı 0.3.0 HBO desteğinin canlıda çalıştığını bildirdi; ay ikonunun diğer kontrollerden aşağıda kaldığı ekran görüntüsünü paylaştı. Bu bildirim tam ekran ve tüm geçiş senaryolarının tek tek doğrulandığı anlamına gelmez.
+- Buton dış kapsayıcısına `align-self:center`, `vertical-align:middle` ve `line-height:0` eklendi. İkon/buton ölçüleri ve zamanlayıcı davranışı korunur.
+- Yerel tarayıcı önizlemesi `net::ERR_BLOCKED_BY_CLIENT` ile engellendi. Düzeltmenin gerçek tarayıcıdaki görsel sonucu veya canlı HBO görünümü doğrulanamadı.
+
+## HBO Max — 0.3.0
+
+- `npm test`: **38 test, 0 hata**. Önceki 26 test ve 12 yeni HBO testi geçti.
+- HBO testleri; domain/yol kapsamını, doğru ana videoyu, sağ grupta ses kontrolünün önüne tek buton eklenmesini, gizli QuickCatchupOverlay kopyasını dışlamayı, dakika/saniye menüsünü ve doğrulanmamış bölüm sonu seçeneğinin gösterilmemesini kapsar.
+- Süre sonunda duraklatma, duraklatma/yükleme/sarma sırasında bekleme, diğer videoya dokunmama, kontrol çubuğu ve video elemanı yenilenmesi, sorgu parametresi değişiminde süreyi koruma, URL değişiminde koruma, doğal bitiş, Devam et/Kapalı ve ana sayfaya çıkış kontrol edildi.
+- Kullanıcının HBO HTML'i ayrıca yalnızca bellekte incelendi. Sayfa betikleri, iframe yüklemesi ve ağ kaynakları kapalı tutularak adaptörün gerçek dökümde doğru video ve kontrol grubunu bulduğu, tek buton eklediği ve simüle edilmiş videoyu duraklattığı kontrol edildi. Orijinal HTML kaynaklara veya paketlere eklenmedi; kalıcı test fixture'ı sadeleştirilmiş ve kişisel verilerden arındırılmıştır.
+- HBO'da bölüm sonu kartı ve iptal düğmesi mevcut örnekten doğrulanamadı. `up_next` boş ve gizlidir; Bölüm sonunda seçeneği HBO'da yoktur. URL değişmeden içerik değişimi için ayrı bir kimlik sinyali yoktur.
+- **Gerçek HBO oynatması, DRM, kontrol ölçüleri/yerleşimi, tam ekran ve otomatik bölüm geçişi denenmedi.** Canlı testi kullanıcı yapacaktır; adımlar README'deki HBO Max bölümündedir.
+
+## Önceki Netflix doğrulaması — 0.2.0
+
+### Geçen kontroller
 
 - `npm test`: **26 test, 0 hata**. 8 zamanlayıcı testi, 24 senaryo içeren Netflix DOM entegrasyon testi, 13 bölüm sonu testi ve 4 platform/mimari testi.
 - Süre, duraklatma, yükleme/sarma beklemesi, iptal, süre değiştirme ve tek seferlik bitiş kontrol edildi.

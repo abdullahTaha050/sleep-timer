@@ -27,4 +27,4 @@ Bölüm sonu için adaptörde `getEpisodeEnd` ve varsa `cancelAutoplay` sağlay�
 
 ## Ürün kararları
 
-`.agents/skills/stream-sleep-timer/SKILL.md` dosyasındaki kesinleşmiş kararları ve ertelenmiş kapsamı okuyun. 0.2.0 bölüm sonu korumasını içerir; özel süre girişi ve diğer platformların gerçek adaptörleri henüz yoktur.
+`.agents/skills/stream-sleep-timer/SKILL.md` dosyasındaki kesinleşmiş kararları ve ertelenmiş kapsamı okuyun. 0.4.0 Netflix ve HBO Max bölüm sonu algılamasını içerir. HBO geri sayım iptal kontrolü henüz gözlenmedi; Sonraki Bölüm düğmesine basılmaz, ortak durdurma koruması kullanılır. Özel süre girişi, Prime Video ve Disney+ henüz uygulanmamıştır.

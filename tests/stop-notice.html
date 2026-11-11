@@ -35,9 +35,12 @@
     document.body.className = 'frame';
   } else document.body.append(document.querySelector('#preview-shell').content.cloneNode(true));
 </script>
-<script src="/extension/shared/config.js"></script>
-<script src="/extension/ui/stop-notice.js"></script>
-<script>
+<script type="module">
+  import { installDemoI18n } from './helpers/i18n.mjs';
+  await installDemoI18n();
+  await import('/extension/shared/i18n.js');
+  await import('/extension/shared/config.js');
+  await import('/extension/ui/stop-notice.js');
   if (new URLSearchParams(location.search).has('panel')) {
     const feedback = document.createElement('p');
     feedback.className = 'feedback';

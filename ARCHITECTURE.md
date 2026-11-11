@@ -1,6 +1,6 @@
 # Kod yapısı
 
-Eklentinin ortak davranışı `core/` ve `ui/` içinde; siteye özgü bilgi `adapters/` içindedir. Şimdilik yalnızca Netflix adaptörü dağıtılır. HBO, Prime Video ve Disney+ için temel hazırdır; bu sitelerde destek varmış gibi davranılmaz.
+Eklentinin ortak davranışı `core/` ve `ui/` içinde; siteye özgü bilgi `adapters/` içindedir. Netflix ve HBO Max adaptörleri dağıtılır. HBO Max adaptörü paylaşılan HTML ile uygulanmış ve DOM simülasyonunda test edilmiştir; kullanıcı 0.3.0 süre desteğinin canlıda çalıştığını bildirmiştir. 0.3.1 dikey hizalama düzeltmesi görsel doğrulama bekler. Prime Video ve Disney+ henüz desteklenmez.
 
 | Dosya | Sorumluluk |
 |---|---|
@@ -11,10 +11,13 @@ Eklentinin ortak davranışı `core/` ve `ui/` içinde; siteye özgü bilgi `ada
 | `extension/core/timer.js` | DOM'dan bağımsız, test edilebilir süre hesabı. |
 | `extension/core/playback-guard.js` | Ortak kapalı / bekliyor / durduruldu durumları. Durdurma kararı, kullanıcı açıkça bırakana kadar korunur. |
 | `extension/adapters/netflix.js` | Netflix domain'i, izleme kimliği, ana video ve sağ kontrol grubunu bulma. |
+| `extension/adapters/hbo.js` | HBO Max domain ve izleme yolu, ana video, normal sağ kontrol grubu ve platforma özel boyutlar. |
 | `extension/ui/timer-ui.js` | Ortak Shadow DOM butonu, popover menü, seçenekler, kalan süre ve odak işlemleri. |
 | `extension/ui/stop-notice.js` | Kontroller kaybolsa da erişilebilen durdurma bildirimi, Devam et ve korumayı kapatma. |
 | `extension/ui/styles.js` | Ortak görünüm. İkon ve buton boyutları `rem` tabanlı CSS değişkenleriyle yönetilir. |
-| `extension/shared/config.js` | Dakika/saniye seçenekleri, zamanlama aralıkları ve controller durum mesajları. |
+| `extension/shared/config.js` | Dakika/saniye seçenekleri, zamanlama aralıkları ve çevrilmiş controller durum mesajları. |
+| `extension/shared/i18n.js` | Chrome i18n API erişimi ve bileşenlerin dil etiketi; config ve UI'dan önce yüklenir. |
+| `extension/_locales/{en,tr}/messages.json` | Menü, bildirim, erişilebilirlik ve manifest çevirileri. Varsayılan dil İngilizcedir; çalışma zamanında ağ isteği veya harici kütüphane gerekmez. |
 
 ## Akış
 
@@ -43,13 +46,23 @@ Chrome içerik betikleri `manifest.json` sırasıyla yüklenir. Modüller içeri
 | `getEpisodeEnd({document, location, video})` | İsteğe bağlı. Görünür bölüm sonu ekranında `{signal, cancelButton}` döndürür; yoksa `null`. `signal` o ekrana ait kararlı bir DOM elemanıdır. Sürekli görünen sıradan sonraki bölüm kontrolünü kullanmayın. Bu metot varsa menüde Bölüm sonunda görünür. |
 | `cancelAutoplay(boundary)` | İsteğe bağlı, senkron. Platformun yerleşik geçiş iptal kontrolüne basmayı dener. Dönen `true` yalnızca girişim yapıldığını bildirir; iptal başarısı garantisi değildir. HTML'den veya gerçek testten doğrulanmamış düğmelere basmayın. |
 
-Yeni adaptör dosyası kendisini `StreamSleepTimer.platforms.register(...)` ile kaydeder. Manifest'teki betik listesine `content.js` öncesinde eklenir; ilgili domain ancak gerçek destek doğrulandıktan sonra `matches` listesine eklenir.
+Yeni adaptör dosyası kendisini `StreamSleepTimer.platforms.register(...)` ile kaydeder. Manifest'teki betik listesine `content.js` öncesinde eklenir; ilgili domain ancak gerçek destek doğrulandıktan sonra `matches` listesine eklenir. Bu geliştirmede kullanıcı HBO canlı testini kendisi yapacağını belirttiği için gözlenen domain 0.3.0 deneme paketine eklenmiştir; canlı doğrulama beklediği açıkça kaydedilir.
+
+## HBO Max kapsamı
+
+`www.hbomax.com/video/watch/<kimlik>` yolu kararlı kimlik sağlar; sorgu parametreleri kimliği değiştirmez. `playerContainer` içindeki `VideoElement` ana videodur. Buton yalnızca `playback_controls` içindeki `control_footer` sağ grubuna eklenir; aynı HTML'deki gizli `QuickCatchupOverlay` altındaki kopya kontrollere eklenmez. Üretilmiş sınıflara ve çevrilmiş metinlere bağımlılık yoktur.
+
+0.4.0 adaptörü `getEpisodeEnd` sunar: mevcut videonun oynatıcısındaki `up_next → player-ux-up-next-container → player-ux-up-next-button` yapısında görünür düğmeyi sinyal sayar. Geometri, eleman ve atalarının gizlilik/CSS durumları kontrol edilir. Menüde Bölüm sonunda görünür; süre seçimi de bu sinyalle sınırlanır. Yeni HTML otomatik oynatma kapalı durumunu gösterir ve iptal kontrolü içermez; `cancelButton: null` döner, `cancelAutoplay` yoktur. Sonraki bölüm düğmesine basılmaz. Ortak guard yeniden oynatmayı/yeni videoyu duraklatır. Kart ve doğal bitiş kaçırılırken aynı URL'de içerik değişimini belirleyen ek sinyal henüz yoktur.
 
 ## Boyutlar
 
-İkon `3.1875rem`, buton `4.500rem`, iç boşluk `.46875rem` değerlerini kullanır. Aktiflik noktası ve buton köşesi de `rem` ile ölçeklenir. Mevcut kullanıcı boyut tercihleri bölüm sonu geliştirmesinde değiştirilmemiştir.
+İkon `3.1875rem`, buton `4.500rem`, iç boşluk `.46875rem` değerlerini kullanır. Aktiflik noktası ve buton köşesi de `rem` ile ölçeklenir. Netflix boyutları korunur. HBO adaptörü başlangıç ölçüleri olarak ikon `1.5rem`, buton `2.75rem`, iç boşluk `.625rem` kullanır; gerçek yerleşim canlı test bekler.
+
+Butonun dış kapsayıcısı flex satırında `align-self:center`, satır içi düzende `vertical-align:middle` kullanır; `line-height:0` metin satırından gelen boşluğu kaldırır. İkon ve tıklama alanı boyutları değişmez.
 
 ## Testler
+
+0.4.0 için 48 test geçer. HBO için 22 test; görünür bölüm sonu kartı, gizli/ilgisiz kartları eleme, süre üst sınırı, iptal düğmesi olmadan koruma, sağ grup/çift kontrol ayrımı, süre ve medya beklemeleri, kontrol/video yenilenmesi, URL geçişi, doğal bitiş, iptal/devam ve sayfadan çıkış senaryolarını sadeleştirilmiş fixture ile kapsar.
 
 `npm test`, saf zamanlayıcıyı, Netflix yapısındaki 24 senaryoyu, bölüm sonu korumasını, desteklenmeyen domain'i, adaptör kayıt doğrulamasını ve ikinci bir sentetik platformu kapsar. Diğer platform testi farklı URL kimliği, yerleşim, özel duraklatma, bölüm sonu sinyali ve iptali, video elemanı değişimi, dinleyici temizliği ve çift başlatmayı kontrol eder.
 

@@ -1,0 +1,30 @@
+{
+  "extensionDescription": { "message": "Netflix ve HBO Max oynatıcılarına, video duraklatıldığında duran bir uyku zamanlayıcısı ekler." },
+  "timerName": { "message": "Uyku zamanlayıcısı" },
+  "off": { "message": "Kapalı" },
+  "timerOff": { "message": "Zamanlayıcı kapalı" },
+  "closeMenu": { "message": "Menüyü kapat" },
+  "duration": { "message": "Süre" },
+  "minutes": { "message": "$count$ dakika", "placeholders": { "count": { "content": "$1" } } },
+  "seconds": { "message": "$count$ sn", "placeholders": { "count": { "content": "$1" } } },
+  "episodeEnd": { "message": "Bölüm sonunda" },
+  "testDurations": { "message": "Test süreleri" },
+  "testSeconds": { "message": "Saniyelik test süreleri" },
+  "waitingForEpisode": { "message": "Bölüm sonu bekleniyor" },
+  "running": { "message": "Çalışıyor" },
+  "waiting": { "message": "Bekliyor" },
+  "remaining": {
+    "message": "Kalan $time$ · $state$",
+    "placeholders": { "time": { "content": "$1" }, "state": { "content": "$2" } }
+  },
+  "timerStatus": { "message": "Uyku zamanlayıcısı · $status$", "placeholders": { "status": { "content": "$1" } } },
+  "guardOn": { "message": "Koruma açık" },
+  "continuePlayback": { "message": "Devam et" },
+  "turnOffTimer": { "message": "Zamanlayıcıyı kapat" },
+  "expired": { "message": "Süre doldu" },
+  "pauseFailed": { "message": "Video duraklatılamadı" },
+  "ended": { "message": "Video bitti" },
+  "episodeStopped": { "message": "Bölüm sonunda durduruldu" },
+  "transitionStopped": { "message": "Bölüm değişiminde durduruldu" },
+  "resumeFailed": { "message": "Oynatma başlatılamadı · Oynat düğmesini kullanın" }
+}

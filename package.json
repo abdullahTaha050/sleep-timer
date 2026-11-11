@@ -1,8 +1,8 @@
 {
   "name": "stream-sleep-timer",
-  "version": "0.2.0",
+  "version": "0.4.0",
   "private": true,
-  "description": "A local-first sleep timer for streaming players, starting with Netflix.",
+  "description": "A local-first sleep timer for Netflix and HBO Max players.",
   "license": "MIT",
   "scripts": {
     "test": "node --test tests/*.test.cjs tests/*.test.mjs",
