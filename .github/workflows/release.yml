@@ -66,3 +66,16 @@ jobs:
         run: |
           gh release upload "$RELEASE_TAG" \
             "dist/sleep-timer-extension-${RELEASE_VERSION}.zip"
+
+      # 8. Publish to Chrome Web Store
+      - name: Publish to Chrome Web Store
+        if: >-
+          steps.release.outputs.release_created == 'true' &&
+          vars.CWS_PUBLISH_ENABLED == 'true'
+        uses: cssnr/webstore-publish-action@v1
+        with:
+          extension_id: ${{ vars.CWS_EXTENSION_ID }}
+          publisher_id: ${{ vars.CWS_PUBLISHER_ID }}
+          zip_file: dist/sleep-timer-extension-${{ steps.release.outputs.version }}.zip
+          publish: default
+          json_data: ${{ secrets.CWS_SERVICE_ACCOUNT_JSON }}
