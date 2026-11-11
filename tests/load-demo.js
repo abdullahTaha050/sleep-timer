@@ -1,4 +1,6 @@
 (async () => {
+  const { installDemoI18n } = await import('./helpers/i18n.mjs');
+  await installDemoI18n();
   // The fixture uses the same load order as the packaged extension.
   const manifest = await fetch('/extension/manifest.json').then((response) => response.json());
   const load = (src) => new Promise((resolve, reject) => {

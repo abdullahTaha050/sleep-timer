@@ -2,72 +2,165 @@
   const app = globalThis.StreamSleepTimer;
 
   class PlayerController {
-    constructor({ adapter, createUI = (select) => new app.TimerUI(select) }) {
+    constructor({ adapter, createUI = (select, options) => new app.TimerUI(select, options) }) {
       this.adapter = adapter;
       this.createUI = createUI;
       this.context = { document, location };
       this.key = null;
+      this.root = null;
       this.ui = null;
+      this.notice = null;
       this.message = '';
       this.cycle = 0;
       this.started = false;
+      this.pausing = false;
       this.reconcileTimeout = null;
-      this.timer = new app.PlaybackTimer({ onExpire: () => this.expire() });
+      this.guard = new app.PlaybackGuard();
+      this.cancelledSignals = new WeakSet();
+      this.cancelAttempts = 0;
+      this.actionVersion = 0;
+      this.timer = new app.PlaybackTimer({ onExpire: () => this.stop('timer') });
       this.media = new app.MediaBinding({
-        onPlaybackChange: (playing) => { this.timer.setPlaying(playing); this.render(); },
-        onEnded: () => {
-          if (this.timer.active) {
-            this.timer.cancel();
-            this.message = app.config.messages.ended;
-            this.render();
-          }
+        onPlaybackChange: (playing) => {
+          if (this.guard.stopped && playing) this.hold();
+          this.timer.setPlaying(this.guard.stopped ? false : playing);
+          // Expiry may synchronously pause during setPlaying's preceding-interval settlement.
+          if (this.guard.stopped && this.timer.playing) this.timer.setPlaying(false);
+          this.render();
         },
+        onEnded: () => { if (this.guard.enabled) this.stop('ended'); },
       });
     }
 
-    render() { this.ui?.render(this.timer.snapshot(), this.message); }
-
-    expire() {
-      if (!this.media.video?.isConnected) return;
-      try {
-        const paused = this.adapter.pause ? this.adapter.pause(this.media.video) : this.media.pause();
-        this.message = paused ? app.config.messages.expired : app.config.messages.pauseFailed;
-      } catch { this.message = app.config.messages.pauseFailed; }
+    render() {
+      this.ui?.render({ ...this.timer.snapshot(), guarding: this.guard.enabled,
+        stopped: this.guard.stopped, selection: this.guard.selection }, this.message);
+      if (this.guard.stopped && this.root?.isConnected) {
+        this.notice ??= new app.StopNotice({ onContinue: () => this.resume(), onCancel: () => this.cancel() });
+        this.notice.show(this.root, this.message, this.repeatSeconds);
+      } else this.notice?.hide();
     }
 
-    reset() { this.timer.cancel(); this.message = ''; }
+    hold() {
+      const video = this.media.video;
+      if (this.pausing || !video?.isConnected || video.paused) return;
+      this.pausing = true;
+      try {
+        const paused = this.adapter.pause ? this.adapter.pause(video) : this.media.pause();
+        if (!paused) this.message = app.config.messages.pauseFailed;
+      } catch { this.message = app.config.messages.pauseFailed; }
+      finally { this.pausing = false; }
+    }
+
+    stop(reason) {
+      if (!this.guard.enabled) return;
+      this.guard.stop(reason);
+      this.timer.cancel();
+      const messages = app.config.messages;
+      this.message = ({ timer: messages.expired, episode: messages.episode,
+        ended: messages.ended, transition: messages.transition })[this.guard.reason];
+      this.hold();
+      this.render();
+    }
+
+    reset() {
+      this.actionVersion++;
+      this.guard.clear();
+      this.timer.cancel();
+      this.cancelledSignals = new WeakSet();
+      this.cancelAttempts = 0;
+      this.message = '';
+      this.notice?.hide();
+    }
+
+    cancel() { this.reset(); this.render(); }
+
+    get repeatSeconds() {
+      return this.guard.stopped && this.guard.reason === 'timer' &&
+        Number.isFinite(this.guard.selection) && this.guard.selection > 0 ? this.guard.selection : 0;
+    }
+
+    resume() {
+      if (!this.guard.stopped) return;
+      // Preserve the full selection before reset clears the expired session.
+      const seconds = this.repeatSeconds;
+      this.reset();
+      this.reconcile();
+      const video = this.media.video;
+      if (!video) return;
+      if (seconds) this.select(seconds);
+      // A visible episode boundary still takes precedence over a fresh countdown.
+      if (this.guard.stopped) return;
+      this.render();
+      const version = this.actionVersion;
+      const failed = () => {
+        if (version === this.actionVersion && video === this.media.video && !this.guard.stopped) {
+          this.message = app.config.messages.resumeFailed;
+          this.render();
+        }
+      };
+      try {
+        video.play()?.catch(failed);
+      } catch { failed(); }
+    }
 
     readKey() { return this.adapter.getPlaybackKey(this.context); }
 
-    select(seconds) {
-      // A menu can outlive the document/player it was opened for.
+    select(selection) {
       const key = this.readKey();
       const current = key === null ? null : this.adapter.findPlayer(this.context);
       if (!current || key !== this.key || current.video !== this.media.video) { this.reconcile(); return; }
-      this.message = '';
-      if (seconds === 0) this.timer.cancel();
-      else this.timer.start(seconds);
+      if (selection === 'episode' && !this.adapter.getEpisodeEnd) return;
+      if (selection !== 'episode' && (!Number.isFinite(selection) || selection < 0)) return;
+      this.reset();
+      if (selection !== 0) {
+        this.guard.arm(key, selection);
+        if (selection !== 'episode') this.timer.start(selection);
+        this.inspectBoundary(); // Also handles arming while the end card is already visible.
+      }
       this.render();
+    }
+
+    inspectBoundary() {
+      if (!this.guard.enabled || !this.media.video?.isConnected) return;
+      const boundary = this.adapter.getEpisodeEnd?.({ ...this.context, video: this.media.video });
+      if (!boundary) return;
+      // Stop first: Watch Credits can itself synchronously resume or replace the video.
+      this.stop('episode');
+      if (this.adapter.cancelAutoplay && boundary.cancelButton &&
+          !this.cancelledSignals.has(boundary.signal) && this.cancelAttempts < app.config.maxAutoplayCancelAttempts) {
+        this.cancelledSignals.add(boundary.signal);
+        this.cancelAttempts++;
+        try { this.adapter.cancelAutoplay(boundary); } catch { /* Pause guard remains armed. */ }
+        this.hold();
+      }
     }
 
     reconcile() {
       const key = this.readKey();
-      if (key !== this.key) {
-        this.reset();
-        this.key = key;
-        this.ui?.close();
+      if (key === null) this.reset();
+      else if (key !== this.key) {
+        if (this.guard.enabled) this.stop('transition');
+        else this.reset();
       }
+      if (key !== this.key) this.ui?.close();
+      this.key = key;
       const found = key === null ? null : this.adapter.findPlayer(this.context);
       if (!found?.video) {
-        // Missing player on the same key suspends rather than discards the timer.
         this.media.unbind();
+        this.root = null;
         this.ui?.destroy();
         this.ui = null;
+        this.notice?.hide();
         return;
       }
+      this.root = found.root ?? found.video.parentElement;
       this.media.bind(found.video);
-      if (found.mount) {
-        this.ui ??= this.createUI((seconds) => this.select(seconds));
+      this.inspectBoundary();
+      if (this.guard.stopped) this.hold();
+      // The cancel action above may have detached the previous control group.
+      if (found.mount?.container.isConnected) {
+        this.ui ??= this.createUI((selection) => this.select(selection), { episodeEnd: Boolean(this.adapter.getEpisodeEnd) });
         this.ui.mount(found.mount, this.adapter.appearance);
       } else {
         this.ui?.destroy();
@@ -78,6 +171,8 @@
 
     tick() {
       if (this.readKey() !== this.key || !this.media.video?.isConnected || ++this.cycle % app.config.reconcileEveryTicks === 0) this.reconcile();
+      this.inspectBoundary();
+      if (this.guard.stopped) this.hold();
       this.media.sync();
       this.timer.tick();
       this.render();
@@ -88,15 +183,20 @@
       this.started = true;
       this.events = new AbortController();
       this.observer = new MutationObserver((records) => {
-        if (records.every((record) => record.target.closest?.('[data-sleep-timer]'))) return;
+        if (records.every((record) => record.target.closest?.('[data-sleep-timer], [data-sleep-timer-notice]'))) return;
         if (this.reconcileTimeout !== null) return;
         this.reconcileTimeout = setTimeout(() => {
           this.reconcileTimeout = null;
           this.reconcile();
         }, app.config.mutationDelayMs);
       });
-      this.observer.observe(document.documentElement, { childList: true, subtree: true });
+      this.observer.observe(document.documentElement, { childList: true, subtree: true, attributes: true,
+        attributeFilter: ['data-uia', 'data-videoid', 'class', 'style', 'hidden', 'aria-hidden'] });
       this.interval = setInterval(() => this.tick(), app.config.tickMs);
+      // Capture play from newly-created media before the regular rebinding poll.
+      document.addEventListener('play', () => {
+        if (this.guard.enabled && (this.guard.stopped || this.readKey() !== this.key)) this.reconcile();
+      }, { capture: true, signal: this.events.signal });
       window.addEventListener('pagehide', (event) => {
         this.reset();
         this.media.setPlaying(false);
@@ -119,7 +219,10 @@
       this.events?.abort();
       this.media.unbind();
       this.ui?.destroy();
+      this.notice?.destroy();
       this.ui = null;
+      this.notice = null;
+      this.root = null;
       this.started = false;
     }
   }

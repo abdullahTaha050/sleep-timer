@@ -1,0 +1,32 @@
+{
+  "extensionDescription": { "message": "Adds a sleep timer to Netflix and HBO Max players. The countdown pauses when the video is paused." },
+  "timerName": { "message": "Sleep timer" },
+  "off": { "message": "Off" },
+  "timerOff": { "message": "Timer off" },
+  "closeMenu": { "message": "Close menu" },
+  "duration": { "message": "Duration" },
+  "minutes": { "message": "$count$ minutes", "placeholders": { "count": { "content": "$1" } } },
+  "seconds": { "message": "$count$ sec", "placeholders": { "count": { "content": "$1" } } },
+  "episodeEnd": { "message": "End of episode" },
+  "testDurations": { "message": "Test durations" },
+  "testSeconds": { "message": "Test durations in seconds" },
+  "waitingForEpisode": { "message": "Waiting for episode end" },
+  "running": { "message": "Running" },
+  "waiting": { "message": "Paused" },
+  "remaining": {
+    "message": "Remaining $time$ · $state$",
+    "placeholders": { "time": { "content": "$1" }, "state": { "content": "$2" } }
+  },
+  "timerStatus": { "message": "Sleep timer · $status$", "placeholders": { "status": { "content": "$1" } } },
+  "guardOn": { "message": "Playback protection on" },
+  "continuePlayback": { "message": "Continue" },
+  "repeatMinutes": { "message": "$count$ more minutes", "placeholders": { "count": { "content": "$1" } } },
+  "repeatSeconds": { "message": "$count$ more sec", "placeholders": { "count": { "content": "$1" } } },
+  "turnOffTimer": { "message": "Turn off timer" },
+  "expired": { "message": "Time is up" },
+  "pauseFailed": { "message": "Could not pause the video" },
+  "ended": { "message": "Video ended" },
+  "episodeStopped": { "message": "Paused at episode end" },
+  "transitionStopped": { "message": "Paused on episode change" },
+  "resumeFailed": { "message": "Could not resume playback · Use the Play button" }
+}

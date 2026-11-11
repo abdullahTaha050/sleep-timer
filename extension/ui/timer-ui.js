@@ -1,4 +1,5 @@
 (() => {
+  const { t, language } = globalThis.StreamSleepTimer.i18n;
   const MOON = '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20.2 14.3A8.5 8.5 0 0 1 9.7 3.8a8.5 8.5 0 1 0 10.5 10.5Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   const format = (ms) => {
     const seconds = Math.ceil(ms / 1000);
@@ -6,21 +7,27 @@
   };
 
   class TimerUI {
-    constructor(onSelect) {
+    constructor(onSelect, { episodeEnd = false } = {}) {
       this.host = document.createElement('span');
       this.host.dataset.sleepTimer = 'control';
-      this.host.style.cssText = 'display:inline-flex;align-items:center;flex-shrink:0;position:relative;pointer-events:auto;';
+      this.host.lang = language;
+      this.host.dir = 'ltr';
+      // Align the wrapper itself with player controls, not its synthetic text baseline.
+      // align-items only centers the trigger inside the wrapper; it cannot align the
+      // wrapper in a flex/inline control row (as seen in HBO's footer).
+      this.host.style.cssText = 'display:inline-flex;align-items:center;align-self:center;vertical-align:middle;line-height:0;flex-shrink:0;position:relative;pointer-events:auto;';
       const shadow = this.host.attachShadow({ mode: 'open' });
       const { durationSeconds, testSeconds } = globalThis.StreamSleepTimer.config;
-      const options = [[0, 'Kapalı'], ...durationSeconds.map((seconds) => [seconds, `${seconds / 60} dakika`])];
+      const options = [[0, t('off')], ...durationSeconds.map((seconds) => [seconds, t('minutes', String(seconds / 60))])];
+      if (episodeEnd) options.push(['episode', t('episodeEnd')]);
       const option = ([seconds, label], test = false) => `<label class="${test ? 'test-choice' : 'choice'}"><input type="radio" name="duration" value="${seconds}"><span class="check" aria-hidden="true">✓</span><span>${label}</span></label>`;
       shadow.innerHTML = `
         <style>${globalThis.StreamSleepTimer.uiStyles}</style>
-        <button class="trigger" type="button" title="Uyku zamanlayıcısı" aria-label="Uyku zamanlayıcısı" aria-haspopup="dialog" aria-expanded="false" aria-controls="sleep-panel">${MOON}</button>
-        <section class="panel" id="sleep-panel" popover="auto" role="dialog" aria-labelledby="sleep-heading">
-          <div class="heading"><div class="top"><h2 id="sleep-heading">Uyku zamanlayıcısı</h2><button class="close" type="button" aria-label="Menüyü kapat">×</button></div><p class="status" aria-live="off">Zamanlayıcı kapalı</p></div>
-          <div class="options" role="group" aria-label="Süre">${options.map((item) => option(item)).join('')}</div>
-          <details class="testing"><summary>Test süreleri</summary><div class="test-options" role="group" aria-label="Saniyelik test süreleri">${testSeconds.map((s) => option([s, `${s} sn`], true)).join('')}</div></details>
+        <button class="trigger" type="button" title="${t('timerName')}" aria-label="${t('timerName')}" aria-haspopup="dialog" aria-expanded="false" aria-controls="sleep-panel">${MOON}</button>
+        <section class="panel" id="sleep-panel" popover="manual" role="dialog" aria-labelledby="sleep-heading">
+          <div class="heading"><div class="top"><h2 id="sleep-heading">${t('timerName')}</h2><button class="close" type="button" aria-label="${t('closeMenu')}">×</button></div><p class="status" aria-live="off"></p></div>
+          <div class="options" role="group" aria-label="${t('duration')}">${options.map((item) => option(item)).join('')}</div>
+          <details class="testing"><summary>${t('testDurations')}</summary><div class="test-options" role="group" aria-label="${t('testSeconds')}">${testSeconds.map((s) => option([s, t('seconds', String(s))], true)).join('')}</div></details>
         </section>`;
       this.button = shadow.querySelector('.trigger');
       this.panel = shadow.querySelector('.panel');
@@ -45,12 +52,12 @@
       this.panel.addEventListener('toggle', () => this.button.setAttribute('aria-expanded', String(this.isOpen())));
       this.panel.addEventListener('change', (event) => {
         if (event.target.matches('input[name="duration"]')) {
-          onSelect(Number(event.target.value));
+          onSelect(event.target.value === 'episode' ? 'episode' : Number(event.target.value));
           this.close(true);
         }
       });
       shadow.querySelector('details').addEventListener('toggle', () => this.position());
-      // Prevent Netflix keyboard shortcuts/click handlers from also handling our UI.
+      // Prevent player keyboard shortcuts/click handlers from also handling our UI.
       for (const event of ['click', 'dblclick', 'pointerdown', 'pointerup', 'keyup']) {
         this.host.addEventListener(event, (e) => e.stopPropagation());
       }
@@ -58,6 +65,26 @@
         event.stopPropagation();
         if (event.key === 'Escape') { event.preventDefault(); this.close(true); }
       });
+      // Keep the menu open through pointer/mouse down and up so the entire
+      // dismissing click is consumed before any player handler can receive it.
+      // Manual popover mode avoids native light-dismiss closing it too early.
+      this.outsideEvents = ['pointerdown', 'pointerup', 'mousedown', 'mouseup', 'click'];
+      this.onOutsideInteraction = (event) => {
+        if (!this.isOpen() || event.composedPath().includes(this.host)) return;
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        if (event.type === 'click') this.close(true);
+      };
+      this.onEscape = (event) => {
+        if (!this.isOpen() || event.key !== 'Escape') return;
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        this.close(true);
+      };
+      for (const name of this.outsideEvents) {
+        window.addEventListener(name, this.onOutsideInteraction, { capture: true, passive: false });
+      }
+      window.addEventListener('keydown', this.onEscape, true);
       this.resize = () => this.position();
       window.addEventListener('resize', this.resize);
       document.addEventListener('fullscreenchange', this.resize);
@@ -75,14 +102,18 @@
     }
 
     render(state, message = '') {
-      const selected = state.active ? state.durationMs / 1000 : 0;
-      for (const input of this.inputs) input.checked = Number(input.value) === selected;
-      const status = state.active
-        ? `Kalan ${format(state.remainingMs)} · ${state.playing ? 'Çalışıyor' : 'Bekliyor'}`
-        : message || 'Zamanlayıcı kapalı';
+      const selected = state.guarding ? (state.stopped ? 'stopped' : state.selection) : 0;
+      for (const input of this.inputs) input.checked = input.value === String(selected);
+      const status = state.stopped ? message
+        : state.guarding && state.selection === 'episode' ? t('waitingForEpisode')
+        : state.active
+        ? t('remaining', [format(state.remainingMs), state.playing ? t('running') : t('waiting')])
+        : message || t('timerOff');
       if (this.status.textContent !== status) this.status.textContent = status;
-      this.button.dataset.active = String(state.active);
-      const title = state.active ? `Uyku zamanlayıcısı · ${format(state.remainingMs)}` : 'Uyku zamanlayıcısı';
+      this.button.dataset.active = String(Boolean(state.guarding));
+      const title = state.stopped ? t('timerStatus', t('guardOn'))
+        : state.guarding && state.selection === 'episode' ? t('timerStatus', t('episodeEnd'))
+        : state.active ? t('timerStatus', format(state.remainingMs)) : t('timerName');
       if (this.button.title !== title) {
         this.button.title = title;
         this.button.setAttribute('aria-label', title);
@@ -105,6 +136,8 @@
 
     destroy() {
       this.close();
+      for (const name of this.outsideEvents) window.removeEventListener(name, this.onOutsideInteraction, true);
+      window.removeEventListener('keydown', this.onEscape, true);
       window.removeEventListener('resize', this.resize);
       document.removeEventListener('fullscreenchange', this.resize);
       this.host.remove();
