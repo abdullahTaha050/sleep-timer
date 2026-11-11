@@ -20,6 +20,8 @@
   "timerStatus": { "message": "Sleep timer · $status$", "placeholders": { "status": { "content": "$1" } } },
   "guardOn": { "message": "Playback protection on" },
   "continuePlayback": { "message": "Continue" },
+  "repeatMinutes": { "message": "$count$ more minutes", "placeholders": { "count": { "content": "$1" } } },
+  "repeatSeconds": { "message": "$count$ more sec", "placeholders": { "count": { "content": "$1" } } },
   "turnOffTimer": { "message": "Turn off timer" },
   "expired": { "message": "Time is up" },
   "pauseFailed": { "message": "Could not pause the video" },

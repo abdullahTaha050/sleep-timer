@@ -27,7 +27,7 @@ Resmî yükleme açıklaması: https://developer.chrome.com/docs/extensions/get-
 - Oynatma devam ettiğinde sayaç kaldığı süreden devam eder.
 - Süre, oynatma sırasında geçen gerçek zamandır. Örneğin 2× hızda 10 dakika seçmek yaklaşık 10 dakika oynatmayı sayar; video zaman çizgisindeki 20 dakikayı. İleri/geri sarma kalan süreyi doğrudan değiştirmez.
 - Kalan süre menüde görünür; butondaki küçük yeşil nokta aktif zamanlayıcıyı belirtir.
-- Durdurulduğunda küçük bir bildirim görünür. **Devam et** korumayı kaldırıp oynatır; **Zamanlayıcıyı kapat** yalnızca korumayı kaldırır, videoyu başlatmaz. Kapalı seçimi de iptal eder. Başka süre seçmek yeni bir zamanlayıcı kurar.
+- Durdurulduğunda iki butonlu küçük bir bildirim görünür. Süre dolduğunda soldaki mavi buton seçilen süreyi gösterir (ör. **10 dakika daha**): bildirimi kapatır, videoyu oynatır ve aynı süreyi baştan başlatır. Bölüm sonu, video bitişi veya bölüm değişiminde **Devam et** korumayı kaldırıp zamanlayıcı kurmadan oynatır. **Zamanlayıcıyı kapat** yalnızca korumayı kaldırır, videoyu başlatmaz. Kapalı seçimi de iptal eder. Başka süre seçmek yeni bir zamanlayıcı kurar.
 - Kontrol çubuğu yeniden oluşturulduğunda aynı videonun sayacı korunur.
 - Koruma açıkken aynı sayfa oturumunda başka bölüme geçilirse yeni video da duraklatılır. Kullanıcının manuel bölüm değiştirmesi de bu kurala dahildir; serbestçe devam etmek için önce korumayı kapatın.
 - Sayfa yenilenince veya izleme sayfasından çıkılınca koruma sıfırlanır. Sekmeler bağımsızdır.
@@ -38,7 +38,7 @@ Destek, paylaşılan HTML'deki `www.hbomax.com/video/watch/<kimlik>` oynatıcıs
 
 1. `chrome://extensions` üzerinden eklentiyi yeniden yükleyin, istenirse yeni HBO site erişimini etkinleştirin; HBO sekmesini yenileyin.
 2. Video oynarken **Test süreleri → 10 sn** seçin; süre bitince video durmalı. Birkaç saniye sonra duraklatıp bekleyin; kalan süre sabit kalmalı ve oynatınca devam etmeli.
-3. **Kapalı**, **Devam et** ve **Zamanlayıcıyı kapat** eylemlerini deneyin. Devam et oynatır; diğerleri oynatmayı başlatmaz.
+3. Süre dolunca soldaki **10 sn daha** butonuna basın: bildirim kapanmalı, video oynamalı ve 10 saniye baştan sayılmalı. İkinci kez dolduğunda yine tekrarlanabilmeli. **Kapalı** ve **Zamanlayıcıyı kapat** oynatmayı başlatmamalı.
 4. Normal/tam ekran görünümünü, menüyü, kontrollerin gizlenip dönmesini ve tek ay butonu kalmasını kontrol edin.
 5. Sayaç açıkken başka bölüme geçin; aynı sayfa oturumundaki yeni video duraklatılmalı. Ana sayfaya çıkıp geri dönünce sayaç kapalı olmalı.
 
@@ -84,7 +84,7 @@ Yerel demo: `http://127.0.0.1:8765/watch/100`
 
 Tarayıcı entegrasyon testi: `http://127.0.0.1:8765/watch/100?test=1`
 
-`npm test`: 48 test; 22 HBO testi dahil. Bölüm sonu testleri görünür/gizli kartları, süre üst sınırını, yeni videoda korumayı ve Devam et/Kapalı eylemlerini kapsar.
+`npm test`: 79 test. Bölüm sonu testleri görünür/gizli kartları, süre üst sınırını, yeni videoda korumayı ve Devam et/Kapalı eylemlerini kapsar. Süreyi tekrar başlatma testleri her iki platformda son seçimin korunmasını, art arda tekrarları, duraklatmayı, oynatma hatalarını ve oynatıcı yenilenmesini kapsar.
 
 Demo, yerel canvas görüntüsünü MediaStream olarak bir video elemanında oynatır. Otomatik test sayfası ise medya olaylarını ve saati denetimli şekilde simüle eder. Hiçbiri Netflix veya HBO Max'e bağlanmaz. DOM testlerinde kullanılan Happy DOM bağımlılığı eklenti ZIP'ine dahil edilmez; bu testler gerçek tarayıcı düzenini veya DRM oynatmasını doğrulamaz.
 

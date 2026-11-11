@@ -34,7 +34,8 @@ Kalıcı ürün adı ve mağaza markası henüz seçilmedi. Aşağıdaki MVP uyg
 - Netflix örneğinde watch-credits-seamless-button (Jeneriği İzle) ve next-episode-seamless-button-draining bulunur. Normal control-next ile karıştırma; gizli kontrolleri tetikleyici sayma.
 - Önce durdurma koruması etkinleşir, sonra Jeneriği İzle ile otomatik geçişi iptal etme girişimi yapılır. Statik HTML, bu tıklamanın gerçek Netflix geri sayımını iptal ettiğini kanıtlamaz.
 - Koruma etkinken yeni bölüm açılırsa veya oynatma yeniden başlarsa video tekrar duraklatılır. Manuel bölüm değiştirme de korumaya takılır; açık Devam et veya Kapalı ile kullanıcı korumayı kaldırır.
-- Devam et korumayı kaldırıp oynatır. Zamanlayıcıyı kapat / Kapalı yalnızca korumayı kaldırır; oynatmayı başlatmaz.
+- Süre dolduğunda mevcut soldaki mavi buton (yeni buton eklemeden) son seçilen tam süreyi baştan başlatır, bildirimi kapatır ve oynatmayı sürdürür. Buton seçilen süreyi gösterir: ör. “10 dakika daha” / “5 sn daha”; İngilizce karşılıkları da vardır. Her doluşta tekrar kullanılabilir. Yeniden başlatılan süre duraklatma ve bölüm sonu kurallarına tabidir.
+- Bölüm sonu, doğal bitiş ve bölüm değişiminde Devam et korumayı kaldırıp zamanlayıcı kurmadan oynatır. Zamanlayıcıyı kapat / Kapalı yalnızca korumayı kaldırır; oynatmayı başlatmaz.
 - İptal tıklaması sinyal başına bir, koruma oturumu başına en fazla üç kez denenir. Başarısızlıkta duraklatma koruması sürer.
 - Yeni bölümün hiçbir karesinin başlamayacağı veya izleme ilerlemesinin hiç değişmeyeceği garantisi verme. Koruma sayfa belleğindedir; tam sayfa yenilemede ve izleme sayfasından çıkışta temizlenir.
 
@@ -79,7 +80,7 @@ Kalıcı ürün adı ve mağaza markası henüz seçilmedi. Aşağıdaki MVP uyg
 
 - Kullanıcı Apple'ın web sitesini tasarım referansı seçti: kısa metinler, belirgin tipografi, ferah boşluklar, sade yüzeyler ve net eylem hiyerarşisi. Referans: https://www.apple.com/ . Apple markasını veya varlıklarını kopyalama.
 - Bölüm sonu panelinde tek bir durum başlığı ve iki eylem yeterlidir. Tekrarlayan açıklama, teknik koruma mesajı, pazarlama cümlesi veya ek etiket ekleme. Hata varsa kullanıcının ne yapacağını belirten gerekli yönlendirmeyi koru.
-- Birincil eylem “Devam et”; ikincil eylem “Zamanlayıcıyı kapat”. İkinci eylemi belirsiz bir çarpı ikonuna indirgeme; kapatmak oynatmayı başlatmaz.
+- Birincil eylem süre dolduğunda seçilen süreyi tekrar başlatır (ör. “10 dakika daha”), diğer durdurmalarda “Devam et”tir; ikincil eylem “Zamanlayıcıyı kapat”. Kullanıcı 11 Kasım 2026'da yeni buton eklenmemesini, mevcut soldaki mavi butonun kullanılmasını açıkça istedi. İkinci eylemi belirsiz bir çarpı ikonuna indirgeme; kapatmak oynatmayı başlatmaz.
 - Panel kullanıcının sistem/tarayıcı renk tercihini `prefers-color-scheme` ile izler; tercih değişince açık/koyu renkler yenilenir. Netflix sayfasının koyu arka planını kullanıcının tema tercihi sayma.
 - Mevcut uygulama ölçüleri başlangıç noktasıdır: 400 px azami genişlik, 24 px iç boşluk ve köşe yarıçapı, 20 px yarı kalın başlık, 44 px asgari buton yüksekliği. Dar alanda eylemler alt alta geçer; metin ve panel taşmaz.
 - Yerel sistem yazı tipleri, nötr yüzeyler ve tek bir mavi birincil eylem rengi kullan. Dikkat dağıtan gradyan, parlama, ağır çerçeve veya gereksiz animasyon ekleme; gölgeyi yüzeyi ayıracak kadar tut.

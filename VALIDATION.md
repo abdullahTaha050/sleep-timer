@@ -2,6 +2,12 @@
 
 11 Kasım 2026
 
+## Süreyi yeniden başlatma
+
+- Yeni buton eklenmedi; mevcut soldaki mavi buton süre dolduğunda seçilen dakika/saniyeyi gösterip aynı süreyi baştan başlatır, bildirimi kapatır ve oynatmayı dener. Diğer durdurma nedenlerinde Devam et davranışı korunur.
+- `npm test`: **79 test, 0 hata**. 16 yeni test; iki platformda son seçimi, art arda tekrarları, bekleme/duraklatma süresini, ikinci kez durmayı, kapatmayı, kontrol/video yenilenmesini, senkron/asenkron oynatma hatalarını, eski hata yanıtlarını, sayfadan çıkışı ve bölüm sonu sınırını kapsar. Türkçe/İngilizce buton metinleri de doğrulandı.
+- Bunlar yerel DOM ve medya simülasyonlarıdır. Canlı Netflix/HBO, görsel yerleşim ve tam ekran doğrulanmadı; tarayıcı erişimi denenmedi.
+
 ## Türkçe / İngilizce arayüz
 
 - `npm test`: **63 test, 0 hata**. 10 yeni test; Türkçe ve İngilizce bölgesel dil kodları, desteklenmeyen dillerde İngilizce, menü/durum/bildirim/erişilebilirlik metinleri ve çeviri yer tutucularını kapsar.

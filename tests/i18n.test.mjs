@@ -34,14 +34,20 @@ for (const locale of ['tr', 'tr-TR', 'en', 'en-US', 'en-GB', 'de-DE', 'ar']) {
       notice = new app.StopNotice({ onContinue: () => continues++, onCancel: () => cancels++ });
       notice.show(window.document.body, app.config.messages.expired);
       assert.equal(notice.host.lang, tr ? 'tr' : 'en');
-      assert.equal(notice.message.textContent, tr ? 'Süre doldu' : 'Time is up');
+      assert.equal(notice.message.textContent, tr ? 'Süre doldu.' : 'Time is up');
       const buttons = notice.host.shadowRoot.querySelectorAll('button');
       assert.deepEqual(Array.from(buttons, (button) => button.textContent),
         tr ? ['Devam et', 'Zamanlayıcıyı kapat'] : ['Continue', 'Turn off timer']);
       buttons[0].click(); buttons[1].click();
       assert.equal(continues, 1); assert.equal(cancels, 1);
+      notice.show(window.document.body, app.config.messages.expired, 300);
+      assert.equal(buttons[0].textContent, tr ? '5 dakika daha' : '5 more minutes');
+      notice.show(window.document.body, app.config.messages.expired, 5);
+      assert.equal(buttons[0].textContent, tr ? '5 sn daha' : '5 more sec');
+      notice.show(window.document.body, app.config.messages.episode);
+      assert.equal(buttons[0].textContent, tr ? 'Devam et' : 'Continue');
       assert.deepEqual({ ...app.config.messages }, tr ? {
-        expired: 'Süre doldu', pauseFailed: 'Video duraklatılamadı', ended: 'Video bitti',
+        expired: 'Süre doldu.', pauseFailed: 'Video duraklatılamadı', ended: 'Video bitti',
         episode: 'Bölüm sonunda durduruldu', transition: 'Bölüm değişiminde durduruldu',
         resumeFailed: 'Oynatma başlatılamadı · Oynat düğmesini kullanın',
       } : {
@@ -102,7 +108,7 @@ for (const platform of ['netflix', 'hbo']) {
       assert.equal(controller.notice.message.textContent, 'Time is up');
       controller.notice.host.shadowRoot.querySelector('.continue').click();
       assert.equal(video.paused, false);
-      assert.equal(controller.ui.status.textContent, 'Timer off');
+      assert.equal(controller.ui.status.textContent, 'Remaining 00:05 · Running');
     } finally { controller?.destroy(); await window.happyDOM.close(); }
   });
 }

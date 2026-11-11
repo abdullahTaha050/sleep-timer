@@ -18,6 +18,7 @@
       this.guard = new app.PlaybackGuard();
       this.cancelledSignals = new WeakSet();
       this.cancelAttempts = 0;
+      this.actionVersion = 0;
       this.timer = new app.PlaybackTimer({ onExpire: () => this.stop('timer') });
       this.media = new app.MediaBinding({
         onPlaybackChange: (playing) => {
@@ -36,7 +37,7 @@
         stopped: this.guard.stopped, selection: this.guard.selection }, this.message);
       if (this.guard.stopped && this.root?.isConnected) {
         this.notice ??= new app.StopNotice({ onContinue: () => this.resume(), onCancel: () => this.cancel() });
-        this.notice.show(this.root, this.message);
+        this.notice.show(this.root, this.message, this.repeatSeconds);
       } else this.notice?.hide();
     }
 
@@ -63,6 +64,7 @@
     }
 
     reset() {
+      this.actionVersion++;
       this.guard.clear();
       this.timer.cancel();
       this.cancelledSignals = new WeakSet();
@@ -73,17 +75,33 @@
 
     cancel() { this.reset(); this.render(); }
 
+    get repeatSeconds() {
+      return this.guard.stopped && this.guard.reason === 'timer' &&
+        Number.isFinite(this.guard.selection) && this.guard.selection > 0 ? this.guard.selection : 0;
+    }
+
     resume() {
-      // Only this explicit action releases the protection and initiates playback.
-      const key = this.readKey();
-      const video = key === null ? null : this.adapter.findPlayer(this.context)?.video;
+      if (!this.guard.stopped) return;
+      // Preserve the full selection before reset clears the expired session.
+      const seconds = this.repeatSeconds;
       this.reset();
+      this.reconcile();
+      const video = this.media.video;
+      if (!video) return;
+      if (seconds) this.select(seconds);
+      // A visible episode boundary still takes precedence over a fresh countdown.
+      if (this.guard.stopped) return;
       this.render();
+      const version = this.actionVersion;
+      const failed = () => {
+        if (version === this.actionVersion && video === this.media.video && !this.guard.stopped) {
+          this.message = app.config.messages.resumeFailed;
+          this.render();
+        }
+      };
       try {
-        video?.play()?.catch(() => {
-          if (!this.guard.enabled) { this.message = app.config.messages.resumeFailed; this.render(); }
-        });
-      } catch { this.message = app.config.messages.resumeFailed; this.render(); }
+        video.play()?.catch(failed);
+      } catch { failed(); }
     }
 
     readKey() { return this.adapter.getPlaybackKey(this.context); }

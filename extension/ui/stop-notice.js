@@ -76,16 +76,21 @@
         </section>`;
       this.panel = shadow.querySelector('.notice');
       this.message = shadow.querySelector('p');
-      shadow.querySelector('.continue').addEventListener('click', onContinue);
+      this.continueButton = shadow.querySelector('.continue');
+      this.continueButton.addEventListener('click', onContinue);
       shadow.querySelector('.cancel').addEventListener('click', onCancel);
       for (const name of ['click', 'dblclick', 'pointerdown', 'pointerup', 'keydown', 'keyup']) {
         this.host.addEventListener(name, (event) => event.stopPropagation());
       }
     }
-    show(container, message) {
+    show(container, message, repeatSeconds = 0) {
       if (!container?.isConnected) return this.hide();
       if (this.host.parentElement !== container) { this.hide(); container.append(this.host); }
       if (this.message.textContent !== message) this.message.textContent = message;
+      const label = repeatSeconds > 0
+        ? t(repeatSeconds % 60 === 0 ? 'repeatMinutes' : 'repeatSeconds', String(repeatSeconds % 60 === 0 ? repeatSeconds / 60 : repeatSeconds))
+        : t('continuePlayback');
+      if (this.continueButton.textContent !== label) this.continueButton.textContent = label;
       if (!this.panel.matches(':popover-open')) this.panel.showPopover();
     }
     hide() { if (this.panel.matches(':popover-open')) this.panel.hidePopover(); }

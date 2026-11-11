@@ -27,7 +27,7 @@ Video olayları `media-binding` üzerinden sayacı günceller. Süre bittiğinde
 
 0.2.0'da controller, süre dolduğunda, bölüm sonu sinyali geldiğinde, doğal video bitişinde veya koruma etkinken video kimliği değiştiğinde guard'ı durdurulmuş duruma geçirir. Yeniden oynatma olaylarında ve periyodik kontrollerde video duraklatılır. Yeni video elemanının `play` olayı capture aşamasında da izlenir. Netflix'e ait seçiciler yalnızca adaptörde bulunur.
 
-Guard, iptal kontrolüne basılmadan önce etkinleştirilir; iptal tıklaması videoyu yeniden oynatırsa koruma zaten aktiftir. Bir sinyal için bir, bir koruma oturumunda en fazla üç iptal tıklaması denenir. Durdurma bildiriminin Devam et eylemi önce korumayı kaldırır, sonra kullanıcı etkileşimi içinde oynatmayı başlatır. Kapalı eylemi oynatmaz.
+Guard, iptal kontrolüne basılmadan önce etkinleştirilir; iptal tıklaması videoyu yeniden oynatırsa koruma zaten aktiftir. Bir sinyal için bir, bir koruma oturumunda en fazla üç iptal tıklaması denenir. Durdurma bildiriminin soldaki eylemi süre dolmasında `guard.selection` içindeki tam süreyi yeniden kurar, bildirimi kapatıp oynatmayı başlatır. Diğer durdurma nedenlerinde Devam et korumayı kaldırıp zamanlayıcı kurmadan oynatır. Yeniden kurulan süre de bölüm sonuyla sınırlıdır. Oynatma reddedilirse sayaç bekler; eski oynatma isteğinin geç reddi yeni seçimin mesajını değiştirmez. Kapalı eylemi oynatmaz.
 
 Chrome içerik betikleri `manifest.json` sırasıyla yüklenir. Modüller içerik betiğinin izole dünyasındaki tek `StreamSleepTimer` ad alanını paylaşır; siteye bir global API açılmaz. Eklentiyi çalıştırmak için derleme veya üçüncü taraf çalışma zamanı bağımlılığı gerekmez.
 

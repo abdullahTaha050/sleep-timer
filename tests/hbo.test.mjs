@@ -366,14 +366,15 @@ test('HBO natural video end arms the shared stop guard before the duration runs 
   } finally { await s.close(); }
 });
 
-test('HBO Continue plays, while cancel and Off release the guard without starting playback', async () => {
+test('HBO repeat plays with a fresh timer, while cancel and Off do not start playback', async () => {
   const s = await setup();
   try {
     s.video.play(); s.controller.select(5); s.advance(5000);
     const notice = s.document.querySelector('[data-sleep-timer-notice]').shadowRoot;
     notice.querySelector('.continue').click();
     assert.equal(s.video.paused, false);
-    assert.equal(s.controller.guard.enabled, false);
+    assert.equal(s.controller.guard.state, 'armed');
+    assert.equal(s.controller.timer.remainingMs, 5000);
     s.controller.select(5); s.advance(5000);
     notice.querySelector('.cancel').click();
     assert.equal(s.video.paused, true);
