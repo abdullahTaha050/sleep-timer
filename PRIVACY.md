@@ -1,4 +1,4 @@
-# Gizlilik — Sleep Timer 0.4.0
+# Gizlilik Politikası — Sleep Timer
 
 Güncelleme: 11 Kasım 2026
 
@@ -26,4 +26,13 @@ Zamanlayıcı ve arayüz durumu yalnızca mevcut sayfanın belleğinde tutulur. 
 
 Menüdeki **Kapalı** ile zamanlayıcı iptal edilir. Chrome'un eklenti yönetiminden eklenti devre dışı bırakılabilir veya kaldırılabilir. Yüklü betiğin mevcut sayfadan temizlenmesi için ilgili platform sekmesini yenileyin.
 
-Bu metin kaynakla birlikte sunulmuştur. Mağaza yayınından önce proje sahibinin güncel iletişim bağlantısı eklenmeli ve metin herkese açık bir URL'de yayımlanmalıdır.
+
+## İletişim
+
+Sleep Timer ücretsiz ve açık kaynaklı bir projedir.
+
+Gizlilik politikasıyla ilgili sorularınız, önerileriniz
+veya sorun bildirimleriniz için GitHub üzerinden
+bizimle iletişime geçebilirsiniz:
+
+https://github.com/abdullahTaha050/sleep-timer/issues
