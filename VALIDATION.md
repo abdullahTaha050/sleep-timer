@@ -1,4 +1,12 @@
-# Doğrulama kaydı — 0.4.0
+# Doğrulama kaydı
+
+## Yerel test süreleri / yayın paketi — 13 Kasım 2026, 0.4.2
+
+- `npm test`: **80 test, 0 hata**. Yeni paket testi gerçek paketleme betiğini geçici klasörde çalıştırır; yayın ZIP'indeki betiklerle Türkçe ve İngilizce menüyü oluşturur. Test bölümü ve 5/10/30 saniye seçenekleri yoktur; dakika seçimi, menünün açılıp kapanması ve bölüm sonu seçeneği korunur.
+- Yerel eklenti ve kaynak ZIP'inde test süreleri kalır. Paketleme yerel ayar dosyasını değiştirmez; iki ZIP'e de `node_modules` girmez. `npm run package` yayın ve kaynak paketlerini üretir.
+- Doğrulama yerel DOM simülasyonu ve ZIP içerik kontrolüdür; gerçek Chrome Web Store kurulumu veya canlı Netflix/HBO testi yapılmadı.
+
+## Önceki kayıtlar — 0.4.0
 
 11 Kasım 2026
 

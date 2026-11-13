@@ -18,6 +18,7 @@
       ],
       "js": [
         "shared/i18n.js",
+        "shared/build.js",
         "shared/config.js",
         "core/timer.js",
         "core/playback-guard.js",

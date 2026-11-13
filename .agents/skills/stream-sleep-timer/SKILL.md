@@ -50,7 +50,7 @@ Kalıcı ürün adı ve mağaza markası henüz seçilmedi. Aşağıdaki MVP uyg
 - Çalışma adı Sleep Timer; Türkçe menü.
 - Video oynatılırken geçen gerçek süre sayılır; oynatma hızının değiştirilmesi veya ileri/geri sarma kalan süreyi doğrudan değiştirmez. Duraklatma, yükleme beklemesi ve sarma sırasında sayaç bekler.
 - Sayfa yenileme ve izleme sayfasından çıkma sayacı ve korumayı temizler. Video bitişi ve koruma etkinken başka videoya geçiş durdurma korumasını etkinleştirir. Kontrol çubuğunun yeniden oluşturulması sayacı iptal etmez.
-- Saniyelik 5/10/30 seçenekleri menüde ayrı bir Test süreleri bölümündedir.
+- Saniyelik 5/10/30 seçenekleri yalnızca yerel geliştirme sürümünde ayrı bir Test süreleri bölümündedir. Kullanıcı 13 Kasım 2026'da mağaza sürümünde görünmemesini istedi. `shared/build.js` yerelde açık, `npm run package` ile üretilen eklenti ZIP'inde kapalıdır; kaynak ZIP'i geliştirme ayarını korur. Bölüm yayın sürümünde DOM'a eklenmez. Yerel kaynak dosyası paketleme sırasında değiştirilmez.
 - 0.2.0, görünür bölüm sonu sinyalini süreye üst sınır olarak uygular; sayısal bitiş süresi tahmin etmez. Gerçek Netflix geri sayım iptali henüz canlı doğrulanmadı.
 
 ## Netflix uyarlaması ve doğrulama
