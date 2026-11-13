@@ -16,8 +16,8 @@ Eklentinin ortak davranışı `core/` ve `ui/` içinde; siteye özgü bilgi `ada
 | `extension/ui/stop-notice.js` | Kontroller kaybolsa da erişilebilen durdurma bildirimi, Devam et ve korumayı kapatma. |
 | `extension/ui/styles.js` | Ortak görünüm. İkon ve buton boyutları `rem` tabanlı CSS değişkenleriyle yönetilir. |
 | `extension/shared/config.js` | Dakika/saniye seçenekleri, zamanlama aralıkları ve çevrilmiş controller durum mesajları. |
-| `extension/shared/i18n.js` | Chrome i18n API erişimi ve bileşenlerin dil etiketi; config ve UI'dan önce yüklenir. |
-| `extension/_locales/{en,tr}/messages.json` | Menü, bildirim, erişilebilirlik ve manifest çevirileri. Varsayılan dil İngilizcedir; çalışma zamanında ağ isteği veya harici kütüphane gerekmez. |
+| `extension/shared/i18n.js` | Chrome i18n API erişimi; seçilen kataloğun dil etiketi, RTL yönü ve dinamik değerlerin yön izolasyonu. Config ve UI'dan önce yüklenir. |
+| `extension/_locales/*/messages.json` | 23 dil/bölge için menü, bildirim, erişilebilirlik ve manifest çevirileri. Varsayılan dil İngilizcedir; çalışma zamanında ağ isteği veya harici kütüphane gerekmez. `languageCode` kataloğun BCP 47 dil etiketidir. |
 
 ## Akış
 

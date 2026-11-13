@@ -25,6 +25,12 @@ Buton yerleşimi, tek örnek kalması, oynatıcının yeniden oluşturulması, t
 
 Bölüm sonu için adaptörde `getEpisodeEnd` ve varsa `cancelAutoplay` sağlayın; görünür bölüm sonu işaretini, sıradan ileri/sonraki bölüm düğmesinden ayırın. Ortak guard ve durdurma bildirimini tekrar yazmayın. İptal kontrolü videoyu yeniden oynatsa veya yeni bölüm başlatsa da guard'ın sürmesini, gizli kartların tetiklememesini, tekrarların sınırlı kalmasını ve Devam et eyleminin korumayı kaldırmasını test edin.
 
+## Çeviri katkıları
+
+Çeviriler `extension/_locales/<locale>/messages.json` dosyalarındadır. İngilizce katalogdaki tüm anahtarları koruyun; `$count$`, `$time$`, `$state$`, `$status$` yer tutucularını ve `placeholders` tanımlarını değiştirmeyin. `languageCode` metin değil, kataloğun BCP 47 kodudur (ör. `pt-BR`, `zh-TW`). Çevirilere HTML eklemeyin; uzun metinleri dar menü ve bildirim alanlarına uygun tutun. Çokluk kuralları farklı dillerde, mevcut süre seçeneklerinin tümüyle doğru çalışan ifadeler veya yerel birim kısaltmaları kullanın.
+
+Yeni bir dil eklenirse test/demo dil listesi ve i18n testlerini de güncelleyin. `npm test` katalog bütünlüğünü, dil yönünü, bildirimleri ve yayın paketini denetler. Bu testler, ana dili konuşan birinin metin incelemesinin ve gerçek tarayıcıda görsel kontrolün yerini tutmaz. Doğrulamanın kapsamını PR'da belirtin.
+
 ## Ürün kararları
 
 `.agents/skills/stream-sleep-timer/SKILL.md` dosyasındaki kesinleşmiş kararları ve ertelenmiş kapsamı okuyun. 0.4.0 Netflix ve HBO Max bölüm sonu algılamasını içerir. HBO geri sayım iptal kontrolü henüz gözlenmedi; Sonraki Bölüm düğmesine basılmaz, ortak durdurma koruması kullanılır. Özel süre girişi, Prime Video ve Disney+ henüz uygulanmamıştır.

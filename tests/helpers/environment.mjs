@@ -1,10 +1,12 @@
-import { readFile } from 'node:fs/promises';
+import { readFile, readdir } from 'node:fs/promises';
 import { Window } from 'happy-dom';
 import { createI18n } from './i18n.mjs';
 
 const base = new URL('../../', import.meta.url);
 export const read = (relative) => readFile(new URL(relative, base), 'utf8');
-const catalogs = Object.fromEntries(await Promise.all(['en', 'tr'].map(async (locale) =>
+export const locales = (await readdir(new URL('extension/_locales/', base), { withFileTypes: true }))
+  .filter((entry) => entry.isDirectory()).map((entry) => entry.name).sort();
+export const catalogs = Object.fromEntries(await Promise.all(locales.map(async (locale) =>
   [locale, JSON.parse(await read(`extension/_locales/${locale}/messages.json`))])));
 
 export function environment(url, language = 'tr-TR') {

@@ -28,5 +28,6 @@
   "ended": { "message": "Video bitti" },
   "episodeStopped": { "message": "Bölüm sonunda durduruldu" },
   "transitionStopped": { "message": "Bölüm değişiminde durduruldu" },
-  "resumeFailed": { "message": "Oynatma başlatılamadı · Oynat düğmesini kullanın" }
+  "resumeFailed": { "message": "Oynatma başlatılamadı · Oynat düğmesini kullanın" },
+  "languageCode": {"message": "tr", "description": "BCP 47 code of this translation. Used for accessibility and text direction; do not translate."}
 }

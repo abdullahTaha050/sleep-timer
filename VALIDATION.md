@@ -1,5 +1,12 @@
 # Doğrulama kaydı
 
+## 23 dil / bölge desteği — 13 Kasım 2026
+
+- Görseldeki 23 dil/bölge için 27 kullanıcı metni ve katalog dil etiketi tamamlandı. Türkçe ve İngilizce korunarak 21 katalog eklendi; Portekizce ve Çince bölgesel varyantları ayrıdır.
+- `npm test`: **115 test, 0 hata**. Katalog anahtarları ve yer tutucuları, açıklama uzunluğu, bölgesel katalog/temel dil/İngilizce seçimi, menü/bildirim metinleri, erişilebilirlik etiketleri ve tekrar butonu kontrol edildi. Arapça, Farsça, İbranice ve Urduca için `dir=rtl` ve sayısal sürelerin yön izolasyonu doğrulandı.
+- Paket testi 23 kataloğun gerçek yayın ZIP'ine eksiksiz girdiğini ve tüm dillerde test sürelerinin gizli kaldığını doğrular. Yerel sürümde test süreleri korunur. `npm run package` dağıtım paketlerini üretir.
+- Testler Chrome i18n API taklidi ve Happy DOM kullanır. Gerçek Chrome dil seçimi, görsel yerleşim, tam ekran ve canlı Netflix/HBO testi yapılmadı. Çeviriler ana dili konuşan editörlerce ayrıca incelenmedi.
+
 ## Yerel test süreleri / yayın paketi — 13 Kasım 2026, 0.4.2
 
 - `npm test`: **80 test, 0 hata**. Yeni paket testi gerçek paketleme betiğini geçici klasörde çalıştırır; yayın ZIP'indeki betiklerle Türkçe ve İngilizce menüyü oluşturur. Test bölümü ve 5/10/30 saniye seçenekleri yoktur; dakika seçimi, menünün açılıp kapanması ve bölüm sonu seçeneği korunur.

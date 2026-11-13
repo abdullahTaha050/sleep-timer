@@ -17,7 +17,7 @@ Resmî yükleme açıklaması: https://developer.chrome.com/docs/extensions/get-
 
 ## Davranış
 
-- Menü, bildirimler, erişilebilirlik etiketleri ve eklenti açıklaması Chrome arayüz dilini izler: Türkçe için Türkçe, diğer diller için İngilizce. Netflix/HBO profil dili bu seçimi değiştirmez. Tarayıcı dilini değiştirdikten sonra gerekiyorsa Chrome'u yeniden başlatın ve izleme sekmesini yenileyin.
+- Menü, bildirimler, erişilebilirlik etiketleri ve eklenti açıklaması Chrome arayüz dilini izler; 23 dil/bölge çevirisi bulunur. Eşleşmeyen diller İngilizceye döner. Netflix/HBO profil dili bu seçimi değiştirmez. Tarayıcı dilini değiştirdikten sonra gerekiyorsa Chrome'u yeniden başlatın ve izleme sekmesini yenileyin.
 - Süre seçenekleri: Kapalı, 10, 15, 20, 30, 45 ve 60 dakika; her iki platformda ayrıca **Bölüm sonunda**.
 - Yalnızca yerel geliştirme sürümünde **Test süreleri** bölümünde 5, 10 ve 30 saniye seçenekleri bulunur. Yayın paketinde bu bölüm oluşturulmaz.
 - **Bölüm sonunda**, platformun görünür bölüm sonu geçiş ekranı algılandığında durdurur. Dosyanın son saniyesini veya sabit bir jenerik süresini beklemez.
@@ -31,6 +31,14 @@ Resmî yükleme açıklaması: https://developer.chrome.com/docs/extensions/get-
 - Kontrol çubuğu yeniden oluşturulduğunda aynı videonun sayacı korunur.
 - Koruma açıkken aynı sayfa oturumunda başka bölüme geçilirse yeni video da duraklatılır. Kullanıcının manuel bölüm değiştirmesi de bu kurala dahildir; serbestçe devam etmek için önce korumayı kapatın.
 - Sayfa yenilenince veya izleme sayfasından çıkılınca koruma sıfırlanır. Sekmeler bağımsızdır.
+
+## Desteklenen diller
+
+Almanca, İngilizce, Endonezce, Malayca, Vietnamca, Türkçe, İspanyolca, Fransızca, İtalyanca, Lehçe, Portekizce (Brezilya), Portekizce (Portekiz), Rusça, İbranice, Urduca, Arapça, Farsça, Hintçe, Tayca, Basitleştirilmiş Çince (Çin), Geleneksel Çince (Tayvan), Japonca ve Korece.
+
+Arapça, Farsça, İbranice ve Urduca metinler sağdan sola gösterilir; geri sayım değerleri yön izolasyonuyla korunur. Bildirimdeki mavi devam/tekrar butonu solda kalır. Dil etiketleri kullanılan çeviri kataloğundan alınır; desteklenmeyen dilde İngilizce metin yanlış bir dil etiketiyle sunulmaz. Kataloglar eklentiyle birlikte gelir; çeviri servisi, ağ isteği veya ek izin gerekmez.
+
+Dil seçimi Chrome'un yerel i18n mekanizmasına bırakılır. [Chrome i18n belgeleri](https://developer.chrome.com/docs/extensions/reference/api/i18n#search-for-messages) bölgesel katalog → temel dil → varsayılan dil sırasını açıklar. Urduca, güncel [Chromium dil yapılandırmasında](https://github.com/chromium/chromium/blob/main/build/config/locales.gni) masaüstü dilleri arasındadır; kullanılabilir tarayıcı arayüz dilleri platforma göre değişebilir.
 
 ## HBO Max üzerinde ilk deneme
 
@@ -66,7 +74,7 @@ HBO bölüm sonu algılaması, `up_next` içindeki `player-ux-up-next-container`
 - Bölüm sonu algılaması paylaşılan Netflix HTML'indeki `watch-credits-seamless-button` ve `next-episode-seamless-button-draining` işaretlerini kullanır. Gizli kontroller dikkate alınmaz; farklı oynatıcı varyasyonları ayrıca doğrulanmalıdır.
 - “Jeneriği İzle” tıklaması bir iptal girişimidir; Netflix'in dahili zamanlayıcısına erişilmez. Her görünür sinyal için bir, kurulan koruma boyunca en fazla üç tıklama denenir. Kontrol bulunamazsa da video durdurma koruması çalışır.
 - Geçiş kaçırılırsa yeni video duraklatılmaya çalışılır; bu, sonraki bölümün hiçbir karesinin başlamadığı veya Netflix izleme ilerlemesinin değişmediği garantisi değildir. Tam sayfa yüklemesi korumayı sıfırlar. Netflix profil ayarları değiştirilmez.
-- Özel süre girişi, kalıcı ayarlar, Prime Video/Disney+ desteği ve Türkçe dışındaki arayüzler sonraki aşamadadır.
+- Özel süre girişi, kalıcı ayarlar ve Prime Video/Disney+ desteği sonraki aşamadadır.
 - Sayaç açık oynatıcı sayfasında çalışır. İşletim sistemi uykusu, askıya alınmış sekme ve tarayıcı zamanlayıcı gecikmeleri için kesin zamanlama garantisi yoktur.
 - Platformların DOM yapısı değişirse platform uyarlaması güncellenebilir.
 
@@ -84,7 +92,7 @@ Yerel demo: `http://127.0.0.1:8765/watch/100`
 
 Tarayıcı entegrasyon testi: `http://127.0.0.1:8765/watch/100?test=1`
 
-`npm test`: 80 test. Bölüm sonu testleri görünür/gizli kartları, süre üst sınırını, yeni videoda korumayı ve Devam et/Kapalı eylemlerini kapsar. Süreyi tekrar başlatma testleri her iki platformda son seçimin korunmasını, art arda tekrarları, duraklatmayı, oynatma hatalarını ve oynatıcı yenilenmesini kapsar. Paket testi geçici klasörde gerçek yayın ZIP'ini üretip Türkçe/İngilizce menülerde test seçeneklerinin bulunmadığını, yerel ve kaynak sürümlerde korunduğunu doğrular.
+`npm test`: 115 test. Bölüm sonu testleri görünür/gizli kartları, süre üst sınırını, yeni videoda korumayı ve Devam et/Kapalı eylemlerini kapsar. Süreyi tekrar başlatma testleri her iki platformda son seçimin korunmasını, art arda tekrarları, duraklatmayı, oynatma hatalarını ve oynatıcı yenilenmesini kapsar. Dil testleri 23 kataloğun anahtarlarını, yer tutucularını, bölgesel seçimi, İngilizceye dönüşü, yazı yönünü, bildirimleri ve erişilebilirlik metinlerini kontrol eder. Paket testi gerçek yayın ZIP'indeki 23 dilde test seçeneklerinin bulunmadığını, yerel ve kaynak sürümlerde korunduğunu doğrular.
 
 Demo, yerel canvas görüntüsünü MediaStream olarak bir video elemanında oynatır. Otomatik test sayfası ise medya olaylarını ve saati denetimli şekilde simüle eder. Hiçbiri Netflix veya HBO Max'e bağlanmaz. DOM testlerinde kullanılan Happy DOM bağımlılığı eklenti ZIP'ine dahil edilmez; bu testler gerçek tarayıcı düzenini veya DRM oynatmasını doğrulamaz.
 

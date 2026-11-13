@@ -28,5 +28,6 @@
   "ended": { "message": "Video ended" },
   "episodeStopped": { "message": "Paused at episode end" },
   "transitionStopped": { "message": "Paused on episode change" },
-  "resumeFailed": { "message": "Could not resume playback · Use the Play button" }
+  "resumeFailed": { "message": "Could not resume playback · Use the Play button" },
+  "languageCode": {"message": "en", "description": "BCP 47 code of this translation. Used for accessibility and text direction; do not translate."}
 }
