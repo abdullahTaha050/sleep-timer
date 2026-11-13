@@ -6,6 +6,7 @@ async function setup(t) {
   const window = environment('https://www.netflix.com/watch/100');
   const sources = await Promise.all([
     'extension/shared/i18n.js',
+    'extension/shared/build.js',
     'extension/shared/config.js', 'extension/ui/styles.js', 'extension/ui/timer-ui.js',
   ].map(read));
   window.happyDOM.settings.disableJavaScriptEvaluation = false;

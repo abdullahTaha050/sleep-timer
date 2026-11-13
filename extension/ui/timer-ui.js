@@ -27,7 +27,7 @@
         <section class="panel" id="sleep-panel" popover="manual" role="dialog" aria-labelledby="sleep-heading">
           <div class="heading"><div class="top"><h2 id="sleep-heading">${t('timerName')}</h2><button class="close" type="button" aria-label="${t('closeMenu')}">×</button></div><p class="status" aria-live="off"></p></div>
           <div class="options" role="group" aria-label="${t('duration')}">${options.map((item) => option(item)).join('')}</div>
-          <details class="testing"><summary>${t('testDurations')}</summary><div class="test-options" role="group" aria-label="${t('testSeconds')}">${testSeconds.map((s) => option([s, t('seconds', String(s))], true)).join('')}</div></details>
+          ${testSeconds.length ? `<details class="testing"><summary>${t('testDurations')}</summary><div class="test-options" role="group" aria-label="${t('testSeconds')}">${testSeconds.map((s) => option([s, t('seconds', String(s))], true)).join('')}</div></details>` : ''}
         </section>`;
       this.button = shadow.querySelector('.trigger');
       this.panel = shadow.querySelector('.panel');
@@ -56,7 +56,7 @@
           this.close(true);
         }
       });
-      shadow.querySelector('details').addEventListener('toggle', () => this.position());
+      shadow.querySelector('details')?.addEventListener('toggle', () => this.position());
       // Prevent player keyboard shortcuts/click handlers from also handling our UI.
       for (const event of ['click', 'dblclick', 'pointerdown', 'pointerup', 'keyup']) {
         this.host.addEventListener(event, (e) => e.stopPropagation());

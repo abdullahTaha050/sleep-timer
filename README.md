@@ -11,7 +11,7 @@ Netflix ve HBO Max web oynatıcılarının sağ kontrol grubuna uyku zamanlayıc
 5. Açık Netflix veya HBO Max sekmesini yenileyin ve bir video açın.
 6. Sağdaki kontrol grubunun başında bulunan **ay simgesine** tıklayın.
 
-Paketlenmiş `sleep-timer-extension-0.4.0.zip` dosyasını kullanıyorsanız ZIP'i açıp doğrudan `manifest.json` dosyasının bulunduğu klasörü seçin. Normal kullanıcı kurulumu için Node.js, npm veya derleme gerekmez.
+Paketlenmiş `sleep-timer-extension-0.4.2.zip` dosyasını kullanıyorsanız ZIP'i açıp doğrudan `manifest.json` dosyasının bulunduğu klasörü seçin. Bu yayın paketinde test süreleri görünmez; yerel test için deponun `extension` klasörünü yükleyin. Normal kullanıcı kurulumu için Node.js, npm veya derleme gerekmez.
 
 Resmî yükleme açıklaması: https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world#load-unpacked
 
@@ -19,7 +19,7 @@ Resmî yükleme açıklaması: https://developer.chrome.com/docs/extensions/get-
 
 - Menü, bildirimler, erişilebilirlik etiketleri ve eklenti açıklaması Chrome arayüz dilini izler: Türkçe için Türkçe, diğer diller için İngilizce. Netflix/HBO profil dili bu seçimi değiştirmez. Tarayıcı dilini değiştirdikten sonra gerekiyorsa Chrome'u yeniden başlatın ve izleme sekmesini yenileyin.
 - Süre seçenekleri: Kapalı, 10, 15, 20, 30, 45 ve 60 dakika; her iki platformda ayrıca **Bölüm sonunda**.
-- Menüdeki **Test süreleri** bölümünde 5, 10 ve 30 saniye seçenekleri bulunur.
+- Yalnızca yerel geliştirme sürümünde **Test süreleri** bölümünde 5, 10 ve 30 saniye seçenekleri bulunur. Yayın paketinde bu bölüm oluşturulmaz.
 - **Bölüm sonunda**, platformun görünür bölüm sonu geçiş ekranı algılandığında durdurur. Dosyanın son saniyesini veya sabit bir jenerik süresini beklemez.
 - Dakika/saniye seçimlerinde süre dolması veya bölüm sonu geçiş ekranından hangisi önce gelirse ilgili sekmenin ana videosu duraklatılır. Uzun seçimde sayısal süreyi önceden tahmin edip değiştirmek yerine bölüm sonu sinyali üst sınır olur.
 - Netflix’te algılanan geçiş ekranında **Jeneriği İzle** kontrolüne basılarak geri sayımın iptali denenir. Bu sırada oynatmanın yeniden başlamasına karşı duraklatma koruması açık kalır.
@@ -72,7 +72,7 @@ HBO bölüm sonu algılaması, `up_next` içindeki `player-ux-up-next-container`
 
 ## Geliştirme ve test
 
-Eklentinin çalışma zamanında bağımlılığı yoktur. Node.js 20.19+ test araçları içindir.
+Eklentinin çalışma zamanında bağımlılığı yoktur. Node.js 20.19+ ve Python 3 test araçları içindir; paketleme Python 3 kullanır.
 
 ```sh
 npm ci --ignore-scripts
@@ -84,7 +84,7 @@ Yerel demo: `http://127.0.0.1:8765/watch/100`
 
 Tarayıcı entegrasyon testi: `http://127.0.0.1:8765/watch/100?test=1`
 
-`npm test`: 79 test. Bölüm sonu testleri görünür/gizli kartları, süre üst sınırını, yeni videoda korumayı ve Devam et/Kapalı eylemlerini kapsar. Süreyi tekrar başlatma testleri her iki platformda son seçimin korunmasını, art arda tekrarları, duraklatmayı, oynatma hatalarını ve oynatıcı yenilenmesini kapsar.
+`npm test`: 80 test. Bölüm sonu testleri görünür/gizli kartları, süre üst sınırını, yeni videoda korumayı ve Devam et/Kapalı eylemlerini kapsar. Süreyi tekrar başlatma testleri her iki platformda son seçimin korunmasını, art arda tekrarları, duraklatmayı, oynatma hatalarını ve oynatıcı yenilenmesini kapsar. Paket testi geçici klasörde gerçek yayın ZIP'ini üretip Türkçe/İngilizce menülerde test seçeneklerinin bulunmadığını, yerel ve kaynak sürümlerde korunduğunu doğrular.
 
 Demo, yerel canvas görüntüsünü MediaStream olarak bir video elemanında oynatır. Otomatik test sayfası ise medya olaylarını ve saati denetimli şekilde simüle eder. Hiçbiri Netflix veya HBO Max'e bağlanmaz. DOM testlerinde kullanılan Happy DOM bağımlılığı eklenti ZIP'ine dahil edilmez; bu testler gerçek tarayıcı düzenini veya DRM oynatmasını doğrulamaz.
 
@@ -94,6 +94,8 @@ npm run package
 ```
 
 Paketleme `dist/` içine yüklenebilir eklenti ZIP'i ve kaynak kod ZIP'i üretir. `node_modules`, kullanıcı HTML dökümü ve test bağımlılıkları mağaza paketine girmez.
+
+Chrome Web Store'a `dist/sleep-timer-extension-0.4.2.zip` dosyasını yükleyin. Paketleyici yalnızca bu ZIP içindeki `shared/build.js` dosyasında test sürelerini kapatır; yerel `extension` klasörünü değiştirmez. Kaynak ZIP'i geliştirme ayarlarını korur ve mağazaya yüklemek için değildir. Yayın ZIP'i yerelde paketlenmemiş olarak yüklense de test seçenekleri kapalı kalır.
 
 ## Yapı
 

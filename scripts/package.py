@@ -18,7 +18,14 @@ for relative in extension_files:
 with ZipFile(dist / f'sleep-timer-extension-{version}.zip', 'w', ZIP_DEFLATED) as archive:
     for file in sorted((root / 'extension').rglob('*')):
         if file.is_file() and not file.name.startswith('.'):
-            archive.write(file, file.relative_to(root / 'extension'))
+            relative = file.relative_to(root / 'extension')
+            if relative.as_posix() == 'shared/build.js':
+                archive.writestr(str(relative),
+                    '// Release build: test controls are disabled.\n'
+                    'globalThis.StreamSleepTimer ??= {};\n'
+                    'globalThis.StreamSleepTimer.build = Object.freeze({ testDurations: false });\n')
+            else:
+                archive.write(file, relative)
 with ZipFile(dist / f'sleep-timer-source-{version}.zip', 'w', ZIP_DEFLATED) as archive:
     for file in sorted(root.rglob('*')):
         relative = file.relative_to(root)
