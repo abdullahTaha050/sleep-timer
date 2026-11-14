@@ -11,6 +11,31 @@ Hata bildiriminde Chrome ve eklenti sürümünü, normal/tam ekran durumunu, se�
 
 Katkılar projenin MIT lisansı altında sunulur. Mağazadaki sürüme eklenmeden önce proje sahibi tarafından incelenir.
 
+## Commit mesajları
+
+Proje, mevcut Release Please akışıyla uyumlu Conventional Commits biçimini kullanır. Commitizen ve `cz-conventional-changelog` yalnızca geliştirme bağımlılığıdır; global kurulum gerekmez ve eklenti paketine dahil edilmez.
+
+1. Bağımlılıkları `npm ci --ignore-scripts` ile kurun.
+2. Değişiklikleri inceleyip yalnızca ilgili dosyaları `git add <dosya>` ile hazırlayın.
+3. `npm run commit` çalıştırın; tür, isteğe bağlı kapsam, kısa açıklama ve varsa uyumsuz değişiklik/issue bilgilerini doldurun. Soruları tamamlamak hazırlanan dosyalarla gerçek bir commit oluşturur; push yapmaz.
+
+Örnek mesajlar:
+
+```text
+feat(popup): add extension toggle
+fix(netflix): preserve timer when controls rebuild
+chore(tooling): add Commitizen
+docs: explain local installation
+```
+
+Kapsam için `popup`, `netflix`, `hbo`, `i18n`, `timer` veya `tooling` gibi değişen alanı kullanabilirsiniz; zorunlu değildir. Türü değişikliğin etkisine göre seçin: yeni özellik için `feat`, hata düzeltmesi için `fix`, geliştirme araçları için `chore`, belge değişiklikleri için `docs`. Geriye uyumsuz değişiklik varsa ilgili soruya evet deyip açıklamasını girin; adaptör mesaj gövdesine `BREAKING CHANGE:` ekler.
+
+Commitizen mesaj hazırlamayı kolaylaştırır; doğrudan `git commit` ile yazılan mesajları zorunlu olarak denetleyen bir hook değildir. Bu kurulum commitlint denetimi veya Git hook’u yapılandırmaz.
+
+Sürüm artırma, changelog ve release işlemlerini mevcut Release Please yönetir. `feat` ve `fix` mesajları ile uyumsuz değişiklik bilgisi bu akışın girdisidir; yalnızca `chore` veya `docs` değişiklikleri genellikle tek başına yeni sürüm oluşturmaz. Sürüm dosyalarını Commitizen için elle artırmayın. PR squash ile birleştiriliyorsa **son squash commit mesajının** da Conventional Commits biçiminde olduğundan emin olun; PR başlığını bu biçimde yazmak bunu kolaylaştırır.
+
+Kaynaklar: [Commitizen yerel kurulum](https://github.com/commitizen/cz-cli#optional-install-and-run-commitizen-locally), [Release Please commit biçimi](https://github.com/googleapis/release-please#how-should-i-write-my-commits).
+
 ## Yeni platform ekleme
 
 Önce [ARCHITECTURE.md](ARCHITECTURE.md) içindeki adaptör sözleşmesini okuyun. `extension/adapters/netflix.js` benzeri bir adaptör hazırlayın; `id`, `matches`, `getPlaybackKey` ve `findPlayer` sağlayıp platform kaydına ekleyin. Ortak zamanlayıcı, medya dinleyicileri ve arayüzü kopyalamayın. Ana videoyu, butonun bağlanacağı grubu ve gerekirse yerleşim çapasını bulun. Aynı sayfadaki önizlemeleri veya reklamları ana video sanmayın.

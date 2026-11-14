@@ -26,5 +26,11 @@
   "episodeStopped": {"message": "已在本集結束時暫停"},
   "transitionStopped": {"message": "已在切換集數時暫停"},
   "resumeFailed": {"message": "無法繼續播放 · 請點選播放按鈕"},
-  "languageCode": {"message": "zh-TW", "description": "BCP 47 code of this translation. Used for accessibility and text direction; do not translate."}
+  "languageCode": {"message": "zh-TW", "description": "BCP 47 code of this translation. Used for accessibility and text direction; do not translate."},
+  "popupStatus": {"message": "狀態"},
+  "popupEnabled": {"message": "已開啟"},
+  "popupToggle": {"message": "開啟 / 關閉擴充功能"},
+  "popupReleaseNotes": {"message": "版本說明"},
+  "popupFeedback": {"message": "意見回饋"},
+  "popupStorageError": {"message": "無法存取設定。請重新開啟彈出視窗並再試一次。"}
 }

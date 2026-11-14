@@ -26,5 +26,11 @@
   "episodeStopped": {"message": "Пауза в конце серии"},
   "transitionStopped": {"message": "Пауза при смене серии"},
   "resumeFailed": {"message": "Не удалось продолжить · Нажмите кнопку воспроизведения"},
-  "languageCode": {"message": "ru", "description": "BCP 47 code of this translation. Used for accessibility and text direction; do not translate."}
+  "languageCode": {"message": "ru", "description": "BCP 47 code of this translation. Used for accessibility and text direction; do not translate."},
+  "popupStatus": {"message": "Статус"},
+  "popupEnabled": {"message": "Вкл."},
+  "popupToggle": {"message": "Включить / выключить расширение"},
+  "popupReleaseNotes": {"message": "Что нового"},
+  "popupFeedback": {"message": "Обратная связь"},
+  "popupStorageError": {"message": "Не удалось получить доступ к настройкам. Откройте окно заново и повторите попытку."}
 }

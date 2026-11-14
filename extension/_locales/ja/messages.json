@@ -26,5 +26,11 @@
   "episodeStopped": {"message": "エピソードの終了時に一時停止しました"},
   "transitionStopped": {"message": "エピソードの切り替え時に一時停止しました"},
   "resumeFailed": {"message": "再生を再開できませんでした · 再生ボタンを押してください"},
-  "languageCode": {"message": "ja", "description": "BCP 47 code of this translation. Used for accessibility and text direction; do not translate."}
+  "languageCode": {"message": "ja", "description": "BCP 47 code of this translation. Used for accessibility and text direction; do not translate."},
+  "popupStatus": {"message": "状態"},
+  "popupEnabled": {"message": "オン"},
+  "popupToggle": {"message": "拡張機能をオン / オフ"},
+  "popupReleaseNotes": {"message": "リリースノート"},
+  "popupFeedback": {"message": "フィードバック"},
+  "popupStorageError": {"message": "設定にアクセスできませんでした。ポップアップを開き直して再試行してください。"}
 }

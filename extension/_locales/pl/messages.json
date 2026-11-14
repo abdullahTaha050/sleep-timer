@@ -26,5 +26,11 @@
   "episodeStopped": {"message": "Wstrzymano na końcu odcinka"},
   "transitionStopped": {"message": "Wstrzymano przy zmianie odcinka"},
   "resumeFailed": {"message": "Nie udało się wznowić · Użyj przycisku odtwarzania"},
-  "languageCode": {"message": "pl", "description": "BCP 47 code of this translation. Used for accessibility and text direction; do not translate."}
+  "languageCode": {"message": "pl", "description": "BCP 47 code of this translation. Used for accessibility and text direction; do not translate."},
+  "popupStatus": {"message": "Stan"},
+  "popupEnabled": {"message": "Włączone"},
+  "popupToggle": {"message": "Włącz / wyłącz rozszerzenie"},
+  "popupReleaseNotes": {"message": "Informacje o wersji"},
+  "popupFeedback": {"message": "Opinie"},
+  "popupStorageError": {"message": "Nie można uzyskać dostępu do ustawień. Otwórz ponownie okno i spróbuj jeszcze raz."}
 }

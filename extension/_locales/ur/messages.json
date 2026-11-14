@@ -26,5 +26,11 @@
   "episodeStopped": {"message": "قسط کے اختتام پر موقوف"},
   "transitionStopped": {"message": "قسط بدلنے پر موقوف"},
   "resumeFailed": {"message": "ویڈیو دوبارہ شروع نہیں ہو سکی · پلے بٹن دبائیں"},
-  "languageCode": {"message": "ur", "description": "BCP 47 code of this translation. Used for accessibility and text direction; do not translate."}
+  "languageCode": {"message": "ur", "description": "BCP 47 code of this translation. Used for accessibility and text direction; do not translate."},
+  "popupStatus": {"message": "حالت"},
+  "popupEnabled": {"message": "فعال"},
+  "popupToggle": {"message": "ایکسٹینشن فعال / غیر فعال کریں"},
+  "popupReleaseNotes": {"message": "ورژن کی تفصیلات"},
+  "popupFeedback": {"message": "رائے"},
+  "popupStorageError": {"message": "ترتیبات تک رسائی نہیں ہو سکی۔ پاپ اَپ دوبارہ کھول کر کوشش کریں۔"}
 }

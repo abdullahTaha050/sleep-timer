@@ -26,5 +26,11 @@
   "episodeStopped": {"message": "Đã tạm dừng khi hết tập"},
   "transitionStopped": {"message": "Đã tạm dừng khi chuyển tập"},
   "resumeFailed": {"message": "Không thể tiếp tục phát · Hãy dùng nút Phát"},
-  "languageCode": {"message": "vi", "description": "BCP 47 code of this translation. Used for accessibility and text direction; do not translate."}
+  "languageCode": {"message": "vi", "description": "BCP 47 code of this translation. Used for accessibility and text direction; do not translate."},
+  "popupStatus": {"message": "Trạng thái"},
+  "popupEnabled": {"message": "Bật"},
+  "popupToggle": {"message": "Bật / tắt tiện ích"},
+  "popupReleaseNotes": {"message": "Ghi chú phiên bản"},
+  "popupFeedback": {"message": "Phản hồi"},
+  "popupStorageError": {"message": "Không thể truy cập cài đặt. Hãy mở lại cửa sổ và thử lại."}
 }

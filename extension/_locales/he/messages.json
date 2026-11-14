@@ -26,5 +26,11 @@
   "episodeStopped": {"message": "הניגון הושהה בסוף הפרק"},
   "transitionStopped": {"message": "הניגון הושהה במעבר בין פרקים"},
   "resumeFailed": {"message": "לא ניתן לחדש את הניגון · יש ללחוץ על כפתור הניגון"},
-  "languageCode": {"message": "he", "description": "BCP 47 code of this translation. Used for accessibility and text direction; do not translate."}
+  "languageCode": {"message": "he", "description": "BCP 47 code of this translation. Used for accessibility and text direction; do not translate."},
+  "popupStatus": {"message": "מצב"},
+  "popupEnabled": {"message": "פעיל"},
+  "popupToggle": {"message": "הפעלת / כיבוי התוסף"},
+  "popupReleaseNotes": {"message": "הערות גרסה"},
+  "popupFeedback": {"message": "משוב"},
+  "popupStorageError": {"message": "לא ניתן לגשת להגדרות. יש לפתוח מחדש את החלון ולנסות שוב."}
 }

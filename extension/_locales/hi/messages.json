@@ -26,5 +26,11 @@
   "episodeStopped": {"message": "एपिसोड के अंत में रोका गया"},
   "transitionStopped": {"message": "एपिसोड बदलने पर रोका गया"},
   "resumeFailed": {"message": "वीडियो फिर से शुरू नहीं हो सका · प्ले बटन दबाएँ"},
-  "languageCode": {"message": "hi", "description": "BCP 47 code of this translation. Used for accessibility and text direction; do not translate."}
+  "languageCode": {"message": "hi", "description": "BCP 47 code of this translation. Used for accessibility and text direction; do not translate."},
+  "popupStatus": {"message": "स्थिति"},
+  "popupEnabled": {"message": "चालू"},
+  "popupToggle": {"message": "एक्सटेंशन चालू / बंद करें"},
+  "popupReleaseNotes": {"message": "रिलीज़ नोट्स"},
+  "popupFeedback": {"message": "प्रतिक्रिया"},
+  "popupStorageError": {"message": "सेटिंग ऐक्सेस नहीं हो सकीं। पॉपअप फिर से खोलकर दोबारा कोशिश करें।"}
 }

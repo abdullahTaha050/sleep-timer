@@ -36,6 +36,7 @@ export async function loadExtension(window, beforeBootstrap = '', afterBootstrap
   }));
   window.happyDOM.settings.disableJavaScriptEvaluation = false;
   window.eval(`${files.join('\n;\n')}\n;\n${afterBootstrap}`);
+  await window.StreamSleepTimer.ready;
 }
 
 export function mockMedia(window, video) {

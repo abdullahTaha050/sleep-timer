@@ -26,5 +26,11 @@
   "episodeStopped": {"message": "Dijeda pada akhir episod"},
   "transitionStopped": {"message": "Dijeda ketika episod bertukar"},
   "resumeFailed": {"message": "Main balik tidak dapat dimulakan · Gunakan butang Main"},
-  "languageCode": {"message": "ms", "description": "BCP 47 code of this translation. Used for accessibility and text direction; do not translate."}
+  "languageCode": {"message": "ms", "description": "BCP 47 code of this translation. Used for accessibility and text direction; do not translate."},
+  "popupStatus": {"message": "Status"},
+  "popupEnabled": {"message": "Aktif"},
+  "popupToggle": {"message": "Aktifkan / nyahaktifkan sambungan"},
+  "popupReleaseNotes": {"message": "Nota keluaran"},
+  "popupFeedback": {"message": "Maklum balas"},
+  "popupStorageError": {"message": "Tetapan tidak dapat diakses. Buka semula popup dan cuba lagi."}
 }

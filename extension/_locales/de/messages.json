@@ -26,5 +26,11 @@
   "episodeStopped": {"message": "Am Folgenende pausiert"},
   "transitionStopped": {"message": "Beim Folgenwechsel pausiert"},
   "resumeFailed": {"message": "Wiedergabe nicht gestartet · Wiedergabetaste verwenden"},
-  "languageCode": {"message": "de", "description": "BCP 47 code of this translation. Used for accessibility and text direction; do not translate."}
+  "languageCode": {"message": "de", "description": "BCP 47 code of this translation. Used for accessibility and text direction; do not translate."},
+  "popupStatus": {"message": "Status"},
+  "popupEnabled": {"message": "Ein"},
+  "popupToggle": {"message": "Erweiterung ein / aus"},
+  "popupReleaseNotes": {"message": "Versionshinweise"},
+  "popupFeedback": {"message": "Feedback"},
+  "popupStorageError": {"message": "Einstellungen nicht verfügbar. Öffne das Popup erneut und versuche es noch einmal."}
 }

@@ -29,5 +29,11 @@
   "episodeStopped": { "message": "Bölüm sonunda durduruldu" },
   "transitionStopped": { "message": "Bölüm değişiminde durduruldu" },
   "resumeFailed": { "message": "Oynatma başlatılamadı · Oynat düğmesini kullanın" },
-  "languageCode": {"message": "tr", "description": "BCP 47 code of this translation. Used for accessibility and text direction; do not translate."}
+  "languageCode": {"message": "tr", "description": "BCP 47 code of this translation. Used for accessibility and text direction; do not translate."},
+  "popupStatus": {"message": "Durum"},
+  "popupEnabled": {"message": "Açık"},
+  "popupToggle": {"message": "Eklentiyi aç / kapat"},
+  "popupReleaseNotes": {"message": "Sürüm notları"},
+  "popupFeedback": {"message": "Geri bildirim"},
+  "popupStorageError": {"message": "Ayarlara erişilemedi. Popup’ı yeniden açıp tekrar deneyin."}
 }

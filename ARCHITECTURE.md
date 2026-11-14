@@ -4,7 +4,9 @@ Eklentinin ortak davranışı `core/` ve `ui/` içinde; siteye özgü bilgi `ada
 
 | Dosya | Sorumluluk |
 |---|---|
-| `extension/content.js` | Kayıtlı adaptörlerden mevcut siteye uyanı seçer, tek bir controller başlatır. |
+| `extension/content.js` | Kayıtlı adaptörlerden mevcut siteye uyanı seçer; aç/kapat tercihine göre tek bir controller başlatır veya temizler. |
+| `extension/shared/settings.js` | `storage.local` içindeki `enabled` tercihini izler; ilk okuma sürerken gelen daha yeni değişikliği korur. |
+| `extension/popup/` | Açık/koyu temalı ve 23 dilde araç çubuğu popup’ı; tercih ve hızlı bağlantılar. |
 | `extension/core/platform-registry.js` | Adaptör kaydı, arayüz kontrolü ve domain eşleştirmesi. |
 | `extension/core/player-controller.js` | Video kimliği, DOM yenilenmesi, süre seçimi, bitiş, sayfa yaşam döngüsü ve kaynak temizliği. Site seçicisi içermez. |
 | `extension/core/media-binding.js` | HTML video olayları, duraklat/bekle/devam et, eski video dinleyicilerini kaldırma ve ortak duraklatma işlemi. |

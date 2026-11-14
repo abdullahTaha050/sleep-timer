@@ -26,5 +26,11 @@
   "episodeStopped": {"message": "Dijeda di akhir episode"},
   "transitionStopped": {"message": "Dijeda saat pergantian episode"},
   "resumeFailed": {"message": "Pemutaran tidak dapat dimulai · Gunakan tombol Putar"},
-  "languageCode": {"message": "id", "description": "BCP 47 code of this translation. Used for accessibility and text direction; do not translate."}
+  "languageCode": {"message": "id", "description": "BCP 47 code of this translation. Used for accessibility and text direction; do not translate."},
+  "popupStatus": {"message": "Status"},
+  "popupEnabled": {"message": "Aktif"},
+  "popupToggle": {"message": "Aktifkan / nonaktifkan ekstensi"},
+  "popupReleaseNotes": {"message": "Catatan rilis"},
+  "popupFeedback": {"message": "Masukan"},
+  "popupStorageError": {"message": "Tidak dapat mengakses pengaturan. Buka kembali popup dan coba lagi."}
 }

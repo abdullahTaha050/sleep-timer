@@ -26,5 +26,11 @@
   "episodeStopped": {"message": "تم الإيقاف مؤقتًا عند نهاية الحلقة"},
   "transitionStopped": {"message": "تم الإيقاف مؤقتًا عند تغيير الحلقة"},
   "resumeFailed": {"message": "تعذّر استئناف التشغيل · استخدم زر التشغيل"},
-  "languageCode": {"message": "ar", "description": "BCP 47 code of this translation. Used for accessibility and text direction; do not translate."}
+  "languageCode": {"message": "ar", "description": "BCP 47 code of this translation. Used for accessibility and text direction; do not translate."},
+  "popupStatus": {"message": "الحالة"},
+  "popupEnabled": {"message": "مفعّلة"},
+  "popupToggle": {"message": "تفعيل / تعطيل الإضافة"},
+  "popupReleaseNotes": {"message": "ملاحظات الإصدار"},
+  "popupFeedback": {"message": "ملاحظاتك"},
+  "popupStorageError": {"message": "تعذّر الوصول إلى الإعدادات. أعد فتح النافذة وحاول مرة أخرى."}
 }

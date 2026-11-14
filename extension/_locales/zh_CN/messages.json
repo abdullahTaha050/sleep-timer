@@ -26,5 +26,11 @@
   "episodeStopped": {"message": "已在本集结束时暂停"},
   "transitionStopped": {"message": "已在切换剧集时暂停"},
   "resumeFailed": {"message": "无法继续播放 · 请点击播放按钮"},
-  "languageCode": {"message": "zh-CN", "description": "BCP 47 code of this translation. Used for accessibility and text direction; do not translate."}
+  "languageCode": {"message": "zh-CN", "description": "BCP 47 code of this translation. Used for accessibility and text direction; do not translate."},
+  "popupStatus": {"message": "状态"},
+  "popupEnabled": {"message": "已开启"},
+  "popupToggle": {"message": "开启 / 关闭扩展程序"},
+  "popupReleaseNotes": {"message": "版本说明"},
+  "popupFeedback": {"message": "反馈"},
+  "popupStorageError": {"message": "无法访问设置。请重新打开弹出窗口并重试。"}
 }

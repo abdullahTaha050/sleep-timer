@@ -26,5 +26,11 @@
   "episodeStopped": {"message": "در پایان قسمت متوقف شد"},
   "transitionStopped": {"message": "هنگام تغییر قسمت متوقف شد"},
   "resumeFailed": {"message": "ادامهٔ پخش ممکن نشد · از دکمهٔ پخش استفاده کنید"},
-  "languageCode": {"message": "fa", "description": "BCP 47 code of this translation. Used for accessibility and text direction; do not translate."}
+  "languageCode": {"message": "fa", "description": "BCP 47 code of this translation. Used for accessibility and text direction; do not translate."},
+  "popupStatus": {"message": "وضعیت"},
+  "popupEnabled": {"message": "روشن"},
+  "popupToggle": {"message": "فعال / غیرفعال کردن افزونه"},
+  "popupReleaseNotes": {"message": "یادداشت‌های انتشار"},
+  "popupFeedback": {"message": "بازخورد"},
+  "popupStorageError": {"message": "دسترسی به تنظیمات ممکن نشد. پنجره را دوباره باز کنید و تلاش کنید."}
 }

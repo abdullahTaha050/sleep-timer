@@ -26,5 +26,11 @@
   "episodeStopped": {"message": "หยุดชั่วคราวเมื่อจบตอน"},
   "transitionStopped": {"message": "หยุดชั่วคราวเมื่อเปลี่ยนตอน"},
   "resumeFailed": {"message": "ไม่สามารถเล่นต่อได้ · ใช้ปุ่มเล่น"},
-  "languageCode": {"message": "th", "description": "BCP 47 code of this translation. Used for accessibility and text direction; do not translate."}
+  "languageCode": {"message": "th", "description": "BCP 47 code of this translation. Used for accessibility and text direction; do not translate."},
+  "popupStatus": {"message": "สถานะ"},
+  "popupEnabled": {"message": "เปิด"},
+  "popupToggle": {"message": "เปิด / ปิดส่วนขยาย"},
+  "popupReleaseNotes": {"message": "บันทึกประจำรุ่น"},
+  "popupFeedback": {"message": "ความคิดเห็น"},
+  "popupStorageError": {"message": "ไม่สามารถเข้าถึงการตั้งค่าได้ โปรดเปิดป๊อปอัปใหม่แล้วลองอีกครั้ง"}
 }

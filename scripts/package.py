@@ -9,6 +9,8 @@ version = manifest['version']
 dist = root / 'dist'
 dist.mkdir(exist_ok=True)
 extension_files = ['manifest.json', *manifest['icons'].values()]
+if popup := manifest.get('action', {}).get('default_popup'):
+    extension_files.append(popup)
 for script in manifest['content_scripts']:
     extension_files.extend(script.get('js', []))
     extension_files.extend(script.get('css', []))

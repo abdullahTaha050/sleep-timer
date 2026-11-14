@@ -5,11 +5,19 @@
   "description": "A local-first sleep timer for Netflix and HBO Max players.",
   "license": "MIT",
   "scripts": {
+    "commit": "cz",
     "test": "node --test tests/*.test.cjs tests/*.test.mjs",
     "demo": "node scripts/serve-demo.mjs",
     "package": "python3 scripts/package.py"
   },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
   "devDependencies": {
+    "commitizen": "4.3.2",
+    "cz-conventional-changelog": "3.3.0",
     "happy-dom": "21.0.4"
   }
 }

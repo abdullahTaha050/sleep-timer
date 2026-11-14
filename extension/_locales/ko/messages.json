@@ -26,5 +26,11 @@
   "episodeStopped": {"message": "에피소드 종료 시 일시정지됨"},
   "transitionStopped": {"message": "에피소드 변경 시 일시정지됨"},
   "resumeFailed": {"message": "재생을 재개할 수 없습니다 · 재생 버튼을 누르세요"},
-  "languageCode": {"message": "ko", "description": "BCP 47 code of this translation. Used for accessibility and text direction; do not translate."}
+  "languageCode": {"message": "ko", "description": "BCP 47 code of this translation. Used for accessibility and text direction; do not translate."},
+  "popupStatus": {"message": "상태"},
+  "popupEnabled": {"message": "켜짐"},
+  "popupToggle": {"message": "확장 프로그램 켜기 / 끄기"},
+  "popupReleaseNotes": {"message": "릴리스 노트"},
+  "popupFeedback": {"message": "의견 보내기"},
+  "popupStorageError": {"message": "설정에 접근할 수 없습니다. 팝업을 다시 열고 재시도하세요."}
 }

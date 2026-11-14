@@ -28,7 +28,7 @@ root = Path.cwd()
 version = json.loads((root / 'extension/manifest.json').read_text())['version']
 with ZipFile(root / 'dist' / f'sleep-timer-extension-{version}.zip') as archive:
     manifest = json.loads(archive.read('manifest.json'))
-    result = {'files': archive.namelist(), 'scripts': [archive.read(name).decode() for name in manifest['content_scripts'][0]['js']]}
+    result = {'manifest': manifest, 'files': archive.namelist(), 'scripts': [archive.read(name).decode() for name in manifest['content_scripts'][0]['js']]}
     result['catalogs'] = {name.split('/')[1]: json.loads(archive.read(name)) for name in archive.namelist() if name.startswith('_locales/') and name.endswith('/messages.json')}
 with ZipFile(root / 'dist' / f'sleep-timer-source-{version}.zip') as archive:
     result['sourceFiles'] = archive.namelist()
@@ -41,6 +41,11 @@ print(json.dumps(result))
     assert.ok(packaged.files.every((file) => !file.startsWith('node_modules/')));
     assert.ok(packaged.sourceFiles.every((file) => !file.includes('/node_modules/')));
     assert.deepEqual(packaged.catalogs, catalogs);
+    assert.equal(packaged.manifest.action.default_popup, 'popup/popup.html');
+    assert.deepEqual(packaged.manifest.permissions, ['storage']);
+    for (const file of ['popup/popup.html', 'popup/popup.css', 'popup/popup.js', 'shared/settings.js']) {
+      assert.ok(packaged.files.includes(file), `Missing popup asset: ${file}`);
+    }
 
     for (const locale of locales) {
       for (const release of [false, true]) {
