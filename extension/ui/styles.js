@@ -2,6 +2,9 @@
   globalThis.StreamSleepTimer.uiStyles = `
     :host { color-scheme: dark; font-family: Arial, sans-serif; color: white; font-size: 14px; }
     * { box-sizing: border-box; }
+    .panel { text-align: start; }
+    h2, .status, .choice span, .test-choice span { min-width: 0; overflow-wrap: anywhere; }
+    :host([dir="rtl"]) h2 { letter-spacing: normal; }
     button, input, summary { -webkit-tap-highlight-color: transparent; }
     button { font: inherit; color: inherit; cursor: pointer; }
     .trigger { position: relative; display: grid; place-items: center; width: var(--st-control-size, 4.500rem); height: var(--st-control-size, 4.500rem); border: 0; border-radius: .375rem; padding: var(--st-control-padding, .46875rem); background: transparent; }
@@ -20,12 +23,12 @@
     .choice:hover, .test-choice:hover { background: #ffffff12; }
     input { position: absolute; opacity: 0; width: 1px; height: 1px; }
     label:has(input:focus-visible) { outline: 2px solid #a8efd0; outline-offset: -2px; }
-    .check { width: 18px; color: #a8efd0; visibility: hidden; }
+    .check { width: 18px; flex-shrink: 0; color: #a8efd0; visibility: hidden; }
     input:checked ~ .check { visibility: visible; }
     .choice:has(input:checked) { background: #ffffff09; }
     .testing { border-top: 1px solid #ffffff15; padding: 12px 18px; }
     summary { color: #aaa; font-size: 12px; cursor: pointer; }
-    .test-options { display: flex; gap: 8px; padding-top: 12px; }
+    .test-options { display: flex; flex-wrap: wrap; gap: 8px; padding-top: 12px; }
     .test-choice { position: relative; display: flex; align-items: center; gap: 4px; padding: 7px 8px; border: 1px solid #ffffff20; border-radius: 6px; cursor: pointer; font-size: 12px; }
     .test-choice .check { width: 12px; }
     @media (prefers-reduced-motion: reduce) { .trigger svg { transition: none; } }

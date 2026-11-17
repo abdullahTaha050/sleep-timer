@@ -1,11 +1,16 @@
 // Local test/demo stand-in for Chrome's native catalog lookup. Never packaged
 // as extension runtime code; it cannot verify Chrome's real locale selection.
+export const demoLocales = ['ar', 'de', 'en', 'es', 'fa', 'fr', 'he', 'hi', 'id', 'it', 'ja', 'ko',
+  'ms', 'pl', 'pt_BR', 'pt_PT', 'ru', 'th', 'tr', 'ur', 'vi', 'zh_CN', 'zh_TW'];
+
 export function createI18n(language, catalogs) {
-  const locale = language.toLowerCase().split(/[-_]/)[0];
+  const normalized = language.replaceAll('-', '_').toLowerCase();
+  const locale = Object.keys(catalogs).find((name) => name.toLowerCase() === normalized);
+  const base = normalized.split('_')[0];
   return {
     getUILanguage: () => language,
     getMessage(key, substitutions = []) {
-      const entry = catalogs[locale]?.[key] ?? catalogs.en[key];
+      const entry = catalogs[locale]?.[key] ?? catalogs[base]?.[key] ?? catalogs.en[key];
       if (!entry) throw new Error(`Missing translation: ${key}`);
       const values = Array.isArray(substitutions) ? substitutions : [substitutions];
       return entry.message.replace(/\$(\w+)\$/g, (_, name) => {
@@ -18,7 +23,7 @@ export function createI18n(language, catalogs) {
 }
 
 export async function installDemoI18n() {
-  const entries = await Promise.all(['en', 'tr'].map(async (locale) => {
+  const entries = await Promise.all(demoLocales.map(async (locale) => {
     const response = await fetch(`/extension/_locales/${locale}/messages.json`);
     if (!response.ok) throw new Error(`Could not load ${locale} translations`);
     return [locale, await response.json()];

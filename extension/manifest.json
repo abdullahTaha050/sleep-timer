@@ -5,6 +5,11 @@
   "description": "__MSG_extensionDescription__",
   "default_locale": "en",
   "minimum_chrome_version": "120",
+  "permissions": ["storage"],
+  "action": {
+    "default_title": "Sleep Timer",
+    "default_popup": "popup/popup.html"
+  },
   "icons": {
     "16": "icons/icon-16.png",
     "48": "icons/icon-48.png",
@@ -18,6 +23,7 @@
       ],
       "js": [
         "shared/i18n.js",
+        "shared/settings.js",
         "shared/build.js",
         "shared/config.js",
         "core/timer.js",

@@ -1,5 +1,25 @@
 # Doğrulama kaydı
 
+## Commitizen — 14 Kasım 2026
+
+- `commitizen@4.3.2` ve `cz-conventional-changelog@3.3.0` sabit sürümlerle geliştirme bağımlılığı olarak eklendi; `npm run commit` yerel `cz` komutunu kullanır. Release Please yapılandırması ve sürüm numarası değiştirilmedi.
+- Komut geçici bir Git deposunda `--dry-run` ile çalıştırıldı. Gerçek adaptöre otomatik verilen yanıtlarla `feat`, `fix`, `chore` ve `BREAKING CHANGE:` içeren mesajlar doğrulandı. Test önbelleği geçici klasörde tutuldu. Geçici depoda da gerçek commit oluşmadığı kontrol edildi; projede commit/push yapılmadı.
+- `npm test`: **123 test, 0 hata**. Kurulumun npm audit sonucu **0 güvenlik açığı** bildirdi. Paketleyici geliştirme bağımlılıklarını eklenti ZIP’ine dahil etmez.
+
+## Araç çubuğu popup’ı — 14 Kasım 2026
+
+- Kullanıcının açık/koyu referansları popup’a uygulandı. **Bu sürüm** başlığı ve son isteğiyle **Yeni popup / Hızlı bağlantılar / Aç / Kapat** maddeleri kaldırıldı; sürüm notları, GitHub ve geri bildirim bağlantıları korundu. Desteklenen platformlar alt bölümü kaldırıldı; üstteki Netflix & HBO Max yazısı korundu. Tema sistem tercihini izler; sürüm numarası manifestten alınır.
+- `npm test`: **123 test, 0 hata**. Sekmeler arasında aç/kapat, yeni sekmede kapalı başlama, sayacı iptal etme, durdurma korumasını videoyu oynatmadan kaldırma, yeniden açma, yinelenen başlatmayı engelleme, depolama okuma/yazma hataları ve ilk okumadan daha yeni olayın korunması test edildi. Popup metinleri ve yönü 23 katalogda kontrol edildi.
+- Yayın ZIP testi popup HTML/CSS/JS ve ayar betiğinin dahil olduğunu, `storage` iznini, test sürelerinin yayın paketinde gizlenmesini ve `node_modules` dışlanmasını kontrol eder.
+- Bunlar Happy DOM ve Chrome API taklitleriyle kod testleridir. Gerçek Chrome popup’ı, açık/koyu görsel yerleşim, klavye etkileşimi ve canlı Netflix/HBO davranışı tarayıcıda doğrulanmadı. Çeviriler ana dili konuşan editörlerce ayrıca incelenmedi.
+
+## 23 dil / bölge desteği — 13 Kasım 2026
+
+- Görseldeki 23 dil/bölge için 27 kullanıcı metni ve katalog dil etiketi tamamlandı. Türkçe ve İngilizce korunarak 21 katalog eklendi; Portekizce ve Çince bölgesel varyantları ayrıdır.
+- `npm test`: **115 test, 0 hata**. Katalog anahtarları ve yer tutucuları, açıklama uzunluğu, bölgesel katalog/temel dil/İngilizce seçimi, menü/bildirim metinleri, erişilebilirlik etiketleri ve tekrar butonu kontrol edildi. Arapça, Farsça, İbranice ve Urduca için `dir=rtl` ve sayısal sürelerin yön izolasyonu doğrulandı.
+- Paket testi 23 kataloğun gerçek yayın ZIP'ine eksiksiz girdiğini ve tüm dillerde test sürelerinin gizli kaldığını doğrular. Yerel sürümde test süreleri korunur. `npm run package` dağıtım paketlerini üretir.
+- Testler Chrome i18n API taklidi ve Happy DOM kullanır. Gerçek Chrome dil seçimi, görsel yerleşim, tam ekran ve canlı Netflix/HBO testi yapılmadı. Çeviriler ana dili konuşan editörlerce ayrıca incelenmedi.
+
 ## Yerel test süreleri / yayın paketi — 13 Kasım 2026, 0.4.2
 
 - `npm test`: **80 test, 0 hata**. Yeni paket testi gerçek paketleme betiğini geçici klasörde çalıştırır; yayın ZIP'indeki betiklerle Türkçe ve İngilizce menüyü oluşturur. Test bölümü ve 5/10/30 saniye seçenekleri yoktur; dakika seçimi, menünün açılıp kapanması ve bölüm sonu seçeneği korunur.

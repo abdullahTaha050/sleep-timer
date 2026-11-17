@@ -1,8 +1,9 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { environment, loadExtension, mockMedia, read } from './helpers/environment.mjs';
+import { catalogs, locales, environment, loadExtension, mockMedia, read } from './helpers/environment.mjs';
+import { createI18n, demoLocales } from './helpers/i18n.mjs';
 
-for (const locale of ['tr', 'tr-TR', 'en', 'en-US', 'en-GB', 'de-DE', 'ar']) {
+for (const locale of ['tr', 'tr-TR', 'en', 'en-US', 'en-GB', 'nl-NL', 'sv']) {
   test(`menu and notice use browser UI locale ${locale} with English fallback`, async () => {
     const window = environment('https://unsupported.example/', locale);
     let ui, notice;
@@ -59,13 +60,19 @@ for (const locale of ['tr', 'tr-TR', 'en', 'en-US', 'en-GB', 'de-DE', 'ar']) {
   });
 }
 
-test('both catalogs cover every message and substitution, including manifest description', async () => {
-  const en = JSON.parse(await read('extension/_locales/en/messages.json'));
-  const tr = JSON.parse(await read('extension/_locales/tr/messages.json'));
-  assert.deepEqual(Object.keys(tr).sort(), Object.keys(en).sort());
-  for (const catalog of [en, tr]) {
-    for (const entry of Object.values(catalog)) {
+test('all 23 catalogs cover every message, substitution and manifest description', async () => {
+  const en = catalogs.en;
+  assert.equal(locales.length, 23);
+  assert.deepEqual(locales, [...demoLocales].sort());
+  for (const [locale, catalog] of Object.entries(catalogs)) {
+    assert.deepEqual(Object.keys(catalog).sort(), Object.keys(en).sort(), locale);
+    assert.equal(catalog.languageCode.message, locale.replace('_', '-'));
+    for (const [key, entry] of Object.entries(catalog)) {
       assert.ok(entry.message.length > 0);
+      assert.doesNotMatch(entry.message, /[<>]|TODO|FIXME/);
+      assert.deepEqual(entry.placeholders ?? {}, en[key].placeholders ?? {}, `${locale}.${key}`);
+      assert.deepEqual([...entry.message.matchAll(/\$(\w+)\$/g)].map((match) => match[1]).sort(),
+        [...en[key].message.matchAll(/\$(\w+)\$/g)].map((match) => match[1]).sort(), `${locale}.${key}`);
       for (const [, name] of entry.message.matchAll(/\$(\w+)\$/g)) {
         assert.match(entry.placeholders[name].content, /^\$[12]$/);
       }
@@ -75,6 +82,92 @@ test('both catalogs cover every message and substitution, including manifest des
   const manifest = JSON.parse(await read('extension/manifest.json'));
   assert.equal(manifest.default_locale, 'en');
   assert.equal(manifest.description, '__MSG_extensionDescription__');
+});
+
+const translatedTitles = {
+  ar: 'مؤقت النوم', de: 'Einschlaftimer', es: 'Temporizador de apagado', fa: 'تایمر خواب',
+  fr: 'Minuterie de veille', he: 'טיימר שינה', hi: 'स्लीप टाइमर', id: 'Pengatur waktu tidur',
+  it: 'Timer di spegnimento', ja: 'スリープタイマー', ko: '수면 타이머', ms: 'Pemasa tidur',
+  pl: 'Wyłącznik czasowy', pt_BR: 'Temporizador de sono', pt_PT: 'Temporizador de sono',
+  ru: 'Таймер сна', th: 'ตัวตั้งเวลาปิด', ur: 'سلیپ ٹائمر', vi: 'Hẹn giờ ngủ',
+  zh_CN: '睡眠定时器', zh_TW: '睡眠計時器',
+};
+
+for (const [locale, title] of Object.entries(translatedTitles)) {
+  test(`${locale}: translated controls, repeat action, direction and isolated countdown`, async () => {
+    const window = environment('https://unsupported.example/', locale.replace('_', '-'));
+    let ui, notice;
+    try {
+      window.document.documentElement.lang = 'en';
+      window.document.documentElement.dir = 'ltr';
+      await loadExtension(window);
+      const app = window.StreamSleepTimer;
+      const rtl = ['ar', 'fa', 'he', 'ur'].includes(locale);
+      const { t } = app.i18n;
+      ui = new app.TimerUI(() => {}, { episodeEnd: true });
+      ui.mount({ container: window.document.body });
+      assert.equal(ui.host.lang, locale.replace('_', '-'));
+      assert.equal(ui.host.dir, rtl ? 'rtl' : 'ltr');
+      assert.equal(ui.host.shadowRoot.querySelector('h2').textContent, title);
+      assert.equal(ui.host.shadowRoot.querySelector('.close').getAttribute('aria-label'), catalogs[locale].closeMenu.message);
+      ui.render({ active: true, guarding: true, selection: 600, remainingMs: 65000, playing: true });
+      assert.ok(ui.status.textContent.includes(rtl ? '\u206801:05\u2069' : '01:05'));
+      assert.ok(ui.status.textContent.includes(catalogs[locale].running.message));
+      ui.render({ active: true, guarding: true, selection: 600, remainingMs: 65000, playing: false });
+      assert.ok(ui.status.textContent.includes(catalogs[locale].waiting.message));
+      assert.equal(ui.button.getAttribute('aria-label'), t('timerStatus', '01:05'));
+      let repeats = 0, cancels = 0;
+      notice = new app.StopNotice({ onContinue: () => repeats++, onCancel: () => cancels++ });
+      notice.show(window.document.body, app.config.messages.expired, 600);
+      assert.equal(notice.host.lang, ui.host.lang);
+      assert.equal(notice.host.dir, ui.host.dir);
+      assert.equal(notice.panel.getAttribute('aria-label'), title);
+      assert.equal(notice.message.textContent, catalogs[locale].expired.message);
+      assert.equal(notice.continueButton.textContent, t('repeatMinutes', '10'));
+      const buttons = notice.host.shadowRoot.querySelectorAll('button');
+      assert.equal(buttons.length, 2);
+      assert.equal(buttons[0], notice.continueButton);
+      assert.equal(buttons[1].textContent, catalogs[locale].turnOffTimer.message);
+      buttons[0].click(); buttons[1].click();
+      assert.equal(repeats, 1); assert.equal(cancels, 1);
+      notice.show(window.document.body, app.config.messages.expired, 5);
+      assert.equal(notice.continueButton.textContent, t('repeatSeconds', '5'));
+      notice.show(window.document.body, app.config.messages.episode);
+      assert.equal(notice.continueButton.textContent, catalogs[locale].continuePlayback.message);
+      for (const key of Object.keys(catalogs.en)) {
+        const message = t(key, ['10', catalogs[locale].running.message]);
+        assert.ok(message.length > 0);
+        assert.doesNotMatch(message, /\$\w+\$/);
+      }
+    } finally { ui?.destroy(); notice?.destroy(); await window.happyDOM.close(); }
+  });
+}
+
+for (const [requested, expected] of [
+  ['de-DE', 'de'], ['fr-CA', 'fr'], ['es-MX', 'es'], ['ar-EG', 'ar'], ['ur-PK', 'ur'],
+  ['he-IL', 'he'], ['pt-BR', 'pt_BR'], ['pt-PT', 'pt_PT'], ['pt_BR', 'pt_BR'],
+  ['zh-CN', 'zh_CN'], ['zh-TW', 'zh_TW'], ['zh_TW', 'zh_TW'], ['nl-NL', 'en'],
+]) {
+  test(`${requested}: language metadata follows the selected catalog ${expected}`, async () => {
+    const window = environment('https://unsupported.example/', requested);
+    try {
+      await loadExtension(window);
+      const i18n = window.StreamSleepTimer.i18n;
+      assert.equal(i18n.language, expected.replace('_', '-'));
+      assert.equal(i18n.t('extensionDescription'), catalogs[expected].extensionDescription.message);
+    } finally { await window.happyDOM.close(); }
+  });
+}
+
+test('missing regional messages fall back to base language then English in the Chrome test double', () => {
+  const i18n = createI18n('fr-CA', {
+    en: { onlyDefault: { message: 'Default' } },
+    fr: { onlyBase: { message: 'Base' } },
+    fr_CA: { regional: { message: 'Regional' } },
+  });
+  assert.equal(i18n.getMessage('regional'), 'Regional');
+  assert.equal(i18n.getMessage('onlyBase'), 'Base');
+  assert.equal(i18n.getMessage('onlyDefault'), 'Default');
 });
 
 for (const platform of ['netflix', 'hbo']) {

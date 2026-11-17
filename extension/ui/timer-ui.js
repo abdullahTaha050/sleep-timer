@@ -1,5 +1,5 @@
 (() => {
-  const { t, language } = globalThis.StreamSleepTimer.i18n;
+  const { t, language, direction } = globalThis.StreamSleepTimer.i18n;
   const MOON = '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20.2 14.3A8.5 8.5 0 0 1 9.7 3.8a8.5 8.5 0 1 0 10.5 10.5Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   const format = (ms) => {
     const seconds = Math.ceil(ms / 1000);
@@ -11,7 +11,7 @@
       this.host = document.createElement('span');
       this.host.dataset.sleepTimer = 'control';
       this.host.lang = language;
-      this.host.dir = 'ltr';
+      this.host.dir = direction;
       // Align the wrapper itself with player controls, not its synthetic text baseline.
       // align-items only centers the trigger inside the wrapper; it cannot align the
       // wrapper in a flex/inline control row (as seen in HBO's footer).

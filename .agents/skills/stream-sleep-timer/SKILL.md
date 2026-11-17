@@ -78,6 +78,7 @@ Kalıcı ürün adı ve mağaza markası henüz seçilmedi. Aşağıdaki MVP uyg
 
 ## Arayüz tasarım ilkeleri
 
+- Kullanıcı 13 Kasım 2026'da görseldeki 23 dil/bölgenin eklenmesini önceliklendirdi: de, en, id, ms, vi, tr, es, fr, it, pl, pt_BR, pt_PT, ru, he, ur, ar, fa, hi, th, zh_CN, zh_TW, ja, ko. Menü, bildirim, hata, erişilebilirlik ve manifest açıklamaları yerel Chrome kataloglarından gelir; eşleşmeyen dillerde İngilizce kullanılır. Arapça/Farsça/İbranice/Urduca RTL'dir; süre değerleri yön izolasyonuyla korunur. Mavi bildirim butonu solda kalır. Harici çeviri servisi veya çalışma zamanı bağımlılığı ekleme. Commitizen önerisi sonraya bırakıldı; bu görevde commit/release akışı değişmedi.
 - Kullanıcı Apple'ın web sitesini tasarım referansı seçti: kısa metinler, belirgin tipografi, ferah boşluklar, sade yüzeyler ve net eylem hiyerarşisi. Referans: https://www.apple.com/ . Apple markasını veya varlıklarını kopyalama.
 - Bölüm sonu panelinde tek bir durum başlığı ve iki eylem yeterlidir. Tekrarlayan açıklama, teknik koruma mesajı, pazarlama cümlesi veya ek etiket ekleme. Hata varsa kullanıcının ne yapacağını belirten gerekli yönlendirmeyi koru.
 - Birincil eylem süre dolduğunda seçilen süreyi tekrar başlatır (ör. “10 dakika daha”), diğer durdurmalarda “Devam et”tir; ikincil eylem “Zamanlayıcıyı kapat”. Kullanıcı 11 Kasım 2026'da yeni buton eklenmemesini, mevcut soldaki mavi butonun kullanılmasını açıkça istedi. İkinci eylemi belirsiz bir çarpı ikonuna indirgeme; kapatmak oynatmayı başlatmaz.

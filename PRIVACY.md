@@ -1,6 +1,6 @@
 # Gizlilik Politikası — Sleep Timer
 
-Güncelleme: 11 Kasım 2026
+Güncelleme: 14 Kasım 2026
 
 Sleep Timer, Netflix ve HBO Max web oynatıcılarına yerel bir uyku zamanlayıcısı ekler.
 
@@ -16,7 +16,9 @@ HBO Max’te görünür Sonraki Bölüm kartı algılandığında video duraklat
 
 ## Saklama
 
-Zamanlayıcı ve arayüz durumu yalnızca mevcut sayfanın belleğinde tutulur. Eklenti kalıcı depolama veya Chrome senkronizasyonu kullanmaz. Sayfa yenilendiğinde veya kapatıldığında bu durum silinir.
+Zamanlayıcı ve oynatıcı arayüzünün durumu yalnızca mevcut sayfanın belleğinde tutulur; sayfa yenilendiğinde veya kapatıldığında silinir. Popup’taki eklentiyi aç/kapat tercihi (`enabled`) Chrome’un `storage.local` alanında yalnızca bu cihazda saklanır. Bu tercih için `storage` izni kullanılır; Chrome senkronizasyonuna veya harici sunucuya gönderilmez. Eklenti kaldırılınca bu kayıt silinir.
+
+Popup’taki GitHub, geri bildirim ve sürüm notları bağlantıları yalnızca tıklandığında ilgili siteyi yeni sekmede açar. Zamanlayıcı veya ayar verileri bu bağlantılara eklenmez.
 
 ## Sayfa erişimi
 
@@ -24,7 +26,7 @@ Zamanlayıcı ve arayüz durumu yalnızca mevcut sayfanın belleğinde tutulur. 
 
 ## Kontrol
 
-Menüdeki **Kapalı** ile zamanlayıcı iptal edilir. Chrome'un eklenti yönetiminden eklenti devre dışı bırakılabilir veya kaldırılabilir. Yüklü betiğin mevcut sayfadan temizlenmesi için ilgili platform sekmesini yenileyin.
+Menüdeki **Kapalı** ile o sekmenin zamanlayıcısı iptal edilir. Araç çubuğu popup’ındaki anahtar tüm desteklenen sekmelerde eklentinin zamanlayıcısını, durdurma korumasını ve arayüzünü kapatır; videoyu oynatmaz veya duraklatmaz. Yeniden açıldığında önceki sayaç geri yüklenmez. Chrome'un eklenti yönetiminden eklenti tamamen devre dışı bırakılabilir veya kaldırılabilir. Eklenti güncellemesinin mevcut sekmelere uygulanması için ilgili platform sekmesini yenileyin.
 
 
 ## İletişim

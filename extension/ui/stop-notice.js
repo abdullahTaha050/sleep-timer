@@ -1,11 +1,11 @@
 (() => {
-  const { t, language } = globalThis.StreamSleepTimer.i18n;
+  const { t, language, direction } = globalThis.StreamSleepTimer.i18n;
   class StopNotice {
     constructor({ onContinue, onCancel }) {
       this.host = document.createElement('span');
       this.host.dataset.sleepTimerNotice = '';
       this.host.lang = language;
-      this.host.dir = 'ltr';
+      this.host.dir = direction;
       const shadow = this.host.attachShadow({ mode: 'open' });
       shadow.innerHTML = `
         <style>
@@ -26,7 +26,7 @@
             max-height: calc(100dvh - 32px); overflow-y: auto;
             margin: 0; padding: 12px;
             border: 1px solid var(--border); border-radius: 18px;
-            background: var(--surface); color: var(--text);
+            background: var(--surface); color: var(--text); text-align: start;
             font: 16px/1.4 -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             box-shadow: 0 12px 32px #0000001a, 0 2px 6px #00000008;
           }
@@ -34,9 +34,11 @@
           .symbol { display: grid; place-items: center; flex: 0 0 32px; height: 32px; border-radius: 50%; background: var(--muted-surface); }
           .symbol svg { width: 18px; height: 18px; }
           p { margin: 0; font-size: 18px; line-height: 1.3; font-weight: 600; letter-spacing: -.3px; overflow-wrap: anywhere; }
-          .actions { display: flex; flex-wrap: wrap; gap: 8px; }
+          :host([dir="rtl"]) p { letter-spacing: normal; }
+          .actions { display: flex; flex-wrap: wrap; gap: 8px; direction: ltr; }
           button {
-            flex: 1 0 auto; min-height: 44px; max-width: 100%;
+            flex: 1 1 auto; min-width: 0; min-height: 44px; max-width: 100%;
+            direction: ${direction}; overflow-wrap: anywhere;
             border: 0; border-radius: 12px; padding: 10px 12px;
             background: var(--muted-surface); color: var(--text);
             font: inherit; font-size: 14px; line-height: 1.4; font-weight: 500;
