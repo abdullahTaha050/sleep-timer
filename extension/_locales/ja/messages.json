@@ -1,5 +1,5 @@
 {
-  "extensionDescription": {"message": "Netflix と HBO Max にスリープタイマーを追加します。動画を一時停止すると、カウントダウンも止まります。"},
+  "extensionDescription": {"message": "Netflix、HBO Max、Prime Video にスリープタイマーを追加します。動画を一時停止すると、カウントダウンも止まります。"},
   "timerName": {"message": "スリープタイマー"},
   "off": {"message": "オフ"},
   "timerOff": {"message": "タイマーはオフです"},

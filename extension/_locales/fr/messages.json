@@ -1,5 +1,5 @@
 {
-  "extensionDescription": {"message": "Ajoute une minuterie de veille à Netflix et HBO Max. Le compte à rebours se met en pause avec la vidéo."},
+  "extensionDescription": {"message": "Ajoute une minuterie de veille à Netflix, HBO Max et Prime Video. Le compte à rebours se met en pause avec la vidéo."},
   "timerName": {"message": "Minuterie de veille"},
   "off": {"message": "Désactivée"},
   "timerOff": {"message": "Minuterie désactivée"},

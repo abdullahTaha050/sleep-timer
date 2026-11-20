@@ -1,5 +1,5 @@
 {
-  "extensionDescription": {"message": "Menambahkan pengatur waktu tidur ke Netflix dan HBO Max. Hitung mundur dijeda saat video dijeda."},
+  "extensionDescription": {"message": "Menambahkan pengatur waktu tidur ke Netflix, HBO Max dan Prime Video. Hitung mundur dijeda saat video dijeda."},
   "timerName": {"message": "Pengatur waktu tidur"},
   "off": {"message": "Nonaktif"},
   "timerOff": {"message": "Pengatur waktu nonaktif"},

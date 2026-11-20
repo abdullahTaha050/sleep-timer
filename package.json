@@ -2,7 +2,7 @@
   "name": "stream-sleep-timer",
   "version": "0.4.2",
   "private": true,
-  "description": "A local-first sleep timer for Netflix and HBO Max players.",
+  "description": "A local-first sleep timer for Netflix, HBO Max and Prime Video players.",
   "license": "MIT",
   "scripts": {
     "commit": "cz",

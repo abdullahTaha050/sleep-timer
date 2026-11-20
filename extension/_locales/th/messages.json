@@ -1,5 +1,5 @@
 {
-  "extensionDescription": {"message": "เพิ่มตัวตั้งเวลาปิดให้ Netflix และ HBO Max การนับถอยหลังจะหยุดชั่วคราวเมื่อหยุดวิดีโอชั่วคราว"},
+  "extensionDescription": {"message": "เพิ่มตัวตั้งเวลาปิดให้ Netflix, HBO Max และ Prime Video การนับถอยหลังจะหยุดชั่วคราวเมื่อหยุดวิดีโอชั่วคราว"},
   "timerName": {"message": "ตัวตั้งเวลาปิด"},
   "off": {"message": "ปิด"},
   "timerOff": {"message": "ปิดตัวตั้งเวลาแล้ว"},

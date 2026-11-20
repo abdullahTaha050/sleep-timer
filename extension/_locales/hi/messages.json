@@ -1,5 +1,5 @@
 {
-  "extensionDescription": {"message": "Netflix और HBO Max में स्लीप टाइमर जोड़ता है। वीडियो रुकने पर उलटी गिनती भी रुक जाती है।"},
+  "extensionDescription": {"message": "Netflix, HBO Max और Prime Video में स्लीप टाइमर जोड़ता है। वीडियो रुकने पर उलटी गिनती भी रुक जाती है।"},
   "timerName": {"message": "स्लीप टाइमर"},
   "off": {"message": "बंद"},
   "timerOff": {"message": "टाइमर बंद है"},

@@ -1,5 +1,5 @@
 {
-  "extensionDescription": {"message": "Añade un temporizador de apagado a Netflix y HBO Max. La cuenta atrás se pausa cuando se pausa el vídeo."},
+  "extensionDescription": {"message": "Añade un temporizador de apagado a Netflix, HBO Max y Prime Video. La cuenta atrás se pausa cuando se pausa el vídeo."},
   "timerName": {"message": "Temporizador de apagado"},
   "off": {"message": "Desactivado"},
   "timerOff": {"message": "Temporizador desactivado"},

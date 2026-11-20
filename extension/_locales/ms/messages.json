@@ -1,5 +1,5 @@
 {
-  "extensionDescription": {"message": "Menambah pemasa tidur pada Netflix dan HBO Max. Kiraan detik dijeda apabila video dijeda."},
+  "extensionDescription": {"message": "Menambah pemasa tidur pada Netflix, HBO Max dan Prime Video. Kiraan detik dijeda apabila video dijeda."},
   "timerName": {"message": "Pemasa tidur"},
   "off": {"message": "Dimatikan"},
   "timerOff": {"message": "Pemasa dimatikan"},

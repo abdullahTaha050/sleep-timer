@@ -1,5 +1,5 @@
 {
-  "extensionDescription": {"message": "تایمر خواب را به Netflix و HBO Max اضافه می‌کند. با توقف موقت ویدیو، شمارش معکوس هم متوقف می‌شود."},
+  "extensionDescription": {"message": "تایمر خواب را به Netflix، HBO Max و Prime Video اضافه می‌کند. با توقف موقت ویدیو، شمارش معکوس هم متوقف می‌شود."},
   "timerName": {"message": "تایمر خواب"},
   "off": {"message": "خاموش"},
   "timerOff": {"message": "تایمر خاموش است"},

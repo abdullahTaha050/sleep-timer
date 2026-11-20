@@ -1,6 +1,6 @@
 # Kod yapısı
 
-Eklentinin ortak davranışı `core/` ve `ui/` içinde; siteye özgü bilgi `adapters/` içindedir. Netflix ve HBO Max adaptörleri dağıtılır. HBO Max adaptörü paylaşılan HTML ile uygulanmış ve DOM simülasyonunda test edilmiştir; kullanıcı 0.3.0 süre desteğinin canlıda çalıştığını bildirmiştir. 0.3.1 dikey hizalama düzeltmesi görsel doğrulama bekler. Prime Video ve Disney+ henüz desteklenmez.
+Eklentinin ortak davranışı `core/` ve `ui/` içinde; siteye özgü bilgi `adapters/` içindedir. Netflix, HBO Max ve Prime Video adaptörleri dağıtılır. HBO Max adaptörü paylaşılan HTML ile uygulanmış ve DOM simülasyonunda test edilmiştir; kullanıcı 0.3.0 süre desteğinin canlıda çalıştığını bildirmiştir. 0.3.1 dikey hizalama düzeltmesi görsel doğrulama bekler. Prime Video süre desteği de paylaşılan HTML ile uygulanmıştır; canlı doğrulama bekler. Disney+ henüz desteklenmez.
 
 | Dosya | Sorumluluk |
 |---|---|
@@ -14,6 +14,7 @@ Eklentinin ortak davranışı `core/` ve `ui/` içinde; siteye özgü bilgi `ada
 | `extension/core/playback-guard.js` | Ortak kapalı / bekliyor / durduruldu durumları. Durdurma kararı, kullanıcı açıkça bırakana kadar korunur. |
 | `extension/adapters/netflix.js` | Netflix domain'i, izleme kimliği, ana video ve sağ kontrol grubunu bulma. |
 | `extension/adapters/hbo.js` | HBO Max domain ve izleme yolu, ana video, normal sağ kontrol grubu ve platforma özel boyutlar. |
+| `extension/adapters/prime-video.js` | Prime Video detay kimliği, açık oynatıcıdaki ana video ve sağ kontrol grubunu bulma. |
 | `extension/ui/timer-ui.js` | Ortak Shadow DOM butonu, popover menü, seçenekler, kalan süre ve odak işlemleri. |
 | `extension/ui/stop-notice.js` | Kontroller kaybolsa da erişilebilen durdurma bildirimi, Devam et ve korumayı kapatma. |
 | `extension/ui/styles.js` | Ortak görünüm. İkon ve buton boyutları `rem` tabanlı CSS değişkenleriyle yönetilir. |
@@ -56,9 +57,17 @@ Yeni adaptör dosyası kendisini `StreamSleepTimer.platforms.register(...)` ile 
 
 0.4.0 adaptörü `getEpisodeEnd` sunar: mevcut videonun oynatıcısındaki `up_next → player-ux-up-next-container → player-ux-up-next-button` yapısında görünür düğmeyi sinyal sayar. Geometri, eleman ve atalarının gizlilik/CSS durumları kontrol edilir. Menüde Bölüm sonunda görünür; süre seçimi de bu sinyalle sınırlanır. Yeni HTML otomatik oynatma kapalı durumunu gösterir ve iptal kontrolü içermez; `cancelButton: null` döner, `cancelAutoplay` yoktur. Sonraki bölüm düğmesine basılmaz. Ortak guard yeniden oynatmayı/yeni videoyu duraklatır. Kart ve doğal bitiş kaçırılırken aynı URL'de içerik değişimini belirleyen ek sinyal henüz yoktur.
 
+## Prime Video kapsamı
+
+Yalnızca `www.primevideo.com` eşleşir. `/detail/<kimlik>` ve `/-/<dil>/detail/<kimlik>` yollarındaki kimlik, `#dv-web-player .atvwebplayersdk-video-surface` bulunduğu sürece korunur; oynatıcı kaldırılınca temizlenir. Sorgu ve hash değişimleri sayaç kimliğini etkilemez. Ana video bu yüzey içinden seçilir.
+
+`.atvwebplayersdk-player-container` içindeki `atvwebplayersdk-captions-toggle-button`, `atvwebplayersdk-mute-toggle-button` ve `atvwebplayersdk-fullscreen-toggle-button` düğmelerinin en yakın ortak atası sağ gruptur. Tüm kontrol kökü ya da kapat/oynat/ileri/geri düğmeleri içeren bir ata kabul edilmez. Ay düğmesi grubun başına eklenir; üretilmiş sınıflara veya çevrilmiş etiketlere bağımlılık yoktur. Kontroller yokken `mount: null` ile sayaç korunur.
+
+Boş next-up alanı bölüm sonu kanıtı değildir; `getEpisodeEnd` ve `cancelAutoplay` uygulanmadı. Süre, doğal bitiş ve detay kimliği değişimi ortak korumayı kullanır. Doğal bitiş olmadan aynı URL’de içerik değişiminin ek sinyali henüz yoktur. Gerçek Prime Video ve tam ekran doğrulaması bekler.
+
 ## Boyutlar
 
-İkon `3.1875rem`, buton `4.500rem`, iç boşluk `.46875rem` değerlerini kullanır. Aktiflik noktası ve buton köşesi de `rem` ile ölçeklenir. Netflix boyutları korunur. HBO adaptörü başlangıç ölçüleri olarak ikon `1.5rem`, buton `2.75rem`, iç boşluk `.625rem` kullanır; gerçek yerleşim canlı test bekler.
+İkon `3.1875rem`, buton `4.500rem`, iç boşluk `.46875rem` değerlerini kullanır. Aktiflik noktası ve buton köşesi de `rem` ile ölçeklenir. Netflix boyutları korunur. HBO ve Prime Video adaptörleri başlangıç ölçüleri olarak ikon `1.5rem`, buton `2.75rem`, iç boşluk `.625rem` kullanır; gerçek yerleşim canlı test bekler.
 
 Butonun dış kapsayıcısı flex satırında `align-self:center`, satır içi düzende `vertical-align:middle` kullanır; `line-height:0` metin satırından gelen boşluğu kaldırır. İkon ve tıklama alanı boyutları değişmez.
 

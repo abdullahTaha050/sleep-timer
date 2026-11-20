@@ -1,5 +1,5 @@
 {
-  "extensionDescription": {"message": "為 Netflix 和 HBO Max 新增睡眠計時器。影片暫停時，倒數計時也會暫停。"},
+  "extensionDescription": {"message": "為 Netflix、HBO Max 和 Prime Video 新增睡眠計時器。影片暫停時，倒數計時也會暫停。"},
   "timerName": {"message": "睡眠計時器"},
   "off": {"message": "關閉"},
   "timerOff": {"message": "計時器已關閉"},

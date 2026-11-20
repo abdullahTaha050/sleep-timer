@@ -1,5 +1,14 @@
 # Doğrulama kaydı
 
+## Prime Video süre desteği — 18 Kasım 2026
+
+- Paylaşılan iki oynatıcı yapısından ana video ve görünür kontrol grubu için adaptör eklendi. Ay düğmesi sağ grubun başına yerleşir; üretilmiş sınıf veya çevrilmiş etiket kullanılmaz. Manifest yalnızca `www.primevideo.com` erişimiyle genişletildi.
+- `npm test`: **140 test, 0 hata**; 17 Prime Video testi. Ana video seçimi, yerleşim/tek örnek, eksik/yenilenen kontroller, duraklatma/yükleme/sarma, medya değişimi, URL kimliği, doğal bitiş, tekrar/iptal ve oynatıcı kapatma kapsanır. Mevcut Netflix/HBO ve yayın paketi testleri de geçti.
+- 23 yerel açıklama ve popup platform listesi güncellendi. Çalışma zamanı bağımlılığı eklenmedi; ortak timer/controller kopyalanmadı.
+- Orijinal kişisel HTML depoya eklenmedi; testler sadeleştirilmiş sentetik fixture kullanır. Boş next-up alanından bölüm sonu tahmini yapılmaz; Prime Video menüsünde Bölüm sonunda yoktur.
+- Sonuçlar Happy DOM ve taklit medya olaylarına aittir. Gerçek Prime Video/DRM, tam ekran, kontrol gizlenmesi, görsel hizalama ve otomatik geçiş canlıda doğrulanmadı.
+
+
 ## Commitizen — 14 Kasım 2026
 
 - `commitizen@4.3.2` ve `cz-conventional-changelog@3.3.0` sabit sürümlerle geliştirme bağımlılığı olarak eklendi; `npm run commit` yerel `cz` komutunu kullanır. Release Please yapılandırması ve sürüm numarası değiştirilmedi.

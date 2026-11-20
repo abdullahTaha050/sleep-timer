@@ -50,7 +50,7 @@ test('HBO domain and route matching stay limited to the observed origin and watc
     }
     assert.equal(adapter.getPlaybackKey({ location: { pathname: '/video/watch/episode-a/' } }), 'episode-a');
     const manifest = JSON.parse(await read('extension/manifest.json'));
-    assert.deepEqual(manifest.content_scripts[0].matches, ['https://www.netflix.com/*', 'https://www.hbomax.com/*']);
+    assert.deepEqual(manifest.content_scripts[0].matches, ['https://www.netflix.com/*', 'https://www.hbomax.com/*', 'https://www.primevideo.com/*']);
   } finally { await s.close(); }
 });
 

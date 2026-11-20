@@ -1,5 +1,5 @@
 {
-  "extensionDescription": {"message": "Adiciona um temporizador de sono à Netflix e ao HBO Max. A contagem regressiva pausa quando o vídeo é pausado."},
+  "extensionDescription": {"message": "Adiciona um temporizador de sono à Netflix, HBO Max e Prime Video. A contagem regressiva pausa quando o vídeo é pausado."},
   "timerName": {"message": "Temporizador de sono"},
   "off": {"message": "Desativado"},
   "timerOff": {"message": "Temporizador desativado"},
