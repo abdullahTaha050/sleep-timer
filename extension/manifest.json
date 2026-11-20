@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Sleep Timer — Netflix & HBO Max",
+  "name": "Sleep Timer — Netflix, HBO Max & Prime Video",
   "version": "1.0.0",
   "description": "__MSG_extensionDescription__",
   "default_locale": "en",

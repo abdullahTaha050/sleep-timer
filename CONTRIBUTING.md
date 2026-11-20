@@ -58,4 +58,4 @@ Yeni bir dil eklenirse test/demo dil listesi ve i18n testlerini de güncelleyin.
 
 ## Ürün kararları
 
-`.agents/skills/stream-sleep-timer/SKILL.md` dosyasındaki kesinleşmiş kararları ve ertelenmiş kapsamı okuyun. 0.4.0 Netflix ve HBO Max bölüm sonu algılamasını içerir. HBO geri sayım iptal kontrolü henüz gözlenmedi; Sonraki Bölüm düğmesine basılmaz, ortak durdurma koruması kullanılır. Prime Video süre desteği paylaşılan HTML ile uygulanmıştır; bölüm sonu sinyali ve canlı oynatma henüz doğrulanmadı. Özel süre girişi ve Disney+ henüz uygulanmamıştır.
+`.agents/skills/stream-sleep-timer/SKILL.md` dosyasındaki kesinleşmiş kararları ve ertelenmiş kapsamı okuyun. 0.4.0 Netflix ve HBO Max bölüm sonu algılamasını içerir. HBO geri sayım iptal kontrolü henüz gözlenmedi; Sonraki Bölüm düğmesine basılmaz, ortak durdurma koruması kullanılır. Prime Video süre ve bölüm sonu desteği paylaşılan HTML ile uygulanmıştır; görünür next-up kartı sinyal sayılır. Sonraki içerik ve Gizle kontrollerine basılmaz. Canlı oynatma henüz doğrulanmadı. Özel süre girişi ve Disney+ henüz uygulanmamıştır.

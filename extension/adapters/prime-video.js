@@ -13,6 +13,16 @@
     'atvwebplayersdk-skip-forward-button',
   ].map((id) => `button#${id}`).join(',');
 
+  function visible(element) {
+    if (!element?.isConnected || !element.getClientRects().length) return false;
+    for (let node = element; node; node = node.parentElement) {
+      if (node.hidden || node.getAttribute('aria-hidden') === 'true' || node.hasAttribute('inert')) return false;
+      const style = getComputedStyle(node);
+      if (style.display === 'none' || style.visibility === 'hidden' || style.visibility === 'collapse' || style.opacity === '0') return false;
+    }
+    return true;
+  }
+
   globalThis.StreamSleepTimer.platforms.register({
     id: 'prime-video',
     matches: (location) => location.hostname === 'www.primevideo.com',
@@ -40,9 +50,20 @@
         group = group.parentElement;
       }
       if (group === controls || group?.querySelector(OTHER_BUTTONS)) group = null;
-      // Controls may disappear while playback continues. The empty next-up
-      // slot in both supplied snapshots is not an episode-end signal.
+      // Controls may disappear while playback continues.
       return { video, root: player, mount: group ? { container: group } : null };
+    },
+    getEpisodeEnd({ video }) {
+      const player = video?.closest(PLAYER);
+      // The empty slot persists during normal playback. Require the observed
+      // shown card and its next-content target, scoped to this video's player.
+      const cards = player?.querySelectorAll(
+        '.atvwebplayersdk-nextupcard-wrapper .atvwebplayersdk-nextupcard-show .atvwebplayersdk-nextupcard-button',
+      ) ?? [];
+      const signal = [...cards].find(visible);
+      // The card starts the next content; "Hide" is not proven to cancel
+      // autoplay. Click neither and let the shared pause guard hold playback.
+      return signal ? { signal, cancelButton: null } : null;
     },
   });
 })();

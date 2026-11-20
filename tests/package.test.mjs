@@ -36,6 +36,7 @@ with ZipFile(root / 'dist' / f'sleep-timer-source-{version}.zip') as archive:
 print(json.dumps(result))
     `], { cwd: directory });
     const packaged = JSON.parse(stdout);
+    assert.equal(packaged.manifest.name, 'Sleep Timer — Netflix, HBO Max & Prime Video');
     assert.equal(packaged.sourceBuild, localBuild);
     assert.equal(await readFile(join(directory, 'extension/shared/build.js'), 'utf8'), localBuild);
     assert.ok(packaged.files.every((file) => !file.startsWith('node_modules/')));

@@ -1,5 +1,15 @@
 # Doğrulama kaydı
 
+## Prime Video bölüm sonu ve eklenti adı — 20 Kasım 2026
+
+- Eklenti adı `Sleep Timer — Netflix, HBO Max & Prime Video` olarak güncellendi. Sürüm numarası değiştirilmedi; Release Please akışı korunur.
+- Yeni HTML’deki `atvwebplayersdk-nextupcard-wrapper → atvwebplayersdk-nextupcard-show → atvwebplayersdk-nextupcard-button` yapısı mevcut videonun oynatıcısında, görünürlük kontrolüyle algılanır. Bölüm sonunda seçeneği sunulur; dakika/saniye süresinden önce kart gelirse durdurulur.
+- Sonraki içerik alanına basılmaz. Gizle düğmesinin geri sayımı iptal ettiğini statik HTML kanıtlamaz; ona da basılmaz, ortak duraklatma koruması kullanılır.
+- `npm test`: **150 test, 0 hata**; 27 Prime Video testi. 10 yeni test bölüm sonu seçimi, süre üst sınırı, gizli/ilgisiz kartlar, gösterilme sınıfı değişimi, kontroller yokken algılama, erken kurma, yeni videoda koruma, Devam et/iptal ve tekrarlanan süreyi kapsar. Yayın ZIP testi güncel eklenti adını da doğrular.
+- Kullanıcının HTML’i bellekte, sayfa betikleri ve harici kaynak yüklemeleri kapalı olarak ayrıca kontrol edildi; yalnızca geometri ve medya olayları taklit edildi. Seçiciler eşleşti, bölüm sonu koruması duraklattı ve hiçbir kart düğmesine basılmadı. Orijinal döküm depoya/pakete kopyalanmadı; yeni fixture sentetiktir.
+- Bu sonuçlar DOM simülasyonudur. Gerçek Prime Video/DRM, otomatik geçiş, görsel yerleşim ve tam ekran davranışı canlıda doğrulanmadı.
+
+
 ## Prime Video süre desteği — 18 Kasım 2026
 
 - Paylaşılan iki oynatıcı yapısından ana video ve görünür kontrol grubu için adaptör eklendi. Ay düğmesi sağ grubun başına yerleşir; üretilmiş sınıf veya çevrilmiş etiket kullanılmaz. Manifest yalnızca `www.primevideo.com` erişimiyle genişletildi.
