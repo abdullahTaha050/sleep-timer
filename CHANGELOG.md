@@ -1,5 +1,24 @@
 # Changelog
 
+## [1.0.0](https://github.com/abdullahTaha050/sleep-timer/compare/v0.5.0...v1.0.0) (2026-11-17)
+
+
+### ⚠ BREAKING CHANGES
+
+* **extension pop up add:** commitizen
+
+### Features
+
+* **extension pop up add:** extension pop up added, commitizen implemented ([8d49d06](https://github.com/abdullahTaha050/sleep-timer/commit/8d49d06b785b4743903c9b4ded4643888f4f743a))
+
+## [0.5.0](https://github.com/abdullahTaha050/sleep-timer/compare/v0.4.2...v0.5.0) (2026-11-13)
+
+
+### Features
+
+* hidden test durations for production ([e3fb07d](https://github.com/abdullahTaha050/sleep-timer/commit/e3fb07d0115b60da273ab640113a400542bf0ba2))
+* hidden test durations for production ([ae90966](https://github.com/abdullahTaha050/sleep-timer/commit/ae90966c3b1d2364cb32bcaeb94e72ea48f1cc6a))
+
 ## [0.4.2](https://github.com/abdullahTaha050/sleep-timer/compare/v0.4.1...v0.4.2) (2026-11-11)
 
 
