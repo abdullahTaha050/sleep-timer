@@ -28,7 +28,7 @@ chore(tooling): add Commitizen
 docs: explain local installation
 ```
 
-Kapsam için `popup`, `netflix`, `hbo`, `i18n`, `timer` veya `tooling` gibi değişen alanı kullanabilirsiniz; zorunlu değildir. Türü değişikliğin etkisine göre seçin: yeni özellik için `feat`, hata düzeltmesi için `fix`, geliştirme araçları için `chore`, belge değişiklikleri için `docs`. Geriye uyumsuz değişiklik varsa ilgili soruya evet deyip açıklamasını girin; adaptör mesaj gövdesine `BREAKING CHANGE:` ekler.
+Kapsam için `popup`, `netflix`, `hbo`, `prime-video`, `i18n`, `timer` veya `tooling` gibi değişen alanı kullanabilirsiniz; zorunlu değildir. Türü değişikliğin etkisine göre seçin: yeni özellik için `feat`, hata düzeltmesi için `fix`, geliştirme araçları için `chore`, belge değişiklikleri için `docs`. Geriye uyumsuz değişiklik varsa ilgili soruya evet deyip açıklamasını girin; adaptör mesaj gövdesine `BREAKING CHANGE:` ekler.
 
 Commitizen mesaj hazırlamayı kolaylaştırır; doğrudan `git commit` ile yazılan mesajları zorunlu olarak denetleyen bir hook değildir. Bu kurulum commitlint denetimi veya Git hook’u yapılandırmaz.
 
@@ -58,4 +58,4 @@ Yeni bir dil eklenirse test/demo dil listesi ve i18n testlerini de güncelleyin.
 
 ## Ürün kararları
 
-`.agents/skills/stream-sleep-timer/SKILL.md` dosyasındaki kesinleşmiş kararları ve ertelenmiş kapsamı okuyun. 0.4.0 Netflix ve HBO Max bölüm sonu algılamasını içerir. HBO geri sayım iptal kontrolü henüz gözlenmedi; Sonraki Bölüm düğmesine basılmaz, ortak durdurma koruması kullanılır. Özel süre girişi, Prime Video ve Disney+ henüz uygulanmamıştır.
+`.agents/skills/stream-sleep-timer/SKILL.md` dosyasındaki kesinleşmiş kararları ve ertelenmiş kapsamı okuyun. 0.4.0 Netflix ve HBO Max bölüm sonu algılamasını içerir. HBO geri sayım iptal kontrolü henüz gözlenmedi; Sonraki Bölüm düğmesine basılmaz, ortak durdurma koruması kullanılır. Prime Video süre desteği paylaşılan HTML ile uygulanmıştır; bölüm sonu sinyali ve canlı oynatma henüz doğrulanmadı. Özel süre girişi ve Disney+ henüz uygulanmamıştır.

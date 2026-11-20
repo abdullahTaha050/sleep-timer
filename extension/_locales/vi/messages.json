@@ -1,5 +1,5 @@
 {
-  "extensionDescription": {"message": "Thêm hẹn giờ ngủ cho Netflix và HBO Max. Đếm ngược tạm dừng khi video tạm dừng."},
+  "extensionDescription": {"message": "Thêm hẹn giờ ngủ cho Netflix, HBO Max và Prime Video. Đếm ngược tạm dừng khi video tạm dừng."},
   "timerName": {"message": "Hẹn giờ ngủ"},
   "off": {"message": "Tắt"},
   "timerOff": {"message": "Hẹn giờ đã tắt"},

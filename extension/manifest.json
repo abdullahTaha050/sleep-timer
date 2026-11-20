@@ -21,7 +21,8 @@
     {
       "matches": [
         "https://www.netflix.com/*",
-        "https://www.hbomax.com/*"
+        "https://www.hbomax.com/*",
+        "https://www.primevideo.com/*"
       ],
       "js": [
         "shared/i18n.js",
@@ -34,6 +35,7 @@
         "core/media-binding.js",
         "adapters/netflix.js",
         "adapters/hbo.js",
+        "adapters/prime-video.js",
         "ui/styles.js",
         "ui/timer-ui.js",
         "ui/stop-notice.js",

@@ -1,5 +1,5 @@
 {
-  "extensionDescription": {"message": "为 Netflix 和 HBO Max 添加睡眠定时器。视频暂停时，倒计时也会暂停。"},
+  "extensionDescription": {"message": "为 Netflix、HBO Max 和 Prime Video 添加睡眠定时器。视频暂停时，倒计时也会暂停。"},
   "timerName": {"message": "睡眠定时器"},
   "off": {"message": "关闭"},
   "timerOff": {"message": "定时器已关闭"},

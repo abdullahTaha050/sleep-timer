@@ -1,5 +1,5 @@
 {
-  "extensionDescription": {"message": "Добавляет таймер сна в Netflix и HBO Max. Обратный отсчёт приостанавливается вместе с видео."},
+  "extensionDescription": {"message": "Добавляет таймер сна в Netflix, HBO Max и Prime Video. Обратный отсчёт приостанавливается вместе с видео."},
   "timerName": {"message": "Таймер сна"},
   "off": {"message": "Выключен"},
   "timerOff": {"message": "Таймер выключен"},

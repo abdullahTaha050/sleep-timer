@@ -1,5 +1,5 @@
 {
-  "extensionDescription": {"message": "Fügt Netflix und HBO Max einen Einschlaftimer hinzu. Der Countdown pausiert, wenn das Video pausiert."},
+  "extensionDescription": {"message": "Fügt Netflix, HBO Max und Prime Video einen Einschlaftimer hinzu. Der Countdown pausiert mit dem Video."},
   "timerName": {"message": "Einschlaftimer"},
   "off": {"message": "Aus"},
   "timerOff": {"message": "Timer ausgeschaltet"},

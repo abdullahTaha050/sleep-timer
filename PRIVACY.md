@@ -1,8 +1,8 @@
 # Gizlilik Politikası — Sleep Timer
 
-Güncelleme: 14 Kasım 2026
+Güncelleme: 18 Kasım 2026
 
-Sleep Timer, Netflix ve HBO Max web oynatıcılarına yerel bir uyku zamanlayıcısı ekler.
+Sleep Timer, Netflix, HBO Max ve Prime Video web oynatıcılarına yerel bir uyku zamanlayıcısı ekler.
 
 ## Yerelde işlenen bilgiler
 
@@ -14,6 +14,8 @@ Bölüm sonu koruması açıkken eklenti, Netflix'in görünür bölüm sonu kon
 
 HBO Max’te görünür Sonraki Bölüm kartı algılandığında video duraklatılır. Sonraki bölüm düğmesine basılmaz; hesap/profil ayarları değiştirilmez. Yeniden oynatma ve yeni video için aynı sayfa belleğindeki durdurma koruması kullanılır.
 
+Prime Video’da açık oynatıcının ana videosu ve detay kimliği yerelde okunur. Süre, doğal bitiş veya kimlik değişimiyle durdurma koruması çalışır; bölüm sonu kartı algılanmaz ve otomatik geçiş düğmelerine basılmaz.
+
 ## Saklama
 
 Zamanlayıcı ve oynatıcı arayüzünün durumu yalnızca mevcut sayfanın belleğinde tutulur; sayfa yenilendiğinde veya kapatıldığında silinir. Popup’taki eklentiyi aç/kapat tercihi (`enabled`) Chrome’un `storage.local` alanında yalnızca bu cihazda saklanır. Bu tercih için `storage` izni kullanılır; Chrome senkronizasyonuna veya harici sunucuya gönderilmez. Eklenti kaldırılınca bu kayıt silinir.
@@ -22,7 +24,7 @@ Popup’taki GitHub, geri bildirim ve sürüm notları bağlantıları yalnızca
 
 ## Sayfa erişimi
 
-İçerik betikleri yalnızca `https://www.netflix.com/*` ve `https://www.hbomax.com/*` sayfalarında çalışır. Domain genelinde eşleşme, platformlarda tam sayfa yenilenmeden izleme sayfasına geçişi algılamak içindir. Buton ve video işlemleri Netflix’te `/watch/<kimlik>`, HBO Max’te `/video/watch/<kimlik>` sayfalarında etkinleşir. Başka siteler, tarayıcı geçmişi, mikrofon ve kamera için izin istenmez.
+İçerik betikleri yalnızca `https://www.netflix.com/*`, `https://www.hbomax.com/*` ve `https://www.primevideo.com/*` sayfalarında çalışır. Domain genelinde eşleşme, platformlarda tam sayfa yenilenmeden izleme sayfasına geçişi algılamak içindir. Buton ve video işlemleri Netflix’te `/watch/<kimlik>`, HBO Max’te `/video/watch/<kimlik>`, Prime Video’da `/detail/<kimlik>` veya `/-/<dil>/detail/<kimlik>` sayfalarındaki açık oynatıcıda etkinleşir. Başka siteler, tarayıcı geçmişi, mikrofon ve kamera için izin istenmez.
 
 ## Kontrol
 

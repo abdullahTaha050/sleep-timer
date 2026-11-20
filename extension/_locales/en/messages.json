@@ -1,5 +1,5 @@
 {
-  "extensionDescription": { "message": "Adds a sleep timer to Netflix and HBO Max players. The countdown pauses when the video is paused." },
+  "extensionDescription": { "message": "Adds a sleep timer to Netflix, HBO Max and Prime Video players. The countdown pauses when the video is paused." },
   "timerName": { "message": "Sleep timer" },
   "off": { "message": "Off" },
   "timerOff": { "message": "Timer off" },

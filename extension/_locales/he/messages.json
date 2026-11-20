@@ -1,5 +1,5 @@
 {
-  "extensionDescription": {"message": "מוסיף טיימר שינה ל־Netflix ול־HBO Max. הספירה לאחור נעצרת כשהסרטון מושהה."},
+  "extensionDescription": {"message": "מוסיף טיימר שינה ל־Netflix, ל־HBO Max ול־Prime Video. הספירה לאחור נעצרת כשהסרטון מושהה."},
   "timerName": {"message": "טיימר שינה"},
   "off": {"message": "כבוי"},
   "timerOff": {"message": "הטיימר כבוי"},

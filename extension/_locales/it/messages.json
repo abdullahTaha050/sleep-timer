@@ -1,5 +1,5 @@
 {
-  "extensionDescription": {"message": "Aggiunge un timer di spegnimento a Netflix e HBO Max. Il conto alla rovescia si interrompe quando il video è in pausa."},
+  "extensionDescription": {"message": "Aggiunge un timer di spegnimento a Netflix, HBO Max e Prime Video. Il conto alla rovescia si ferma quando il video è in pausa."},
   "timerName": {"message": "Timer di spegnimento"},
   "off": {"message": "Disattivato"},
   "timerOff": {"message": "Timer disattivato"},

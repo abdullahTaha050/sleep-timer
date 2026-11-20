@@ -1,5 +1,5 @@
 {
-  "extensionDescription": {"message": "يضيف مؤقت نوم إلى Netflix وHBO Max. يتوقف العد التنازلي مؤقتًا عند إيقاف الفيديو مؤقتًا."},
+  "extensionDescription": {"message": "يضيف مؤقت نوم إلى Netflix وHBO Max وPrime Video. يتوقف العد التنازلي مؤقتًا عند إيقاف الفيديو مؤقتًا."},
   "timerName": {"message": "مؤقت النوم"},
   "off": {"message": "إيقاف"},
   "timerOff": {"message": "المؤقت متوقف"},

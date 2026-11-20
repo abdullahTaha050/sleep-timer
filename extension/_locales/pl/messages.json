@@ -1,5 +1,5 @@
 {
-  "extensionDescription": {"message": "Dodaje wyłącznik czasowy do Netflix i HBO Max. Odliczanie zatrzymuje się po wstrzymaniu filmu."},
+  "extensionDescription": {"message": "Dodaje wyłącznik czasowy do Netflix, HBO Max i Prime Video. Odliczanie zatrzymuje się po wstrzymaniu filmu."},
   "timerName": {"message": "Wyłącznik czasowy"},
   "off": {"message": "Wyłączony"},
   "timerOff": {"message": "Wyłącznik czasowy wyłączony"},

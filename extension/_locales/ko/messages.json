@@ -1,5 +1,5 @@
 {
-  "extensionDescription": {"message": "Netflix와 HBO Max에 수면 타이머를 추가합니다. 동영상이 일시정지되면 카운트다운도 멈춥니다."},
+  "extensionDescription": {"message": "Netflix, HBO Max, Prime Video에 수면 타이머를 추가합니다. 동영상이 일시정지되면 카운트다운도 멈춥니다."},
   "timerName": {"message": "수면 타이머"},
   "off": {"message": "끄기"},
   "timerOff": {"message": "타이머 꺼짐"},

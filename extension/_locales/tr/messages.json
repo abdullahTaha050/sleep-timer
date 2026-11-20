@@ -1,5 +1,5 @@
 {
-  "extensionDescription": { "message": "Netflix ve HBO Max oynatıcılarına, video duraklatıldığında duran bir uyku zamanlayıcısı ekler." },
+  "extensionDescription": { "message": "Netflix, HBO Max ve Prime Video oynatıcılarına, video duraklatıldığında duran bir uyku zamanlayıcısı ekler." },
   "timerName": { "message": "Uyku zamanlayıcısı" },
   "off": { "message": "Kapalı" },
   "timerOff": { "message": "Zamanlayıcı kapalı" },

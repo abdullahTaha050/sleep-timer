@@ -17,7 +17,7 @@ description: Plan and develop this project's open-source Chrome sleep timer exte
 - Video duraklatılınca sayaç da durur; oynatma yeniden başladığında kalan süre üzerinden devam eder.
 - Menüde “Video duraklatıldığında sayaç da durur” açıklaması gösterilmez; davranış korunur.
 - İkon ve buton boyutları sabit piksel yerine `rem` ile oranlı ölçeklenir.
-- Birden fazla platform aynı zamanlayıcı, medya olayları, yaşam döngüsü ve arayüzü kullanır. Kullanıcı HBO HTML'ini paylaşıp desteğin eklenmesini istedi; 0.3.0 HBO Max süre desteğini içerir ve canlı testi kullanıcı yapacaktır. Prime Video ve Disney+ gelecekteki adaylardır.
+- Birden fazla platform aynı zamanlayıcı, medya olayları, yaşam döngüsü ve arayüzü kullanır. Kullanıcı HBO HTML'ini paylaşıp desteğin eklenmesini istedi; 0.3.0 HBO Max süre desteğini içerir ve canlı testi kullanıcı yapacaktır. Kullanıcı Prime Video HTML'ini de paylaşarak desteğin eklenmesini istedi; süre desteği uygulanmıştır, canlı doğrulama bekler. Disney+ gelecekteki adaydır.
 - İlk testlerde saniye cinsinden kısa süreler de kullanılacak. Bu, son kullanıcı menüsüne kalıcı saniye seçenekleri ekleme kararı değildir.
 - Proje GitHub'da açık kaynak olarak paylaşılacak ve topluluk katkılarına açık olacak.
 - Kullanıcı konsept görüşmesinden sonra ilk Netflix MVP'sinin uygulanmasını istedi; uygulama aşamasına geçildi.
@@ -75,6 +75,13 @@ Kalıcı ürün adı ve mağaza markası henüz seçilmedi. Aşağıdaki MVP uyg
 - 0.4.0'da 48 test geçti; 22'si HBO testidir. 10 yeni test bölüm sonu algılama ve koruma senaryolarını kapsar. Yeni döküm bellekte kontrol edildi; yalnızca sadeleştirilmiş fixture depoya eklendi. Gerçek HBO bölüm sonu ve otomatik oynatma davranışı kullanıcı canlı testini bekler.
 - Kullanıcı HBO/tarayıcı erişim denemesi yapılmamasını ve yalnızca kod tarafındaki testlerin çalıştırılmasını istedi; canlı kontrolleri kendisi yapacak. Bu talep yerel tarayıcı önizlemesine ilişkin önceki genel yönergelerden önceliklidir.
 - Menü dışına tıklamanın yalnızca menüyü kapatması ayrı bir öneridir; kullanıcı şimdilik uygulanmamasını ve yalnızca bölüm sonu özelliğinin geliştirilmesini istedi.
+
+## Prime Video uyarlaması — 18 Kasım 2026
+
+- Paylaşılan oynatıcı HTML'inin doğruladığı origin `www.primevideo.com`; Amazon mağaza domain'leri eklenmez. Detay kimliği `/detail/<kimlik>` ve `/-/<dil>/detail/<kimlik>` yollarından alınır; açık `#dv-web-player .atvwebplayersdk-video-surface` yoksa sayaç temizlenir.
+- Ana video bu yüzey içindedir. İkinci HTML kontrol düğmelerini içerir: captions-toggle, mute-toggle ve fullscreen-toggle düğmelerinin ortak sağ grubunun başına ay eklenir. Ayrı yüzen düğme kullanılmaz; üretilmiş sınıflara veya çevrilmiş metne dayanılmaz.
+- Next-up alanı boş olduğu için bölüm sonu algılama ve iptal tıklaması yoktur; menü süre seçeneklerini sunar. Süre, doğal bitiş ve detay kimliği değişimi ortak korumayı kullanır. Doğal bitiş olmadan aynı URL'de içerik değişimi için ek sinyal yoktur.
+- 140 otomatik test geçti; 17 Prime Video testi sadeleştirilmiş fixture kullanır. Gerçek Prime Video/DRM, tam ekran ve görsel yerleşim doğrulanmadı. Kişisel HTML depoya veya pakete alınmaz.
 
 ## Arayüz tasarım ilkeleri
 
