@@ -1,6 +1,6 @@
 # Kod yapısı
 
-Eklentinin ortak davranışı `core/` ve `ui/` içinde; siteye özgü bilgi `adapters/` içindedir. Netflix, HBO Max ve Prime Video adaptörleri dağıtılır. HBO Max adaptörü paylaşılan HTML ile uygulanmış ve DOM simülasyonunda test edilmiştir; kullanıcı 0.3.0 süre desteğinin canlıda çalıştığını bildirmiştir. 0.3.1 dikey hizalama düzeltmesi görsel doğrulama bekler. Prime Video süre desteği de paylaşılan HTML ile uygulanmıştır; canlı doğrulama bekler. Disney+ henüz desteklenmez.
+Eklentinin ortak davranışı `core/` ve `ui/` içinde; siteye özgü bilgi `adapters/` içindedir. Netflix, HBO Max ve Prime Video adaptörleri dağıtılır. HBO Max adaptörü paylaşılan HTML ile uygulanmış ve DOM simülasyonunda test edilmiştir; kullanıcı 0.3.0 süre desteğinin canlıda çalıştığını bildirmiştir. 0.3.1 dikey hizalama düzeltmesi görsel doğrulama bekler. Prime Video süre ve bölüm sonu desteği de paylaşılan HTML ile uygulanmıştır; canlı doğrulama bekler. Disney+ henüz desteklenmez.
 
 | Dosya | Sorumluluk |
 |---|---|
@@ -14,7 +14,7 @@ Eklentinin ortak davranışı `core/` ve `ui/` içinde; siteye özgü bilgi `ada
 | `extension/core/playback-guard.js` | Ortak kapalı / bekliyor / durduruldu durumları. Durdurma kararı, kullanıcı açıkça bırakana kadar korunur. |
 | `extension/adapters/netflix.js` | Netflix domain'i, izleme kimliği, ana video ve sağ kontrol grubunu bulma. |
 | `extension/adapters/hbo.js` | HBO Max domain ve izleme yolu, ana video, normal sağ kontrol grubu ve platforma özel boyutlar. |
-| `extension/adapters/prime-video.js` | Prime Video detay kimliği, açık oynatıcıdaki ana video ve sağ kontrol grubunu bulma. |
+| `extension/adapters/prime-video.js` | Prime Video detay kimliği, açık oynatıcıdaki ana video, sağ kontrol grubu ve görünür bölüm sonu kartını bulma. |
 | `extension/ui/timer-ui.js` | Ortak Shadow DOM butonu, popover menü, seçenekler, kalan süre ve odak işlemleri. |
 | `extension/ui/stop-notice.js` | Kontroller kaybolsa da erişilebilen durdurma bildirimi, Devam et ve korumayı kapatma. |
 | `extension/ui/styles.js` | Ortak görünüm. İkon ve buton boyutları `rem` tabanlı CSS değişkenleriyle yönetilir. |
@@ -63,7 +63,7 @@ Yalnızca `www.primevideo.com` eşleşir. `/detail/<kimlik>` ve `/-/<dil>/detail
 
 `.atvwebplayersdk-player-container` içindeki `atvwebplayersdk-captions-toggle-button`, `atvwebplayersdk-mute-toggle-button` ve `atvwebplayersdk-fullscreen-toggle-button` düğmelerinin en yakın ortak atası sağ gruptur. Tüm kontrol kökü ya da kapat/oynat/ileri/geri düğmeleri içeren bir ata kabul edilmez. Ay düğmesi grubun başına eklenir; üretilmiş sınıflara veya çevrilmiş etiketlere bağımlılık yoktur. Kontroller yokken `mount: null` ile sayaç korunur.
 
-Boş next-up alanı bölüm sonu kanıtı değildir; `getEpisodeEnd` ve `cancelAutoplay` uygulanmadı. Süre, doğal bitiş ve detay kimliği değişimi ortak korumayı kullanır. Doğal bitiş olmadan aynı URL’de içerik değişiminin ek sinyali henüz yoktur. Gerçek Prime Video ve tam ekran doğrulaması bekler.
+`getEpisodeEnd`, mevcut videonun `#dv-web-player` kökünde `.atvwebplayersdk-nextupcard-wrapper .atvwebplayersdk-nextupcard-show .atvwebplayersdk-nextupcard-button` arar. Son hedef bir `div` elemanıdır; HTML button varsayılmaz. Geometri ile eleman/ata görünürlüğü kontrol edilir; boş alan, gösterilme işareti olmayan veya gizli kart sinyal sayılmaz. Menüde Bölüm sonunda sunulur; dakika/saniye seçimleri de kartla sınırlanır. Kart sonraki içeriği başlatır; Gizle düğmesinin iptal etkisi doğrulanmadığından ikisine de basılmaz. `cancelButton: null`, `cancelAutoplay` yoktur; ortak guard yeniden oynatmayı/yeni videoyu duraklatır. Kart ve doğal bitiş kaçırılırken aynı URL’de içerik değişiminin ek sinyali henüz yoktur. Gerçek Prime Video ve tam ekran doğrulaması bekler.
 
 ## Boyutlar
 

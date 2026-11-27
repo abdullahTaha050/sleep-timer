@@ -80,7 +80,9 @@ Kalıcı ürün adı ve mağaza markası henüz seçilmedi. Aşağıdaki MVP uyg
 
 - Paylaşılan oynatıcı HTML'inin doğruladığı origin `www.primevideo.com`; Amazon mağaza domain'leri eklenmez. Detay kimliği `/detail/<kimlik>` ve `/-/<dil>/detail/<kimlik>` yollarından alınır; açık `#dv-web-player .atvwebplayersdk-video-surface` yoksa sayaç temizlenir.
 - Ana video bu yüzey içindedir. İkinci HTML kontrol düğmelerini içerir: captions-toggle, mute-toggle ve fullscreen-toggle düğmelerinin ortak sağ grubunun başına ay eklenir. Ayrı yüzen düğme kullanılmaz; üretilmiş sınıflara veya çevrilmiş metne dayanılmaz.
-- Next-up alanı boş olduğu için bölüm sonu algılama ve iptal tıklaması yoktur; menü süre seçeneklerini sunar. Süre, doğal bitiş ve detay kimliği değişimi ortak korumayı kullanır. Doğal bitiş olmadan aynı URL'de içerik değişimi için ek sinyal yoktur.
+- İlk örneklerde next-up alanı boştu. Kullanıcı 20 Kasım 2026'da bölüm sonu HTML'ini paylaşarak bu desteği ve eklenti adının güncellenmesini istedi. `atvwebplayersdk-nextupcard-wrapper → atvwebplayersdk-nextupcard-show → atvwebplayersdk-nextupcard-button` yapısı mevcut videonun oynatıcısında görünürlük kontrolüyle algılanır. Menüde Bölüm sonunda sunulur; dakika/saniye süreleri de kartla sınırlanır.
+- Sonraki içerik alanına basılmaz. Gizle (`atvwebplayersdk-nextupcardhide-button`) düğmesinin otomatik geçişi iptal ettiği HTML'den doğrulanamaz; ona da basılmaz. `cancelButton: null` ve ortak duraklatma koruması kullanılır. Kart/doğal bitiş kaçırılır ve URL değişmezse içerik değişimi için ek sinyal yoktur.
+- Eklenti adı `Sleep Timer — Netflix, HBO Max & Prime Video` oldu. 20 Kasım'da 150 otomatik test geçti; 27 Prime Video testi dahil. Yeni kişisel HTML yalnızca bellekte kontrol edildi; depoda sentetik bölüm sonu fixture'ı kullanılır. Bunlar canlı Prime Video doğrulaması değildir.
 - 140 otomatik test geçti; 17 Prime Video testi sadeleştirilmiş fixture kullanır. Gerçek Prime Video/DRM, tam ekran ve görsel yerleşim doğrulanmadı. Kişisel HTML depoya veya pakete alınmaz.
 
 ## Arayüz tasarım ilkeleri

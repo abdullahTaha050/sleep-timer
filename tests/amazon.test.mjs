@@ -4,6 +4,19 @@ import { environment, loadExtension, mockMedia, read } from './helpers/environme
 
 const firstPath = '/-/tr/detail/EXAMPLE00000000000000000001';
 const nextPath = '/-/tr/detail/EXAMPLE00000000000000000002';
+const endCardHTML = await read('tests/fixtures/amazon-episode-end.html');
+
+function endCard(s) {
+  const template = s.document.createElement('template');
+  template.innerHTML = endCardHTML;
+  const card = template.content.firstElementChild;
+  const signal = card.querySelector('.atvwebplayersdk-nextupcard-button');
+  // Happy DOM has no layout engine: stub geometry, retain real visibility logic.
+  signal.getClientRects = () => [{}];
+  s.document.querySelector('#dv-web-player .atvwebplayersdk-nextupcard-wrapper').replaceWith(card);
+  return { card, signal, shown: card.querySelector('.atvwebplayersdk-nextupcard-show'),
+    hide: card.querySelector('.atvwebplayersdk-nextupcardhide-button') };
+}
 
 async function setup(url = `https://www.primevideo.com${firstPath}`) {
   const window = environment(url);
@@ -61,7 +74,7 @@ test('Prime Video mounts once before subtitles in the native right group and off
     assert.equal(host.previousElementSibling, null);
     assert.equal(host.nextElementSibling.querySelector('button').id, 'atvwebplayersdk-captions-toggle-button');
     assert.equal(host.style.getPropertyValue('--st-icon-size'), '1.5rem');
-    assert.equal(host.shadowRoot.querySelector('input[value="episode"]'), null);
+    assert.ok(host.shadowRoot.querySelector('input[value="episode"]'));
     host.shadowRoot.querySelector('button').click();
     const duration = host.shadowRoot.querySelector('input[value="10"]');
     duration.checked = true;
@@ -139,10 +152,10 @@ test('Prime Video temporary media absence keeps the session until a replacement 
 test('Prime Video cannot infer episode end from empty cards or translated next buttons', async () => {
   const s = await setup();
   try {
-    assert.equal(s.controller.adapter.getEpisodeEnd, undefined);
+    assert.equal(s.controller.adapter.getEpisodeEnd({ video: s.video }), null);
     assert.equal(s.controller.adapter.cancelAutoplay, undefined);
     s.video.play(); s.controller.select('episode');
-    assert.equal(s.controller.guard.enabled, false);
+    assert.equal(s.controller.guard.state, 'armed');
     s.controller.select(600);
     const card = s.document.querySelector('.atvwebplayersdk-nextupcard-wrapper');
     card.innerHTML = '<button>Next episode</button>';
@@ -152,7 +165,166 @@ test('Prime Video cannot infer episode end from empty cards or translated next b
     assert.equal(s.video.paused, false);
     assert.equal(s.controller.timer.remainingMs, 599000);
     assert.equal(clicks, 0);
-    if (s.host()) assert.equal(s.host().shadowRoot.querySelector('input[value="episode"]'), null);
+    assert.equal(s.controller.guard.state, 'armed');
+  } finally { await s.close(); }
+});
+
+test('Prime Video episode selection stops on the shown end card without clicking next or Hide', async () => {
+  const s = await setup();
+  try {
+    s.video.play(); s.preview.play();
+    const option = s.host().shadowRoot.querySelector('input[value="episode"]');
+    option.checked = true; option.dispatchEvent(new s.window.Event('change', { bubbles: true }));
+    assert.equal(s.controller.guard.selection, 'episode');
+    const { card, signal, hide } = endCard(s);
+    signal.textContent = 'Başka bir dil'; hide.textContent = '別の言語';
+    let clicks = 0;
+    card.addEventListener('click', () => clicks++);
+    assert.equal(s.controller.adapter.getEpisodeEnd({ video: s.video }).cancelButton, null);
+    s.controller.reconcile();
+    assert.equal(s.controller.guard.reason, 'episode');
+    assert.equal(s.video.paused, true);
+    assert.equal(s.preview.paused, false);
+    assert.equal(s.controller.timer.active, false);
+    s.video.play(); s.advance(1000);
+    assert.equal(s.video.paused, true);
+    assert.equal(clicks, 0);
+  } finally { await s.close(); }
+});
+
+test('Prime Video end card caps a minute countdown before its deadline', async () => {
+  const s = await setup();
+  try {
+    s.video.play(); s.controller.select(600); s.advance(1000);
+    assert.equal(s.controller.timer.remainingMs, 599000);
+    endCard(s); s.controller.tick();
+    assert.equal(s.controller.guard.reason, 'episode');
+    assert.equal(s.video.paused, true);
+    assert.equal(s.controller.repeatSeconds, 0);
+  } finally { await s.close(); }
+});
+
+test('Prime Video ignores hidden end cards, ancestors and cards without geometry', async () => {
+  const s = await setup();
+  try {
+    s.video.play(); s.controller.select('episode');
+    const { card, signal } = endCard(s);
+    const variants = [
+      ['hidden', ''], ['aria-hidden', 'true'], ['inert', ''],
+      ['style', 'display:none'], ['style', 'visibility:hidden'],
+      ['style', 'visibility:collapse'], ['style', 'opacity:0'],
+    ];
+    for (const node of [signal, card, card.parentElement]) {
+      for (const [attribute, value] of variants) {
+        node.setAttribute(attribute, value); s.controller.reconcile();
+        assert.equal(s.controller.guard.state, 'armed', `${node.className}: ${attribute}=${value}`);
+        assert.equal(s.video.paused, false);
+        node.removeAttribute(attribute);
+      }
+    }
+    signal.getClientRects = () => [];
+    s.controller.reconcile(); assert.equal(s.controller.guard.state, 'armed');
+    signal.getClientRects = () => [{}];
+    s.controller.reconcile(); assert.equal(s.controller.guard.reason, 'episode');
+  } finally { await s.close(); }
+});
+
+test('Prime Video requires the shown marker and a next-content target in the current player', async () => {
+  const s = await setup();
+  try {
+    s.video.play(); s.controller.select('episode');
+    const { card, signal, shown } = endCard(s);
+    shown.classList.remove('atvwebplayersdk-nextupcard-show');
+    s.controller.reconcile(); assert.equal(s.controller.guard.state, 'armed');
+    shown.classList.add('atvwebplayersdk-nextupcard-show');
+    signal.remove(); s.controller.reconcile(); assert.equal(s.controller.guard.state, 'armed');
+    shown.append(signal);
+    s.document.body.append(card); s.controller.reconcile();
+    assert.equal(s.controller.guard.state, 'armed');
+    assert.equal(s.controller.adapter.getEpisodeEnd({ video: s.preview }), null);
+    const other = s.document.createElement('div'); other.id = 'dv-web-player';
+    other.append(card); s.document.body.append(other); s.controller.reconcile();
+    assert.equal(s.controller.guard.state, 'armed');
+  } finally { await s.close(); }
+});
+
+test('Prime Video shown-marker mutation stops playback even with native controls removed', async () => {
+  const s = await setup();
+  try {
+    s.video.play(); s.controller.select('episode');
+    const { shown } = endCard(s);
+    shown.classList.remove('atvwebplayersdk-nextupcard-show');
+    s.document.querySelector('.right-controls').remove(); s.controller.reconcile();
+    assert.equal(s.host(), null);
+    s.window.clearInterval(s.controller.interval);
+    shown.classList.add('atvwebplayersdk-nextupcard-show');
+    await new Promise((resolve) => setTimeout(resolve, 150));
+    assert.equal(s.video.paused, true);
+    assert.equal(s.controller.guard.reason, 'episode');
+    assert.equal(s.document.querySelector('[data-sleep-timer-notice]').parentElement.id, 'dv-web-player');
+  } finally { await s.close(); }
+});
+
+test('Prime Video arming with a visible end card stops immediately while Off leaves it untouched', async () => {
+  const s = await setup();
+  try {
+    s.video.play(); endCard(s); s.controller.reconcile();
+    assert.equal(s.video.paused, false);
+    s.controller.select('episode'); assert.equal(s.video.paused, true);
+    s.controller.select(0); s.video.play(); s.controller.tick();
+    assert.equal(s.video.paused, false);
+    assert.equal(s.controller.guard.enabled, false);
+  } finally { await s.close(); }
+});
+
+test('Prime Video episode guard survives card removal, video replacement and same-URL autoplay', async () => {
+  const s = await setup();
+  try {
+    s.video.play(); s.controller.select('episode');
+    const { card } = endCard(s); s.controller.reconcile(); card.remove();
+    const replacement = s.document.createElement('video'); mockMedia(s.window, replacement);
+    s.video.replaceWith(replacement); replacement.play();
+    assert.equal(replacement.paused, true);
+    assert.equal(s.controller.guard.reason, 'episode');
+    s.document.querySelector('[data-sleep-timer-notice]').shadowRoot.querySelector('.continue').click();
+    assert.equal(replacement.paused, false);
+    assert.equal(s.controller.guard.enabled, false);
+    assert.equal(s.controller.timer.active, false);
+  } finally { await s.close(); }
+});
+
+test('Prime Video Continue releases a visible episode card without repeating the selected duration', async () => {
+  const s = await setup();
+  try {
+    s.video.play(); s.controller.select(600); endCard(s); s.controller.reconcile();
+    s.document.querySelector('[data-sleep-timer-notice]').shadowRoot.querySelector('.continue').click();
+    s.advance(1000);
+    assert.equal(s.video.paused, false);
+    assert.equal(s.controller.timer.active, false);
+    assert.equal(s.controller.guard.enabled, false);
+  } finally { await s.close(); }
+});
+
+test('Prime Video cancelling an episode stop releases the guard without playing', async () => {
+  const s = await setup();
+  try {
+    s.video.play(); s.controller.select('episode'); endCard(s); s.controller.reconcile();
+    s.document.querySelector('[data-sleep-timer-notice]').shadowRoot.querySelector('.cancel').click();
+    assert.equal(s.video.paused, true);
+    assert.equal(s.controller.guard.enabled, false);
+    s.video.play(); s.controller.tick(); assert.equal(s.video.paused, false);
+  } finally { await s.close(); }
+});
+
+test('Prime Video episode card also bounds a repeated timer', async () => {
+  const s = await setup();
+  try {
+    s.video.play(); s.controller.select(5); s.advance(5000);
+    endCard(s);
+    s.document.querySelector('[data-sleep-timer-notice]').shadowRoot.querySelector('.continue').click();
+    assert.equal(s.controller.guard.reason, 'episode');
+    assert.equal(s.video.paused, true);
+    assert.equal(s.controller.timer.active, false);
   } finally { await s.close(); }
 });
 

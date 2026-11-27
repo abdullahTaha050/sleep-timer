@@ -1,6 +1,6 @@
 # Gizlilik Politikası — Sleep Timer
 
-Güncelleme: 18 Kasım 2026
+Güncelleme: 20 Kasım 2026
 
 Sleep Timer, Netflix, HBO Max ve Prime Video web oynatıcılarına yerel bir uyku zamanlayıcısı ekler.
 
@@ -14,7 +14,7 @@ Bölüm sonu koruması açıkken eklenti, Netflix'in görünür bölüm sonu kon
 
 HBO Max’te görünür Sonraki Bölüm kartı algılandığında video duraklatılır. Sonraki bölüm düğmesine basılmaz; hesap/profil ayarları değiştirilmez. Yeniden oynatma ve yeni video için aynı sayfa belleğindeki durdurma koruması kullanılır.
 
-Prime Video’da açık oynatıcının ana videosu ve detay kimliği yerelde okunur. Süre, doğal bitiş veya kimlik değişimiyle durdurma koruması çalışır; bölüm sonu kartı algılanmaz ve otomatik geçiş düğmelerine basılmaz.
+Prime Video’da açık oynatıcının ana videosu ve detay kimliği yerelde okunur. Görünür bölüm sonu kartı, süre, doğal bitiş veya kimlik değişimiyle durdurma koruması çalışır. Sonraki içerik alanına ve Gizle düğmesine basılmaz; hesap/profil ayarları değiştirilmez.
 
 ## Saklama
 
