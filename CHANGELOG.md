@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.0](https://github.com/abdullahTaha050/sleep-timer/compare/v1.0.0...v1.1.0) (2026-11-20)
+
+
+### Features
+
+* **prime-video.js:** prime video adapter ([58fc749](https://github.com/abdullahTaha050/sleep-timer/commit/58fc749c8d6f8d5db788261959851393f1388d6d))
+* **prime-video.js:** prime video adapter ([72a09c2](https://github.com/abdullahTaha050/sleep-timer/commit/72a09c25877e0e957e5408c93225dbe72d9c0332))
+
 ## [1.0.0](https://github.com/abdullahTaha050/sleep-timer/compare/v0.5.0...v1.0.0) (2026-11-17)
 
 
