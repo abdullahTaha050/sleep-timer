@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.1](https://github.com/abdullahTaha050/sleep-timer/compare/v1.1.0...v1.1.1) (2026-11-27)
+
+
+### Bug Fixes
+
+* **prime-video.js:** prime video end episode ([0b6f76e](https://github.com/abdullahTaha050/sleep-timer/commit/0b6f76e751ff988be5a127a4c9cc10a4706e2573))
+* **prime-video.js:** prime video end episode ([cb1f7f0](https://github.com/abdullahTaha050/sleep-timer/commit/cb1f7f050070a0c8b8e7b6e4e64fc5bba9ab8772))
+
 ## [1.1.0](https://github.com/abdullahTaha050/sleep-timer/compare/v1.0.0...v1.1.0) (2026-11-20)
 
 
